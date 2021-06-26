@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+    <style>
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+        }
+  
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+      </style>
+    {% block css %}
+
+    {% endblock %}
+  </head>
+  <body>
+      <div class="">
+        <nav class="py-2 bg-dark border-bottom" >
+            <div class="container d-flex flex-wrap">
+              <ul class="nav me-auto">
+                <li class="nav-item"><a href="/" class="nav-link link-light px-2 active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="/physics/" class="nav-link link-light px-2">Physics</a></li>
+                <li class="nav-item"><a href="/chemistry/" class="nav-link link-light px-2">Chemistry</a></li>
+                <li class="nav-item"><a href="/Maths/" class="nav-link link-light px-2">Maths</a></li>
+                <li class="nav-item"><a href="/support/" class="nav-link link-light px-2">Support</a></li>
+              </ul>
+              <ul class="nav">
+                
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle link-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Accounts
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/accounts/profile/">My Profile</a></li>
+                        <li><a class="dropdown-item" href="/accounts/changepassword/">Change Password</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
+                        
+                      </ul>
+                    </li>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <header class="shadow py-3 mb-4 border-bottom" >
+            <div class="container d-flex flex-wrap justify-content-center">
+              <a href="/" class="d-flex align-items-center mb-lg-0 me-lg-auto text-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+                 <img src="{% static 'logos/logo.png' %}" style="height:3em" >
+              </a>
+              <form class="col-12 col-lg-auto mb-3 mb-lg-0">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+              </form>
+            </div>
+          </header>
+      </div>
+    
+    {% block content %}
+
+    {% endblock %}
+    <footer class="container border-top py-3" style="  width: 100%; height: 1vw;">
+        <p class="float-end"><a href="#">Back to top</a></p>
+        <p>&copy; 2021–2022 Rkeduv, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+    <script type="text/javascript" src="http://www.youtube.com/player_api"></script>
+    <script
+			  src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+			  integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+			  crossorigin="anonymous"></script>
+    {% block js %}
+    
+    {% endblock %}
+  </body>
+</html>

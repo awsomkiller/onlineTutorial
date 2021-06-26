@@ -1,0 +1,162 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/sidebars.css' %}">
+{% endblock %}
+{%block content%}
+<div class="body d-flex my-4">
+
+  <!-- side bar -->
+  
+  <aside class="bd-sidebar mx-4 border-end" style=" width: 25vw; ">
+    <div class="flex-shrink-0 p-3 bg-white sticky-top ">
+      <ul class="list-unstyled ps-0 scrollarea">
+        {% for data in sidebarData %}
+        {% if data.chapterName == activeCourse.chapterName %}
+        <li class="mb-1">
+          <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true" >
+           {{data.chapterName}}
+          </button>
+          <div class="collapse show" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              {% for course in data.chapterTopics %}
+              {%if course.courseId == cid %}
+              <li><a href="{{course.courseId}}" class="link-dark rounded active">{{course}}</a></li>
+              {%else%}
+              <li><a href="{{course.courseId}}" class="link-dark rounded">{{course}}</a></li>
+              {% endif %}
+              {% endfor%}
+            </ul>
+          </div>
+        </li>
+        {% else %}
+        <li class="mb-1">
+          <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#content{{data.index}}" aria-expanded="false">
+            {{data.chapterName}}
+          </button>
+          <div class="collapse" id="content{{data.index}}">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              {% for course in data.chapterTopics %}
+              <li><a href="{{course.courseId}}" class="link-dark rounded">{{course}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+      
+    </div>
+  </aside>
+  
+    <!-- Body container -->
+  <div class="mx-4 my-4 px-4" style="width: 100%;">
+    <nav>
+      <div class="nav nav-tabs d-flex justify-content-end" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Study Material</button>
+        <button class="nav-link disabled" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Quiz</button>
+        <button class="nav-link disabled" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Forum</button>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active py-4" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" >
+        <H4>{{courseName}}:</H4>
+        <div class="cover-container d-flex w-75 h-75 p-3 mx-auto flex-column" style="background-color:white;">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">File Type</th>
+                <th scope="col">Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for data in contentData %}
+              <tr>
+                <th scope="row">{{data.contentId}}</th>
+                <td>{{data.title}}</td>
+                <td>{{data.dataType}}</td>
+                <td>
+                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{data.contentId}}">
+                    click here
+                  </button>
+                </td>
+              </tr>
+              
+              {% endfor %}
+            </tbody>
+          </table>
+          </div>
+      </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        add content
+      </div>
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        add content
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Modals -->
+{% for data in contentData %}
+{% if data.dataType == "vid" %}
+<div class="modal fade" id="modal{{data.contentId}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{data.title}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body ">
+        
+        <div class="d-flex justify-content-between">
+          <iframe id="yt-player{{data.contentId}}" width="560" height="315" src="https://www.youtube.com/embed/ol7VnuQv7vQ" title="Rkeduv Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% else %}
+<div class="modal fade" id="modal{{data.contentId}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{data.title}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body " >
+        <iframe  src="{{data.fileUrl}}" width="100%" height="100%" allow="autoplay"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}
+
+{% block js %}
+{% for data in contentData %}
+{% if data.dataType == "vid" %}
+<script type="text/javascript">
+    var player;
+    $("#modal{{data.contentId}}").on('hidden.bs.modal', function () {
+      alert('The modal is completely hidden now!');
+      callPlayer('yt-player2', 'stopVideo');
+      
+  });
+  </script>
+<script type="text/javascript" src="{% static 'js/sidebars.js' %}"></script> 
+{% endif %}
+{% endfor %}
+{% endblock %}
+

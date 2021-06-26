@@ -1,0 +1,581 @@
+[
+{
+    "model": "physics.chapter",
+    "pk": 1,
+    "fields": {
+        "chapterName": "Vectors"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 2,
+    "fields": {
+        "chapterName": "Kinematics"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 3,
+    "fields": {
+        "chapterName": "Newton’s Laws of motion"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 4,
+    "fields": {
+        "chapterName": "Circular Motion"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 5,
+    "fields": {
+        "chapterName": "Work power energy"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 6,
+    "fields": {
+        "chapterName": "Centre of mass, momentum, collision"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 7,
+    "fields": {
+        "chapterName": "Rotation"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 8,
+    "fields": {
+        "chapterName": "Fluid"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 9,
+    "fields": {
+        "chapterName": "Gravitation"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 10,
+    "fields": {
+        "chapterName": "Elasticity"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 11,
+    "fields": {
+        "chapterName": "Simple Harmonic Motion"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 12,
+    "fields": {
+        "chapterName": "Thermodynamics"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 13,
+    "fields": {
+        "chapterName": "Mechanical Waves"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 14,
+    "fields": {
+        "chapterName": "Electrostatic"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 15,
+    "fields": {
+        "chapterName": "Capacitor"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 16,
+    "fields": {
+        "chapterName": "Electric Current"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 17,
+    "fields": {
+        "chapterName": "Magnetism"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 18,
+    "fields": {
+        "chapterName": "Electromagnetic Induction"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 19,
+    "fields": {
+        "chapterName": "Alternating Current"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 20,
+    "fields": {
+        "chapterName": "Electromagnetic waves"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 21,
+    "fields": {
+        "chapterName": "Geometrical Optics"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 22,
+    "fields": {
+        "chapterName": "Wave optics"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 23,
+    "fields": {
+        "chapterName": "Modern Physics"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 24,
+    "fields": {
+        "chapterName": "Semi conductor"
+    }
+},
+{
+    "model": "physics.chapter",
+    "pk": 25,
+    "fields": {
+        "chapterName": "Communication System"
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 1,
+    "fields": {
+        "topicName": "Vector addition",
+        "chapterName": 1
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 2,
+    "fields": {
+        "topicName": "Vector multiplication",
+        "chapterName": 1
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 3,
+    "fields": {
+        "topicName": "Definition of position, velocity, time",
+        "chapterName": 2
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 4,
+    "fields": {
+        "topicName": "Projectile motion",
+        "chapterName": 2
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 5,
+    "fields": {
+        "topicName": "Relative motion",
+        "chapterName": 2
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 6,
+    "fields": {
+        "topicName": "Basic forced",
+        "chapterName": 3
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 7,
+    "fields": {
+        "topicName": "Pseudo force",
+        "chapterName": 3
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 8,
+    "fields": {
+        "topicName": "Cutting of string and spring",
+        "chapterName": 3
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 9,
+    "fields": {
+        "topicName": "Kinematics",
+        "chapterName": 4
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 10,
+    "fields": {
+        "topicName": "Dynamics",
+        "chapterName": 4
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 11,
+    "fields": {
+        "topicName": "Work",
+        "chapterName": 5
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 12,
+    "fields": {
+        "topicName": "Kinetic energy theorem",
+        "chapterName": 5
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 13,
+    "fields": {
+        "topicName": "Potential energy",
+        "chapterName": 5
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 14,
+    "fields": {
+        "topicName": "Power",
+        "chapterName": 5
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 15,
+    "fields": {
+        "topicName": "COM",
+        "chapterName": 6
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 16,
+    "fields": {
+        "topicName": "Momentum",
+        "chapterName": 6
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 17,
+    "fields": {
+        "topicName": "Collision",
+        "chapterName": 6
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 18,
+    "fields": {
+        "topicName": "Rigid body motion",
+        "chapterName": 7
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 19,
+    "fields": {
+        "topicName": "Rolling",
+        "chapterName": 7
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 20,
+    "fields": {
+        "topicName": "Hydrostatic",
+        "chapterName": 8
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 21,
+    "fields": {
+        "topicName": "Hydrodynamics",
+        "chapterName": 8
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 22,
+    "fields": {
+        "topicName": "Before Satellite",
+        "chapterName": 9
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 23,
+    "fields": {
+        "topicName": "Satellite",
+        "chapterName": 9
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 24,
+    "fields": {
+        "topicName": "Thermal Expansion",
+        "chapterName": 12
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 25,
+    "fields": {
+        "topicName": "Calorimetry",
+        "chapterName": 12
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 26,
+    "fields": {
+        "topicName": "First law and second law",
+        "chapterName": 12
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 27,
+    "fields": {
+        "topicName": "Heat Transfer",
+        "chapterName": 12
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 28,
+    "fields": {
+        "topicName": "Kinetic Theory",
+        "chapterName": 12
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 29,
+    "fields": {
+        "topicName": "Field",
+        "chapterName": 14
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 30,
+    "fields": {
+        "topicName": "Potential",
+        "chapterName": 14
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 31,
+    "fields": {
+        "topicName": "Dipole",
+        "chapterName": 14
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 32,
+    "fields": {
+        "topicName": "Force on moving charge",
+        "chapterName": 17
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 33,
+    "fields": {
+        "topicName": "Generation of Magnetic Field",
+        "chapterName": 17
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 34,
+    "fields": {
+        "topicName": "Earth Magnetism",
+        "chapterName": 17
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 35,
+    "fields": {
+        "topicName": "Faraday’s Law",
+        "chapterName": 18
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 36,
+    "fields": {
+        "topicName": "Motional EMF",
+        "chapterName": 18
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 37,
+    "fields": {
+        "topicName": "Induced Electric Field",
+        "chapterName": 18
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 38,
+    "fields": {
+        "topicName": "Reflection",
+        "chapterName": 21
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 39,
+    "fields": {
+        "topicName": "Refraction",
+        "chapterName": 21
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 40,
+    "fields": {
+        "topicName": "Lens",
+        "chapterName": 21
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 41,
+    "fields": {
+        "topicName": "Prism",
+        "chapterName": 21
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 42,
+    "fields": {
+        "topicName": "YDSE",
+        "chapterName": 22
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 43,
+    "fields": {
+        "topicName": "Diffraction",
+        "chapterName": 22
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 44,
+    "fields": {
+        "topicName": "Polarisation",
+        "chapterName": 22
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 45,
+    "fields": {
+        "topicName": "Photoelectric effect",
+        "chapterName": 23
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 46,
+    "fields": {
+        "topicName": "Atomics Physics",
+        "chapterName": 23
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 47,
+    "fields": {
+        "topicName": "Nuclear Physics",
+        "chapterName": 23
+    }
+},
+{
+    "model": "physics.course",
+    "pk": 48,
+    "fields": {
+        "topicName": "X rays",
+        "chapterName": 23
+    }
+},
+{
+    "model": "physics.content",
+    "pk": 1,
+    "fields": {
+        "title": "asdfas",
+        "topic": 1,
+        "dataType": "docx",
+        "fileUrl": "http://afsdf.com"
+    }
+},
+{
+    "model": "physics.content",
+    "pk": 2,
+    "fields": {
+        "title": "asdfas",
+        "topic": 1,
+        "dataType": "vid",
+        "fileUrl": "http://hello.com"
+    }
+}
+]
