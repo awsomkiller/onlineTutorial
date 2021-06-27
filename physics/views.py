@@ -30,7 +30,6 @@ def physicsview(request, cid=1):
             index+=1
         #active content
         contentData = content.objects.filter(topic=cid)
-        print(contentData)
         # content
         # for data in contentData:
         #     print(data.contentId)

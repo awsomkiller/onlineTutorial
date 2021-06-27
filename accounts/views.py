@@ -72,3 +72,6 @@ def otpgeneration(request):
 #     form_class = studentRegisteration
 #     template_name = 'register.html'
 #     success_url='/login/'
+
+def profileview(request):
+    return render(request, 'underconstruction.html')

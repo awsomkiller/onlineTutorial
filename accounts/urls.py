@@ -8,5 +8,6 @@ urlpatterns = [
     path('forgotpassword/', views.changepassword, name='forgotPassword'),
     path('changepassword/', views.changepassword, name='changePassword'),
     # path('changepassword/', views.passwordchangeview.as_view(template_name='changepassword.html')),
-    path('resetpassword/',views.otpgeneration, name='passwordReset')
+    path('resetpassword/',views.otpgeneration, name='passwordReset'),
+    path('profile/', views.profileview, name='profileview'),
 ]

@@ -108,16 +108,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{data.title}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="playerpause()"></button>
       </div>
       <div class="modal-body ">
         
         <div class="d-flex justify-content-between">
-          <iframe id="yt-player{{data.contentId}}" width="560" height="315" src="https://www.youtube.com/embed/ol7VnuQv7vQ" title="Rkeduv Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe id="yt-player" width="560" height="315" src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1" title="Rkeduv Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="playerpause()">back</button>
       </div>
     </div>
   </div>
@@ -145,18 +145,60 @@
 {% endblock %}
 
 {% block js %}
+
 {% for data in contentData %}
 {% if data.dataType == "vid" %}
 <script type="text/javascript">
-    var player;
-    $("#modal{{data.contentId}}").on('hidden.bs.modal', function () {
-      alert('The modal is completely hidden now!');
-      callPlayer('yt-player2', 'stopVideo');
-      
-  });
+  // $("#modal{{data.contentId}}").on('hidden.bs.modal', function () {
+  //       alert("I ama alive");
+  //       player.pauseVideo();
+  //   });
+
+  var tag = document.createElement('script');
+  tag.id = 'iframe-demo';
+  tag.src = 'https://www.youtube.com/iframe_api';
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('yt-player', {
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+    });
+  }
+  function onPlayerReady(event) {
+    document.getElementById('yt-player').style.borderColor = '#FF6D00';
+  }
+  function changeBorderColor(playerStatus) {
+    var color;
+    if (playerStatus == -1) {
+      color = "#37474F"; // unstarted = gray
+    } else if (playerStatus == 0) {
+      color = "#FFFF00"; // ended = yellow
+    } else if (playerStatus == 1) {
+      color = "#33691E"; // playing = green
+    } else if (playerStatus == 2) {
+      color = "#DD2C00"; // paused = red
+    } else if (playerStatus == 3) {
+      color = "#AA00FF"; // buffering = purple
+    } else if (playerStatus == 5) {
+      color = "#FF6DOO"; // video cued = orange
+    }
+    if (color) {
+      document.getElementById('yt-player').style.borderColor = color;
+    }
+  }
+  function onPlayerStateChange(event) {
+    changeBorderColor(event.data);
+  }
+  function playerpause(){
+    player.pauseVideo();
+  }
   </script>
-<script type="text/javascript" src="{% static 'js/sidebars.js' %}"></script> 
 {% endif %}
 {% endfor %}
+<script type="text/javascript" src="{% static 'js/sidebars.js' %}"></script> 
 {% endblock %}
 
