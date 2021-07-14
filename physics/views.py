@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from . models import content
+from . models import onlinecontent
 from . models import course
 from . models import chapter
 
@@ -29,7 +29,7 @@ def physicsview(request, cid=1):
             sidebarData.append(chaptertopic)
             index+=1
         #active content
-        contentData = content.objects.filter(topic=cid)
+        contentData = onlinecontent.objects.filter(topic=cid)
         # content
         # for data in contentData:
         #     print(data.contentId)
