@@ -11,4 +11,6 @@ urlpatterns = [
     path('accounts/',include('accounts.urls')),
     path('chemistry/',views.commingsoon, name='commingsoon'),
     path('maths/',include('physics.urls')),
+    path('editorjs/', include('django_editorjs_fields.urls')),
+    # path('imageUpload/', include('questionbank.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

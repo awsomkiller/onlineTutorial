@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_editorjs_fields',
     'admin_interface',
     'colorfield',
     'django.contrib.admin',
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'physics',
     'accounts',
+    'questionbank',
 ]
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -72,6 +74,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'onlineTutorial.wsgi.application'
 
