@@ -14,5 +14,8 @@ class question(models.Model):
     comprehension = models.BooleanField()
     multiselect = models.BooleanField()
 
-
-    
+class qa_question(models.Model):
+    id = models.AutoField(primary_key=True, editable=True)
+    title = models.CharField(max_length=100)
+    questiondescription = EditorJsJSONField()
+    answer =models.TextField(max_length=100)
