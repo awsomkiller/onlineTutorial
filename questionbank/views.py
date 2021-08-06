@@ -21,7 +21,10 @@ def ExaminationsHandel(request):
 
 def exam(request, cid=1):
     obj = exam_portal.objects.get(id=cid)
-    title = obj.title
+    exam_details = {}
+    exam_details['title'] = obj.title
+    exam_details['time'] = obj.exam_time
+    exam_details['durations'] = obj.Durations
     ques = obj.question.all()
     questions_list = []
     for q in ques:
@@ -50,4 +53,4 @@ def exam(request, cid=1):
         temp['img_url']=img
         temp['type'] = "qa_question"
         questions_list.append(temp)
-    return render(request, 'startexam.html', {'questions': questions_list, 'title': title})
+    return render(request, 'startexam.html', {'questions': questions_list, 'exam_details': exam_details})

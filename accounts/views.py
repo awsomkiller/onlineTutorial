@@ -76,10 +76,9 @@ def changepassword(request):
             try:
                 otpObj = otpModel.objects.get(phonenumber=phonenum)
                 otpObj.otp = n
-                otpObj.current_time = datetime.utcnow() 
+                otpObj.current_time = datetime.utcnow()
             except otpModel.DoesNotExist:
                 otpObj = otpModel(phonenumber=phonenum, otp=n, current_time=datetime.utcnow() )
-            otpObj.save()
             uphonenum = str(phonenum)
             un = str(n)
             url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+uphonenum+"&message=Dear%20"
