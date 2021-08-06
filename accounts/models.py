@@ -91,3 +91,11 @@ class User(AbstractBaseUser):
     @property 
     def is_active(self):
         return self.active
+
+class otpModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    phonenumber = models.IntegerField( unique=True, )
+    otp = models.IntegerField()
+    current_time = models.DateTimeField()
+    success = models.BooleanField(default=False)
+    attempt = models.IntegerField(default=1)

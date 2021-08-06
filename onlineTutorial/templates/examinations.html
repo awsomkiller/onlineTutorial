@@ -1,0 +1,31 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div class="cover-container d-flex w-80 h-100 p-3 mx-auto flex-column">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Start time</th>
+            <th scope="col">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for object in objects %}
+          <tr>
+            <th scope="row">{{ request.session.sno }}</th>
+            <td>{{object.title}}</td>
+            <td>{{object.exam_time}}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm" href="http://127.0.0.1:8000/examinations/{{object.id}}/">
+                    click here
+                </button>
+            </td>
+          </tr>
+           {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}

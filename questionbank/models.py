@@ -19,3 +19,12 @@ class qa_question(models.Model):
     title = models.CharField(max_length=100)
     questiondescription = EditorJsJSONField()
     answer =models.TextField(max_length=100)
+
+class exam_portal(models.Model):
+    id = models.AutoField(primary_key=True, editable=True)
+    title = models.CharField(max_length=125)
+    exam_time = models.DateTimeField()
+    Durations = models.IntegerField()
+    question = models.ManyToManyField(question)
+    qa_question = models.ManyToManyField(qa_question)
+    active = models.BooleanField(default=True)
