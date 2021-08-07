@@ -43,7 +43,24 @@ def registerview(request):
             user = None
         if user !=None:
             login(request, user)
-            return redirect("/")
+            request.session['otpid']=mobileNumber
+            n = random.randint(10000, 99999)
+            name = fullName.split()
+            try:
+                otpObj = otpModel.objects.get(phonenumber=mobileNumber)
+                otpObj.otp = n
+                otpObj.current_time = datetime.utcnow()
+            except otpModel.DoesNotExist:
+                otpObj = otpModel(phonenumber=mobileNumber, otp=n, current_time=datetime.utcnow() )
+            otpObj.save()
+            uphonenum = str(mobileNumber)
+            un = str(n)
+            url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+uphonenum+"&message=Dear%20"
+            url2 = name[0]+"%20OTP%20to%20login%20into%20Rkeduv(account)%20is%20"+un+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694588395444"
+            url1 = url1 + url2
+            request_url = urllib.request.urlopen(url1)
+            print(request_url)
+            return redirect("/accounts/activate/")
         else :
             request.session['register_error']=1
 
@@ -79,10 +96,11 @@ def changepassword(request):
                 otpObj.current_time = datetime.utcnow()
             except otpModel.DoesNotExist:
                 otpObj = otpModel(phonenumber=phonenum, otp=n, current_time=datetime.utcnow() )
+            otpObj.save()
             uphonenum = str(phonenum)
             un = str(n)
-            url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+uphonenum+"&message=Dear%20"
-            url2 = usersname[0]+"%20OTP%20to%20login%20into%20Rkeduv(account)%20is%20"+un+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694588395444"
+            url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+uphonenum+"&message="
+            url2 = "Dear%20"+usersname[0]+"%20,%20OTP%20to%20Reset%20your%20password%20of%20Rkeduv(account)%20is%20"+un+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694552115457"
             url1 = url1 + url2
             request_url = urllib.request.urlopen(url1)
             print(request_url)
@@ -171,3 +189,63 @@ def changepass(request):
 
 def profileview(request):
     return render(request, 'underconstruction.html')
+
+def phonenumberactivate(request):
+    if request.user.is_authenticated:
+        form = otp(request.POST or None)
+        otpObj = None
+        if form.is_valid():
+            phonenum = request.session.get('otpid', None)
+            if phonenum != None:
+                try:
+                    otpObj = otpModel.objects.get(phonenumber=phonenum)
+                except otpModel.DoesNotExist:
+                    return redirect('/')
+                timenow = datetime.now()
+                tz = otpObj.current_time
+                tz = tz.replace(tzinfo=None) 
+                time_delta = (timenow  - tz)
+                total_seconds = time_delta.total_seconds()
+                minutes = total_seconds/3600
+                if (minutes > 10):
+                    try:
+                        del request.session['otpid']
+                    except KeyError:
+                            pass
+                    otpObj.delete()
+                    return redirect('/')
+                enteredOtp = form.cleaned_data.get("otp")
+                if(enteredOtp == str(otpObj.otp)):
+                    user = User.objects.get(mobile=phonenum)
+                    user.mobileConfirm = True
+                    user.save()
+                    name = user.name
+                    name = name.split()
+                    url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number=9501181321&message=Dear%20"+name[0]+"%20,%20Thank%20you%20for%20Registering%20to%20Rkeduv,%20start%20your%20learning%20here%20http://www.rkeduv.com%20abhinm&templateid=1707162694577975455"
+                    request_url = urllib.request.urlopen(url1)
+                    print(request_url)  
+                    try:
+                        del request.session['otpid']
+                    except KeyError:
+                        pass
+                    otpObj.delete()
+                    return redirect('/')
+                else:
+                    attempt = otpObj.attempt
+                    attempt +=1
+                    if attempt<=3:
+                        otpObj.attempt = attempt
+                        otpObj.save()
+                        return render(request, 'activateNumber.html', {'form':form, 'reattempt':True})
+                    else:
+                        try:
+                            del request.session['otpid']
+                        except KeyError:
+                            pass
+                        otpObj.delete()
+                        return HttpResponse("TO MANY ATTEMPTS")
+        else:
+            return render(request, 'activateNumber.html', {'form':form})
+    else:
+        return redirect('/')
+
