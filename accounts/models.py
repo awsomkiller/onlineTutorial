@@ -94,7 +94,7 @@ class User(AbstractBaseUser):
 
 class otpModel(models.Model):
     id = models.AutoField(primary_key=True)
-    phonenumber = models.IntegerField( unique=True, )
+    phonenumber = models.BigIntegerField( unique=True )
     otp = models.IntegerField()
     current_time = models.DateTimeField()
     success = models.BooleanField(default=False)

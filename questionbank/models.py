@@ -28,3 +28,4 @@ class exam_portal(models.Model):
     question = models.ManyToManyField(question)
     qa_question = models.ManyToManyField(qa_question)
     active = models.BooleanField(default=True)
+
