@@ -12,6 +12,13 @@
     <title>Mock Test</title>
   </head>
   <body>
+
+    <div class="overlay" id="overlay">
+      <h1>
+        Please Use Chrome Brower Only
+      </h1>
+    </div>
+
     <div class="main">
       <input type="hidden" name="" id="startTime" value="{{exam_details.time}}">
       <input type="hidden" name="duration" id="durations" value="{{exam_details.durations}}">
@@ -34,70 +41,71 @@
                 <hr>
                 {% for question in questions %}
                 <div class="tab">
+                  <input type="hidden" name="" class="quest_type" value="{{question.type}}">
                     <div class="form-card">
                         <div class="question">
                             <img src="{{question.img_url}}" alt="">
                             {% if question.type == 'qa_question' %}
-                            <div class="d-flex justify-content-around options">
+                            <div class="d-flex justify-content-around pb-2 options">
                                 <!-- textarea for QA question -->
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Type your answer here :</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <textarea class="form-control" name="qa_question" id="exampleFormControlTextarea1" rows="5" cols="100"></textarea>
                                 </div>
                                 <!-- textarea for QA question END -->
                             </div>
                             {% endif %}
                             {% if question.type == 'normal_mcq' %}
-                            <div class="d-flex justify-content-around options">
+                            <div class="d-flex justify-content-around pb-2 options">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option3" >
-                                    <label class="form-check-label" for="exampleRadios3">A</label>
+                                    <input class="form-check-input" type="radio" name="normal_mcq" id="exampleRadios1" value="option1" >
+                                    <label class="form-check-label" for="exampleRadios1">A</label>
                                 </div>
                             
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option3" >
-                                    <label class="form-check-label" for="exampleRadios3">B</label>
+                                    <input class="form-check-input" type="radio" name="normal_mcq" id="exampleRadios2" value="option2" >
+                                    <label class="form-check-label" for="exampleRadios2">B</label>
                                 </div>
                             
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" >
+                                    <input class="form-check-input" type="radio" name="normal_mcq" id="exampleRadios3" value="option3" >
                                     <label class="form-check-label" for="exampleRadios3">C</label>
                                 </div>
                             
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option3" >
-                                    <label class="form-check-label" for="exampleRadios3">D</label>
+                                    <input class="form-check-input" type="radio" name="normal_mcq" id="exampleRadios4" value="option4" >
+                                    <label class="form-check-label" for="exampleRadios4">D</label>
                                 </div>
                                    
                             </div>
                             {% endif %}
                             {% if question.type == 'multiselect' %}
-                            <div class="d-flex justify-content-around options">
+                            <div class="d-flex justify-content-around pb-2 options">
                                 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="multiselectoption" value="A" id="defaultCheck1">
                                     <label class="form-check-label" for="defaultCheck1">
                                       A
                                     </label>
                                   </div>
                                 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                                    <label class="form-check-label" for="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="multiselectoption" value="B" id="defaultCheck2">
+                                    <label class="form-check-label" for="defaultCheck2">
                                       B
                                     </label>
                                   </div>
                                 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-                                    <label class="form-check-label" for="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="multiselectoption" value="C" id="defaultCheck3">
+                                    <label class="form-check-label" for="defaultCheck3">
                                      C
                                     </label>
                                   </div>
                                 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck4">
-                                    <label class="form-check-label" for="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="multiselectoption" value="D" id="defaultCheck4">
+                                    <label class="form-check-label" for="defaultCheck4">
                                       D
                                     </label>
                                   </div>
@@ -107,7 +115,9 @@
                     </div>
                 </div>
                 {% endfor %}
-                
+                <div class="tab">
+                  <h1>Are you sure to submit</h1>
+                </div>
 
                 <div style="overflow:auto;">
                   <div style="float:right;">
@@ -135,8 +145,6 @@
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment-with-locales.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.17/moment-timezone-with-data-2012-2022.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="{% static 'js/startexam.js' %}"></script>
   </body>

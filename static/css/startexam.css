@@ -6,13 +6,26 @@
 
   * {
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
   }
   
   body {
     background-color: #f1f1f1;
   }
   
+  .overlay {
+      height: 100vh;
+      width: 100%;
+      background: #111;
+      z-index: 1000000;
+      position: fixed;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+
   #regForm {
     background-color: #ffffff;
     margin: 15px auto;
@@ -26,6 +39,15 @@
     text-align: center;  
   }
   
+  .form-check-label{
+    font-weight: 600 !important;
+  }
+
+  .options{
+    margin-top: 3em !important;
+    margin-bottom: 3em !important;
+  }
+
   input {
     padding: 10px;
     width: 100%;
@@ -71,32 +93,19 @@
     color: #fff;
     background-color: #4f6ae4 !important;
   }
+
+  .step.finish {
+    color: #fff;
+    background-color: #41eb49 !important;
+  } 
   
-  /* Make circles that indicate the steps of the form: */
-  /* .step {
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #bbbbbb;
-    border: none;  
-    border-radius: 50%;
-    display: inline-block;
-    opacity: 0.5;
-  }
-  
-  .step.active {
-    opacity: 1;
-  }
-  
+ 
   /* Mark the steps that are finished and valid: */
   .step.invalid {
     color: #fff;
     background-color: #f04747;
-  } */
-  .step.finish {
-    color: #fff;
-    background-color: #41eb49;
-  } */
+  } 
+ 
 
 
 .fit-image {
