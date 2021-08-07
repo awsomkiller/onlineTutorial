@@ -57,6 +57,7 @@ class User(AbstractBaseUser):
     emailConfirm = models.BooleanField(default=False)
     mobileConfirm = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+    fees = models.BooleanField(default=False)
 
     USERNAME_FIELD ="mobile"
     REQUIRED_FIELDS = ['email','name']
