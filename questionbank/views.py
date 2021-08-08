@@ -53,9 +53,8 @@ def exam(request, cid=1):
                     if q.id == question['id']: 
                         ans = q.answer
                 temp = "question"+str(index)
-                response = request.POST[temp]
+                response = request.POST.get(temp, None)
                 tempres['response']= response
-                
                 if response==ans:
                     final_result = final_result + 4
                 else:
@@ -147,6 +146,7 @@ def exam(request, cid=1):
             index = index+1
             questions_list.append(temp)
             request.session['question_list'] = questions_list
+            print(questions_list)
         return render(request, 'startexam.html', {'questions': questions_list, 'exam_details': exam_details, 'id':cid})
 
 def examsubmit(request):

@@ -34,4 +34,4 @@ def success(request):
     return HttpResponse('Your payment was successfull')
 
 def cancel(request):
-    return redirect("finance/")
+    return redirect("/")
