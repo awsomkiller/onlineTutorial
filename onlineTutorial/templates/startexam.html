@@ -27,7 +27,7 @@
             <time class="float-md-start mb-0 mx-3   "></time>
         </div>
         <div class="body">
-            <form id="regForm" action="" method="POST">
+            <form id="regForm" action="" method="POST" >
               {% csrf_token %}
                 <h1>{{exam_details.title}}</h1>
                 <!-- One "tab" for each step in the form: -->
@@ -51,7 +51,7 @@
                                 <!-- textarea for QA question -->
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Type your answer here :</label>
-                                    <textarea class="qa_question form-control"  name="qa_question{{question.index}}" id="qa_question{{question.index}}" rows="5" cols="100"></textarea>
+                                    <textarea class="qa_question form-control"  name="question{{question.index}}" id="question{{question.index}}" rows="5" cols="100"></textarea>
                                 </div>
                                 <!-- textarea for QA question END -->
                             </div>
