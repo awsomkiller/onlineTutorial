@@ -52,7 +52,7 @@ def exam(request, cid=1):
                 for q in qa_ques:
                     if q.id == question['id']: 
                         ans = q.answer
-                temp = "question"+str(index)
+                temp = "qa_question"+str(index)
                 response = request.POST[temp]
                 tempres['response']= response
                 
@@ -131,6 +131,7 @@ def exam(request, cid=1):
             temp['id']=q.id
             index = index+1
             questions_list.append(temp)
+        index = 1
         for q in qa_ques:
             temp = {}
             lst = q.questiondescription['blocks']
