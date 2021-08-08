@@ -18,14 +18,20 @@
             <td>{{object.title}}</td>
             <td>{{object.exam_time}}</td>
             <td>
-                <button type="button" class="btn btn-primary btn-sm" href="http://127.0.0.1:8000/examinations/{{object.id}}/">
-                    click here
-                </button>
+              <a href="start_exam{{object.id}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
+              {% if object.exam_time > time %}
+             
+              {% endif %}
+              
+              <!-- {% if object.end_time > time %}
+              <p>exam not started</p> -->
+              {% endif%}
             </td>
           </tr>
            {% endfor %}
         </tbody>
       </table>
+      {{time}}
 </div>
 
 {% endblock %}

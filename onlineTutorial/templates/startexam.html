@@ -27,7 +27,8 @@
             <time class="float-md-start mb-0 mx-3   "></time>
         </div>
         <div class="body">
-            <form id="regForm" action="/action_page.php">
+            <form id="regForm" action="" method="POST">
+              {% csrf_token %}
                 <h1>{{exam_details.title}}</h1>
                 <!-- One "tab" for each step in the form: -->
                 
@@ -50,7 +51,7 @@
                                 <!-- textarea for QA question -->
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Type your answer here :</label>
-                                    <textarea class="form-control" name="qa_question" id="exampleFormControlTextarea1" rows="5" cols="100"></textarea>
+                                    <textarea class="form-control" name="question{{question.index}}" id="exampleFormControlTextarea1" rows="5" cols="100"></textarea>
                                 </div>
                                 <!-- textarea for QA question END -->
                             </div>
@@ -58,22 +59,22 @@
                             {% if question.type == 'normal_mcq' %}
                             <div class="d-flex justify-content-around pb-2 options">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="normal_mcq" id="exampleRadios1" value="option1" >
+                                    <input class="form-check-input" type="radio" name="question{{question.index}}" id="exampleRadios1" value="A" >
                                     <label class="form-check-label" for="exampleRadios1">A</label>
                                 </div>
                             
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="normal_mcq" id="exampleRadios2" value="option2" >
+                                    <input class="form-check-input" type="radio" name="question{{question.index}}" id="exampleRadios2" value="B" >
                                     <label class="form-check-label" for="exampleRadios2">B</label>
                                 </div>
                             
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="normal_mcq" id="exampleRadios3" value="option3" >
+                                    <input class="form-check-input" type="radio" name="question{{question.index}}" id="exampleRadios3" value="C" >
                                     <label class="form-check-label" for="exampleRadios3">C</label>
                                 </div>
                             
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="normal_mcq" id="exampleRadios4" value="option4" >
+                                    <input class="form-check-input" type="radio" name="question{{question.index}}" id="exampleRadios4" value="D" >
                                     <label class="form-check-label" for="exampleRadios4">D</label>
                                 </div>
                                    
@@ -83,28 +84,28 @@
                             <div class="d-flex justify-content-around pb-2 options">
                                 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="multiselectoption" value="A" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="question{{question.index}}1" value="A" id="defaultCheck1">
                                     <label class="form-check-label" for="defaultCheck1">
                                       A
                                     </label>
                                   </div>
                                 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="multiselectoption" value="B" id="defaultCheck2">
+                                    <input class="form-check-input" type="checkbox" name="question{{question.index}}2" value="B" id="defaultCheck2">
                                     <label class="form-check-label" for="defaultCheck2">
                                       B
                                     </label>
                                   </div>
                                 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="multiselectoption" value="C" id="defaultCheck3">
+                                    <input class="form-check-input" type="checkbox" name="question{{question.index}}3" value="C" id="defaultCheck3">
                                     <label class="form-check-label" for="defaultCheck3">
                                      C
                                     </label>
                                   </div>
                                 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="multiselectoption" value="D" id="defaultCheck4">
+                                    <input class="form-check-input" type="checkbox" name="question{{question.index}}4" value="D" id="defaultCheck4">
                                     <label class="form-check-label" for="defaultCheck4">
                                       D
                                     </label>
@@ -124,6 +125,7 @@
                     <button type="button" id="flatBtn" onclick="markflag()">Mark Flag</button>
                     <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
                     <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                    <button type="submit" >submit</button>
                   </div>
                 </div>
                 <!-- Circles which indicates the steps of the form: -->
