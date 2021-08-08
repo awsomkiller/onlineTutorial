@@ -49,7 +49,7 @@ def exam(request, cid=1):
                 for q in qa_ques:
                     if q.id == question['id']: 
                         ans = q.answer
-                temp = "qa_question"+str(index)
+                temp = "question"+str(index)
                 response = request.POST[temp]
                 tempres['response']= response
                 
@@ -74,10 +74,14 @@ def exam(request, cid=1):
                         ans = q.answer
                 resultstring = ""
                 strs = "question"+str(index)
-                response1 = request.POST[strs+1]
-                response2 = request.POST[strs+2]
-                response3 = request.POST[strs+3]
-                response4 = request.POST[strs+4]
+                t = strs+str(1)
+                response1 = request.POST[t]
+                t = strs+str(2)
+                response2 = request.POST[t]
+                t = strs+str(3)
+                response3 = request.POST[t]
+                t = strs+str(4) 
+                response4 = request.POST[t]
                 tempres['response1'] = response1
                 tempres['response2'] = response2
                 tempres['response3'] = response3
@@ -126,9 +130,7 @@ def exam(request, cid=1):
             temp['option4'] = q.option4
             temp['index'] = index
             temp['id']=q.id
-            index = index+1
             questions_list.append(temp)
-        index = 1
         for q in qa_ques:
             temp = {}
             lst = q.questiondescription['blocks']

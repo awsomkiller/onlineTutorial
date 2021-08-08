@@ -137,7 +137,7 @@ function nextPrev(n) {
   // if you have reached the end of the form...
   if (currentTab >= x.length) {
     // ... the form gets submitted:
-    document.getElementById("regForm").submit();
+    //document.getElementById("regForm").submit();
     return false;
   }
   // Otherwise, display the correct tab:
@@ -167,6 +167,8 @@ function validateForm() {
         if (normal_mcq_checbox[i].checked) formValid = true;
         i++;      
     }
+
+
 
     if (!formValid){
       document.getElementsByClassName("step")[currentTab].className += " invalid";
@@ -242,7 +244,7 @@ function Timer() {
   document.querySelector("time").innerHTML = hours + ":" + minutes + ":" + seconds;
       if (t < 0) {
           clearInterval(x);
-          $('#ms').submit();
+          //$('#regForm').submit();
           navigator.keyboard.unlock();
           document.querySelector("time").innerHTML = 0 + ":" + 0 + ":" + 0;
       }
@@ -262,3 +264,9 @@ function Timer() {
       //NoQuestion.splice(index, 1);
       $('#progress').append(`<button id="progressbtn${index}" type="button" class="step btn btn-light btn-sm border" onclick="opentab(${forClickableIndicator})">${index}</button>`);
     }
+
+
+    // function submit(){
+    //   var formEl = document.forms.regForm;
+    //   console.log(formEl);
+    // }
