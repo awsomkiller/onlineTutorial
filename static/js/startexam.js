@@ -71,8 +71,23 @@ var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
 
 function opentab(numb){
+  currentTab = numb;
+  //showTab(numb);
   var my,tabu = document.getElementsByClassName("tab");
   fixStepIndicator(numb);
+  if (numb == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (numb == (tabu.length - 1)) {
+    document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("flatBtn").style.display = "none";
+  } else {
+    document.getElementById("nextBtn").style.display = "inline";
+    document.getElementById("flatBtn").style.display = "inline";
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
   for (var my = 0; my <= tabu.length; my++){
       if(tabu[my].attributes.style.nodeValue == "display: block;"){
      //   console.log(`ok ${my} block`);
@@ -81,6 +96,8 @@ function opentab(numb){
       }
    // console.log(`ok ${my} block`);
   }
+
+  
   
   
   
@@ -97,8 +114,11 @@ function showTab(n) {
     document.getElementById("prevBtn").style.display = "inline";
   }
   if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
+    document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("flatBtn").style.display = "none";
   } else {
+    document.getElementById("nextBtn").style.display = "inline";
+    document.getElementById("flatBtn").style.display = "inline";
     document.getElementById("nextBtn").innerHTML = "Next";
   }
   //... and run a function that will display the correct step indicator:
@@ -139,7 +159,7 @@ function validateForm() {
   //z = [currentTab].getElementsByClassName("question");
   y = document.querySelectorAll('.quest_type')[currentTab];
   if(y.value == 'normal_mcq'){
-    var normal_mcq_checbox = document.getElementsByName('normal_mcq');
+    var normal_mcq_checbox = document.getElementsByClassName('normal_mcq');
     var formValid = false;
     
     var i = 0;
@@ -153,7 +173,7 @@ function validateForm() {
     }
   
   }else if(y.value == 'multiselect'){
-    var normal_mcq_checbox = document.getElementsByName('multiselectoption');
+    var normal_mcq_checbox = document.getElementsByClassName('multiselectoption');
     var formValid = false;
     
     var i = 0;
@@ -168,28 +188,24 @@ function validateForm() {
       document.getElementsByClassName("step")[currentTab].className.replace(" invalid", "");
     }
   }else if(y.value == 'qa_question'){
-    var textarea = x[currentTab].getElementsByTagName("qa_question");
-    var formValid = false;
-    if(textarea.value == ''){
+
+    var formValid = false; 
+    if($(`.tab:eq(${currentTab}) textarea`).val() != ''){
       formValid = true;
     }
-
+    
     if(!formValid){
       document.getElementsByClassName("step")[currentTab].className += " invalid";
     }else{
       document.getElementsByClassName("step")[currentTab].className.replace(" invalid", "");
     }
+  
 
   }
   
   valid = true;
   if (formValid) {
     
-    // if(document.getElementsByClassName("step")[currentTab].classList.contains('invalid')) {
-    //   document.getElementsByClassName("step")[currentTab].className.replace(" invalid", "");
-    // }
-    
-
     document.getElementsByClassName("step")[currentTab].className += " finish";
 
   }
