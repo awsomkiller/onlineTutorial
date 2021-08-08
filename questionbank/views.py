@@ -6,6 +6,7 @@ from .models import exam_portal, result
 from accounts.models import User
 import json
 from datetime import datetime
+import pytz
 
 # Create your views here.
 @csrf_protect
@@ -24,6 +25,8 @@ def ExaminationsHandel(request):
             objects = exam_portal.objects.filter(active=True)
             request.session['sno']=1
             time = datetime.utcnow()
+            time = time.replace(tzinfo=None)
+            print(objects[0].exam_time)
             print(time)
             return render(request, 'examinations.html', {'objects':objects, 'time':time})
         else:
