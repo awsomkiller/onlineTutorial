@@ -20,7 +20,7 @@ def upload_image_view(request):
 
 def ExaminationsHandel(request):
     if request.user.is_authenticated:
-        user = User.objects.get(mobile=request.user)
+        user = User.objects.get(mobile=request.user.mobile)
         if user.fees:
             objects = exam_portal.objects.filter(active=True)
             request.session['sno']=1
