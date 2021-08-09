@@ -1,8 +1,3 @@
-// function CloseWindow(){
-//   alert("Thank you for visiting W3Schools!");
-// }
-//$(window).unload( function () { alert("Bye now!"); } );
-
 
 // function requestFullScreen(element) {
 //   // Supports most browsers and their versions.
@@ -20,7 +15,7 @@
 
 // var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 // if(isChrome){
-  $('#overlay').css('display','none');
+//  $('#overlay').css('display','none');
 //}
 //console.log(isChrome);
 
@@ -63,7 +58,7 @@ function fullscreen() {
 
 
 var elem = document.body; // Make the body go full screen.
-//fullscreen(elem);
+fullscreen(elem);
 
 
 
@@ -161,29 +156,31 @@ function validateForm() {
   if(y.value == 'normal_mcq'){
     var normal_mcq_checbox = document.getElementsByClassName('normal_mcq');
     var formValid = false;
-    
     var i = 0;
     while (!formValid && i < normal_mcq_checbox.length) {
         if (normal_mcq_checbox[i].checked) formValid = true;
         i++;      
+        
     }
 
-
-
+    // console.log($('input[name=question1]').val());
+    // localStorage.setItem("question1", $('input[name=question1]').val());
+    
     if (!formValid){
       document.getElementsByClassName("step")[currentTab].className += " invalid";
     }
-  
+    
   }else if(y.value == 'multiselect'){
     var normal_mcq_checbox = document.getElementsByClassName('multiselectoption');
     var formValid = false;
     
     var i = 0;
     while (!formValid && i < normal_mcq_checbox.length) {
-        if (normal_mcq_checbox[i].checked) formValid = true;
-        i++;      
+      if (normal_mcq_checbox[i].checked) formValid = true;
+      i++;      
     }
-
+    
+    //localStorage.setItem("multiselect_question1", $('input[name=multiselect_question1]').val());
     if (!formValid){
       document.getElementsByClassName("step")[currentTab].className += " invalid";
     }else{
@@ -228,7 +225,8 @@ function fixStepIndicator(n) {
 Timer();
 
 function Timer() {
-  var deadline = new Date("Aug. 7, 2021, 00:30:00");
+  var deadline = new Date("Aug. 10, 2021, 00:30:00"); // after setup time comment this
+  //var deadline = new Date($('#startTime').val()); // uncomment this
   var newDateObj = new Date();
   newDateObj.setTime(deadline.getTime() + ($('#durations').val() * 60 * 1000));
   //console.log(newDateObj);
@@ -244,7 +242,7 @@ function Timer() {
   document.querySelector("time").innerHTML = hours + ":" + minutes + ":" + seconds;
       if (t < 0) {
           clearInterval(x);
-          //$('#regForm').submit();
+          $('#regForm').submit();
           navigator.keyboard.unlock();
           document.querySelector("time").innerHTML = 0 + ":" + 0 + ":" + 0;
       }
