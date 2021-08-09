@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
+from django.db.models.deletion import PROTECT
 from django.db.models.expressions import Value
 
 # Create your models here.
@@ -63,7 +64,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['email','name']
     objects = UserManager()
     def __str__(self):
-        return self.mobile
+        return self.name
     
     # def get_shortname(self):
     #     return self.firstname
@@ -100,3 +101,27 @@ class otpModel(models.Model):
     current_time = models.DateTimeField()
     success = models.BooleanField(default=False)
     attempt = models.IntegerField(default=1)
+
+class contactus(models.Model):
+    CHOICES =(
+        ('1','Technical/Website Related Issues'),
+        ('2','Payment Issues'),
+        ('3','Content Issues'),
+        ('4','Doubts')
+    )
+    id = models.AutoField(primary_key=True)
+    reason = models.CharField(max_length=20,choices=CHOICES)
+    user = models.ForeignKey(User, on_delete=PROTECT, null=True)
+    message = models.TextField()
+
+    def __str__(self):
+        strs =self.reason
+        if strs == '1':
+            strs ='Technical/Website Related Issues'
+        elif strs == '2':
+            strs = 'Payment Issues'
+        elif strs == '3':
+            strs = "Content Issues"
+        else:
+            strs = "Doubts"
+        return strs

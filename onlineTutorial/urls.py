@@ -14,11 +14,11 @@ urlpatterns = [
     path('finance/',include('finance.urls')),
     path('examinations/', include('questionbank.urls')),
     path('editorjs/', include('django_editorjs_fields.urls')),
-    path("stripe/", include("djstripe.urls", namespace="djstripe")),
+    path('support/', views.contact, name="support"),
+    # path("stripe/", include("djstripe.urls", namespace="djstripe")),
     # path('imageUpload/', include('questionbank.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

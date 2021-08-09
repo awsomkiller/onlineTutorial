@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import CreateCheckoutSessionView
 from . import views
 
 urlpatterns = [
-path('', CreateCheckoutSessionView.as_view(), name="payment"),
-path('success/', views.success, name="Payment Success"),
-path('cancel/', views.cancel, name="payment failed"),
+path('', views.checkout, name="checkout"),
+path('create-checkout-session', views.create_checkout_session, name="payment"),
+path('success/', views.success_url, name="Payment Success"),
+path('cancel/', views.cancel_url, name="payment failed"),
 ]
