@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="cover-container d-flex w-80 h-100 p-3 mx-auto flex-column">
+  <h4>Upcoming Exams</h4>
     <table class="table">
         <thead>
           <tr>
@@ -18,14 +19,24 @@
             <td>{{object.title}}</td>
             <td>{{object.exam_time}}</td>
             <td>
-                <button type="button" class="btn btn-primary btn-sm" href="http://127.0.0.1:8000/examinations/{{object.id}}/">
-                    click here
-                </button>
+              <a href="start_exam{{object.id}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
+              {% if time >= object.exam_time %}
+              
+              {% else %}
+              <p>Exam Not Started</p>
+              {% endif %}
+              
+              <!-- {% if object.end_time > time %}
+              <p>exam not started</p>
+              {% endif%} -->
             </td>
           </tr>
            {% endfor %}
         </tbody>
       </table>
+
+      <h4 class="mt-2">Results</h4>
+      
 </div>
 
 {% endblock %}
