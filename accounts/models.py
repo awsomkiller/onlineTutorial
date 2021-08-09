@@ -57,6 +57,7 @@ class User(AbstractBaseUser):
     emailConfirm = models.BooleanField(default=False)
     mobileConfirm = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+    fees = models.BooleanField(default=False)
 
     USERNAME_FIELD ="mobile"
     REQUIRED_FIELDS = ['email','name']
@@ -94,7 +95,7 @@ class User(AbstractBaseUser):
 
 class otpModel(models.Model):
     id = models.AutoField(primary_key=True)
-    phonenumber = models.BigIntegerField( unique=True )
+    phonenumber = models.BigIntegerField( unique=True, )
     otp = models.IntegerField()
     current_time = models.DateTimeField()
     success = models.BooleanField(default=False)

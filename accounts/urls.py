@@ -11,4 +11,5 @@ urlpatterns = [
     path('resetpassword/',views.otpgeneration, name='passwordReset'),
     path('profile/', views.profileview, name='profileview'),
     path('resetpass/', views.changepass, name='profileview'),
-]
+    path('activate/', views.phonenumberactivate, name='activatePhoneNumber'),
+] 

@@ -13,15 +13,15 @@
   </head>
   <body>
     <div class="main">
-      <input type="hidden" name="" id="startTime" value="2022-11-15T10:00:00">
-      <input type="hidden" name="" id="endTime" value="2022-11-15T11:00:00">
+      <input type="hidden" name="" id="startTime" value="{{exam_details.time}}">
+      <input type="hidden" name="duration" id="durations" value="{{exam_details.durations}}">
         <div class="navbar border-bottom d-flex justify-content-between">
-            <img src="{% static 'logo/logo.png '%}" class="float-md-start mb-0" style="height:4em">
+            <img src="{% static 'logos/logo.png '%}" class="float-md-start mb-0" style="height:4em">
             <time class="float-md-start mb-0 mx-3   "></time>
         </div>
         <div class="body">
             <form id="regForm" action="/action_page.php">
-                <h1>{{title}}</h1>
+                <h1>{{exam_details.title}}</h1>
                 <!-- One "tab" for each step in the form: -->
                 
                 <div class="question_list" style=" width: 100%;">

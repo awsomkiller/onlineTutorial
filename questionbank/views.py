@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_protect
 from .models import exam_portal, qa_question, question
+from accounts.models import User
 
 # Create your views here.
 @csrf_protect
@@ -15,13 +16,22 @@ def upload_image_view(request):
     return JsonResponse({'success': 1, 'file': {'url': fileurl}})
 
 def ExaminationsHandel(request):
-    objects = exam_portal.objects.filter(active=True)
-    request.session['sno']=1
-    return render(request, 'examinations.html', {'objects':objects})
-
+    if request.user.is_authenticated:
+        user = User.objects.get(mobiler=request.user)
+        if user.fees:
+            objects = exam_portal.objects.filter(active=True)
+            request.session['sno']=1
+            return render(request, 'examinations.html', {'objects':objects})
+        else:
+            return redirect('/finance/pay/')
+    else:
+        return redirect('/accounts/login/')
 def exam(request, cid=1):
     obj = exam_portal.objects.get(id=cid)
-    title = obj.title
+    exam_details = {}
+    exam_details['title'] = obj.title
+    exam_details['time'] = obj.exam_time
+    exam_details['durations'] = obj.Durations
     ques = obj.question.all()
     questions_list = []
     for q in ques:
@@ -50,4 +60,4 @@ def exam(request, cid=1):
         temp['img_url']=img
         temp['type'] = "qa_question"
         questions_list.append(temp)
-    return render(request, 'startexam.html', {'questions': questions_list, 'title': title})
+    return render(request, 'startexam.html', {'questions': questions_list, 'exam_details': exam_details})
