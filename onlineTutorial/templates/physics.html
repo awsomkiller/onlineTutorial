@@ -129,13 +129,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{data.title}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="pause-button12"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="playerpause('video-{{data.contentId}}')"></button>
       </div>
       <div class="modal-body " >
-        <iframe  src="{{data.fileUrl}}?enablejsapi=1&html5=1" id="video-{{data.contentId}}" onload="onYouTubePlayerAPIReady('video-{{data.contentId}}')" width="100%" height="100%" allow="autoplay"></iframe>
+        <iframe  src="{{data.fileUrl}}?enablejsapi=1&html5=1" id="video-{{data.contentId}}"  width="100%" height="100%" allow="autoplay"></iframe>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="pause-button">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="playerpause('video-{{data.contentId}}')" id="pause-button">back</button>
       </div>
     </div>
   </div>
@@ -149,34 +149,10 @@
 
 <script type="text/javascript">
   var player;
-
-// this function gets called when API is ready to use
-function onYouTubePlayerAPIReady(id) {
-  // create the global player from the specific iframe (#video)
-  player = new YT.Player(String(id), {
-    events: {
-      // call this function when player is ready to use
-      'onReady': onPlayerReady
-    }
-  });
-  console.log(id);
-}
-
-function onPlayerReady(event) {
-
-  var pauseButton = document.getElementById("pause-button");
-  pauseButton.addEventListener("click", function() {
-    player.pauseVideo();
-  });
-
-}
-
-// Inject YouTube API script
-var tag = document.createElement('script');
-tag.src = "//www.youtube.com/player_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  function playerpause(id){
+  player = new YT.Player(id);
+  player.pauseVideo();
+  // console.log("working")
 </script>
 <script type="text/javascript" src="{% static 'js/sidebars.js' %}"></script> 
 {% endblock %}
-
