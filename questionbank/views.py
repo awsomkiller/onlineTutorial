@@ -22,7 +22,7 @@ def upload_image_view(request):
 
 def ExaminationsHandel(request):
     if request.user.is_authenticated:
-        user = User.objects.get(mobile=request.user.mobile)
+        user = User.objects.get(mobile=request.user)
         if user.fees:
             objects = exam_portal.objects.filter(active=True)
             request.session['sno']=1
@@ -74,7 +74,7 @@ def exam(request, cid=1):
                         if response==ans:
                             final_result = final_result + 4
                         else:
-                        final_result = final_result - 1
+                            final_result = final_result - 1
                     else:
                         for q in ques:
                             if q.id == question['id']: 
