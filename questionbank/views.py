@@ -22,22 +22,21 @@ def upload_image_view(request):
 
 def ExaminationsHandel(request):
     if request.user.is_authenticated:
-        user = User.objects.get(mobile=request.user)
+        user = User.objects.get(mobile=request.user.mobile)
         if user.fees:
             objects = exam_portal.objects.filter(active=True)
             request.session['sno']=1
             time = datetime.utcnow()
             time = time.replace(tzinfo=None)
-            print(objects[0].exam_time)
-            print(time)
+            objects[1].exam_time = "Aug. 10, 2021, 21:30:00"
             return render(request, 'examinations.html', {'objects':objects, 'time':time})
         else:
-            return redirect('/finance/pay/')
+            return redirect('/finance/create-checkout-session/')
     else:
         return redirect('/accounts/login/')
 def exam(request, cid=1):
     if request.user.is_authenticated:
-        user = User.objects.get(mobile=request.user)
+        user = User.objects.get(mobile=request.user.mobile)
         if user.fees:
             obj = exam_portal.objects.get(id=cid)
             ques = obj.question.all()
