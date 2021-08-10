@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'physics',
     'accounts',
     'questionbank',
+    'finance'
 ]
 AUTH_USER_MODEL = 'accounts.User'
 
