@@ -137,6 +137,7 @@ def exam(request, cid=1):
                     temp['index'] = index
                     temp['id']=q.id
                     questions_list.append(temp)
+                    index = index + 1
                 for q in qa_ques:
                     temp = {}
                     lst = q.questiondescription['blocks']
