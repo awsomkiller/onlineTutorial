@@ -22,22 +22,21 @@ def upload_image_view(request):
 
 def ExaminationsHandel(request):
     if request.user.is_authenticated:
-        user = User.objects.get(mobile=request.user)
+        user = User.objects.get(mobile=request.user.mobile)
         if user.fees:
             objects = exam_portal.objects.filter(active=True)
             request.session['sno']=1
             time = datetime.utcnow()
             time = time.replace(tzinfo=None)
-            print(objects[0].exam_time)
-            print(time)
+            objects[1].exam_time = "Aug. 10, 2021, 23:30:00"
             return render(request, 'examinations.html', {'objects':objects, 'time':time})
         else:
-            return redirect('/finance/pay/')
+            return redirect('/finance/create-checkout-session/')
     else:
         return redirect('/accounts/login/')
 def exam(request, cid=1):
     if request.user.is_authenticated:
-        user = User.objects.get(mobile=request.user)
+        user = User.objects.get(mobile=request.user.mobile)
         if user.fees:
             obj = exam_portal.objects.get(id=cid)
             ques = obj.question.all()
@@ -69,7 +68,7 @@ def exam(request, cid=1):
                             if q.id == question['id']: 
                                 ans = q.answer  
                         temp = "question"+str(index)
-                        response = request.POST[temp]
+                        response = request.POST.get(temp, None)
                         tempres['response']= response
                         if response==ans:
                             final_result = final_result + 4
@@ -82,13 +81,13 @@ def exam(request, cid=1):
                         resultstring = ""
                         strs = "question"+str(index)
                         t = strs+str(1)
-                        response1 = request.POST[t]
+                        response1 = request.POST.get(t)
                         t = strs+str(2)
-                        response2 = request.POST[t]
+                        response2 = request.POST.get(t)
                         t = strs+str(3)
-                        response3 = request.POST[t]
+                        response3 = request.POST.get(t)
                         t = strs+str(4) 
-                        response4 = request.POST[t]
+                        response4 = request.POST.get(t)
                         tempres['response1'] = response1
                         tempres['response2'] = response2
                         tempres['response3'] = response3
