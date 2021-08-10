@@ -225,8 +225,8 @@ function fixStepIndicator(n) {
 Timer();
 
 function Timer() {
-  var deadline = new Date("Aug. 10, 2021, 00:30:00"); // after setup time comment this
-  //var deadline = new Date($('#startTime').val()); // uncomment this
+  // var deadline = new Date("Aug. 10, 2021, 00:30:00"); // after setup time comment this
+  var deadline = new Date($('#startTime').val()); // uncomment this
   var newDateObj = new Date();
   newDateObj.setTime(deadline.getTime() + ($('#durations').val() * 60 * 1000));
   //console.log(newDateObj);
