@@ -9,7 +9,7 @@ import stripe
 from accounts.models import User
 
 
-stripe.api_key = 'sk_test_51JM82hSFSzasNMXQUV3bFRuAKZCChJoMG2muc8nCcnq7ZNcksqA89KZ0BHpzRyzv9QXqaq7oLVVeipYNMBT44plh00x8ytQkLI'
+stripe.api_key = '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'
 
 def create_checkout_session(request):
     if request.user.is_authenticated:
