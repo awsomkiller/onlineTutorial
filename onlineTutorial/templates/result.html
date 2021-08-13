@@ -1,0 +1,64 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+
+{% endblock %}
+{%block content%}
+
+<div class="container">
+    <table class="table table-striped" style="width:100%" name="1" id="teranaam">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Your selection</th>
+            <th scope="col">Answer</th>
+            <th scope="col">Marks obtained</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for key, value in questions.items%}
+          <tr>
+            <th scope="row">{{key}}</th>
+            <td>{{value.response}}</td>
+            <td>{{value.answer}}</td>
+            <td>{{value.marks}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- <table class="table" name="2">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Your selection</th>
+                <th scope="col">Answer</th>
+                <th scope="col">Marks obtained</th>
+              </tr>
+        </thead>
+        <tbody>
+            {% for qa_question in qa_questions %}
+          <tr>
+            <th scope="row">{{qa_question.id}}</th>
+            <td>{{qa_question.response}}</td>
+            <td>{{qa_question.answer}}</td>
+            <td>{{qa_question.marks}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table> -->
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready( function () {
+    $('#teranaam').DataTable();
+} );
+</script>
+
+
+{% endblock %}

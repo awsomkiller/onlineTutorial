@@ -1,4 +1,3 @@
-import accounts
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.core.files.storage import FileSystemStorage
@@ -7,8 +6,6 @@ from django.views.decorators.csrf import csrf_protect
 from .models import exam_portal, result
 from accounts.models import User
 import json
-from datetime import datetime
-
 
 # Create your views here.
 @csrf_protect
@@ -26,8 +23,7 @@ def ExaminationsHandel(request):
         if user.fees:
             objects = exam_portal.objects.filter(active=True)
             request.session['sno']=1
-            time = datetime.utcnow()
-            return render(request, 'examinations.html', {'objects':objects, 'time':time})
+            return render(request, 'examinations.html', {'objects':objects})
         else:
             return redirect('/finance/')
     else:
@@ -47,34 +43,42 @@ def exam(request, cid=1):
                 for question in questions_list:
                     ans = ""
                     tempres = {}
-                    tempres['questionId']=question.id
+                    tempres['questionId']=question['id']
                     tempres['Type']=question['type'] 
                     if question['type'] == "qa_question":
                         for q in qa_ques:
                             if q.id == question['id']: 
                                 ans = q.answer
+                                tempres['answer']=ans
                         temp = "question"+str(index)
                         response = request.POST.get(temp, None)
                         tempres['response']= response
                         if response==ans:
                             final_result = final_result + 4
+                            tempres['marks'] = 4
+                        else:
+                            tempres['marks'] = 'NA'
                     elif question['type'] == "normal_mcq":
                         for q in ques:
                             if q.id == question['id']: 
                                 ans = q.answer  
+                                tempres['answer']=ans
                         temp = "question"+str(index)
                         response = request.POST.get(temp, None)
                         tempres['response']= response
                         if response==ans:
                             final_result = final_result + 4
+                            tempres['marks'] = 4
                         elif response == None:
-                            pass
+                            tempres['marks'] = 'NA'
                         else :
                             final_result = final_result - 1
+                            tempres['marks'] = -1
                     else:
                         for q in ques:
                             if q.id == question['id']: 
                                 ans = q.answer
+                                tempres['answer']=ans
                         resultstring = ""
                         strs = "question"+str(index)
                         t = strs+str(1)
@@ -99,10 +103,12 @@ def exam(request, cid=1):
                             resultstring+="option4"
                         if ans == resultstring:
                             final_result = final_result + 4
+                            tempres['marks'] = 4
                         elif response == None:
-                            pass
+                            tempres['marks'] = "NA"
                         else :
                             final_result = final_result - 1
+                            tempres['marks'] = -1
                     questionResult[str(index)] = tempres
                     index = index+1
                 qr = json.dumps(questionResult)
@@ -110,7 +116,10 @@ def exam(request, cid=1):
                 ed = exam_portal.objects.get(id=cid)
                 res = result(exam_details = ed, studentId = user, studentResponse=qr, result=final_result)
                 res.save()
-                return redirect('/')
+                for asdf,value in questionResult.items():
+                    print(asdf)
+                    print(value)
+                return render(request, 'result.html', {'questions':questionResult})
             else:
                 exam_details = {}
                 exam_details['title'] = obj.title
@@ -150,12 +159,10 @@ def exam(request, cid=1):
                     index = index+1
                     questions_list.append(temp)
                     request.session['question_list'] = questions_list
-                    print(questions_list)
                 return render(request, 'startexam.html', {'questions': questions_list, 'exam_details': exam_details, 'id':cid})
         else:
             return HttpResponse("Please Pay your fees to appear in exam")
     else:
         return redirect('accounts/login')
-
-def examsubmit(request):
-    pass
+# def examsubmit(request):
+#     pass

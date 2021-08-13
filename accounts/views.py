@@ -1,10 +1,9 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
-from .form import loginForm, studentRegisteration, phonenumber, passwordchange, otp
+from .form import loginForm, resetpassword, studentRegisteration, phonenumber, passwordchange, otp
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
 from accounts.models import User, otpModel
-from django import forms
 import random
 from datetime import datetime
 import urllib.request
@@ -244,4 +243,3 @@ def phonenumberactivate(request):
             return render(request, 'activateNumber.html', {'form':form})
     else:
         return redirect('/')
-

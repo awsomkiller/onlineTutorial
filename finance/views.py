@@ -6,7 +6,6 @@ from django.shortcuts import redirect, render
 import stripe
 from accounts.models import User
 
-
 stripe.api_key = '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'
 
 def create_checkout_session(request):
@@ -33,7 +32,6 @@ def create_checkout_session(request):
             return HttpResponse("Session closed")
     else:
         return redirect('/')
-
 
 def success_url(request):
     user=User.objects.get(mobile=request.user.mobile)

@@ -4,6 +4,5 @@ from . import views
 urlpatterns = [
     path('', views.ExaminationsHandel, name="ExaminationsHandel"),
     path('start_exam<int:cid>/', views.exam, name='examid'),
-    #path('submit/', views.examsubmit, name='examid'),
-    # path('editorjs/image_upload/', views.upload_image_view),
+    # path('result<int:id>', views.getResult, name="get result",)
 ] 
