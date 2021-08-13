@@ -27,11 +27,9 @@ def ExaminationsHandel(request):
             objects = exam_portal.objects.filter(active=True)
             request.session['sno']=1
             time = datetime.utcnow()
-            time = time.replace(tzinfo=None)
-            objects[1].exam_time = "Aug. 10, 2021, 23:30:00"
             return render(request, 'examinations.html', {'objects':objects, 'time':time})
         else:
-            return redirect('/finance/create-checkout-session/')
+            return redirect('/finance/')
     else:
         return redirect('/accounts/login/')
 def exam(request, cid=1):
