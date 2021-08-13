@@ -1,7 +1,5 @@
 # This example sets up an endpoint using the Flask framework.
 # Watch this video to get started: https://youtu.be/7Ul1vfmsDck.
-
-
 from finance.models import payment
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render

@@ -48,9 +48,8 @@ def exam(request, cid=1):
                 questionResult = {}
                 for question in questions_list:
                     ans = ""
-                    print(question['id'])
                     tempres = {}
-                    tempres['questionId']=index
+                    tempres['questionId']=question.id
                     tempres['Type']=question['type'] 
                     if question['type'] == "qa_question":
                         for q in qa_ques:
@@ -61,8 +60,6 @@ def exam(request, cid=1):
                         tempres['response']= response
                         if response==ans:
                             final_result = final_result + 4
-                        else:
-                            final_result = final_result - 1
                     elif question['type'] == "normal_mcq":
                         for q in ques:
                             if q.id == question['id']: 
@@ -72,7 +69,9 @@ def exam(request, cid=1):
                         tempres['response']= response
                         if response==ans:
                             final_result = final_result + 4
-                        else:
+                        elif response == None:
+                            pass
+                        else :
                             final_result = final_result - 1
                     else:
                         for q in ques:
@@ -102,7 +101,9 @@ def exam(request, cid=1):
                             resultstring+="option4"
                         if ans == resultstring:
                             final_result = final_result + 4
-                        else:
+                        elif response == None:
+                            pass
+                        else :
                             final_result = final_result - 1
                     questionResult[str(index)] = tempres
                     index = index+1
@@ -157,5 +158,5 @@ def exam(request, cid=1):
             return HttpResponse("Please Pay your fees to appear in exam")
     else:
         return redirect('accounts/login')
-def examsubmit(request):
-    pass
+# def examsubmit(request):
+#     pass
