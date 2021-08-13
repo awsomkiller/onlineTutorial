@@ -25,8 +25,8 @@ def create_checkout_session(request):
             'quantity': 1,
             }],
             mode='payment',
-            success_url='http://127.0.0.1:8000/finance/success',
-            cancel_url='https://127.0.0.1:8000/finance/cancel',
+            success_url='https://www.rkeduv.com/finance/success',
+            cancel_url='https://www.rkeduv.com/finance/cancel',
             )
             return redirect(session.url, code=303)
         else:

@@ -1,3 +1,4 @@
+from accounts.form import phonenumber
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 from django.db.models.deletion import PROTECT
@@ -96,11 +97,11 @@ class User(AbstractBaseUser):
 
 class otpModel(models.Model):
     id = models.AutoField(primary_key=True)
-    phonenumber = models.BigIntegerField( unique=True, )
-    otp = models.IntegerField()
-    current_time = models.DateTimeField()
+    phonenumber = models.IntegerField(max_length=10, unique=True, )
+    otp = models.IntegerField(max_length=5)
+    current_time = models.DateTimeField(auto_now=True)
     success = models.BooleanField(default=False)
-    attempt = models.IntegerField(default=1)
+    attempt = models.IntegerField(default=1, max_length=1)
 
 class contactus(models.Model):
     CHOICES =(
@@ -125,3 +126,4 @@ class contactus(models.Model):
         else:
             strs = "Doubts"
         return strs
+

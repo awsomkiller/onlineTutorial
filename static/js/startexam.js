@@ -154,7 +154,8 @@ function validateForm() {
   //z = [currentTab].getElementsByClassName("question");
   y = document.querySelectorAll('.quest_type')[currentTab];
   if(y.value == 'normal_mcq'){
-    var normal_mcq_checbox = document.getElementsByClassName('normal_mcq');
+    var normal_mcq_checbox = x[currentTab].getElementsByClassName('normal_mcq');
+
     var formValid = false;
     var i = 0;
     while (!formValid && i < normal_mcq_checbox.length) {
@@ -169,7 +170,9 @@ function validateForm() {
     if (!formValid){
       document.getElementsByClassName("step")[currentTab].className += " invalid";
     }
-    
+    else{
+      document.getElementsByClassName("step")[currentTab].className.replace(" invalid", "");
+    }
   }else if(y.value == 'multiselect'){
     var normal_mcq_checbox = document.getElementsByClassName('multiselectoption');
     var formValid = false;

@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 from django.conf.urls.static import static
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,6 +15,7 @@ urlpatterns = [
     path('maths/',include('physics.urls')),
     path('finance/',include('finance.urls')),
     path('examinations/', include('questionbank.urls')),
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('logos/favicon.ico'))),
     path('editorjs/', include('django_editorjs_fields.urls')),
     path('support/', views.contact, name="support"),
     # path("stripe/", include("djstripe.urls", namespace="djstripe")),

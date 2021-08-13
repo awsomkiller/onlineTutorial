@@ -1,11 +1,12 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
-from .form import loginForm, studentRegisteration, phonenumber, passwordchange, otp, resetpassword
+from .form import loginForm, studentRegisteration, phonenumber, passwordchange, otp
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
-from accounts.models import User , otpModel
-from datetime import datetime
+from accounts.models import User, otpModel
+from django import forms
 import random
+from datetime import datetime
 import urllib.request
 
 # Create your views here.
@@ -93,17 +94,14 @@ def changepassword(request):
             try:
                 otpObj = otpModel.objects.get(phonenumber=phonenum)
                 otpObj.otp = n
-                otpObj.current_time = datetime.utcnow()
+                otpObj.current_time = datetime.now()
             except otpModel.DoesNotExist:
-                otpObj = otpModel(phonenumber=phonenum, otp=n, current_time=datetime.utcnow() )
+                otpObj = otpModel(phonenumber=phonenum, otp=n)
             otpObj.save()
-            uphonenum = str(phonenum)
-            un = str(n)
-            url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+uphonenum+"&message="
-            url2 = "Dear%20"+usersname[0]+"%20,%20OTP%20to%20Reset%20your%20password%20of%20Rkeduv(account)%20is%20"+un+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694552115457"
+            url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+phonenum+"&message=Dear%20"
+            url2 = usersname[0]+"%20OTP%20to%20login%20into%20Rkeduv(account)%20is%"+n+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694588395444"
             url1 = url1 + url2
             request_url = urllib.request.urlopen(url1)
-            print(request_url)
             request.session['otpid']=phonenum
             return redirect('/accounts/resetpassword/')
         else:
@@ -120,11 +118,9 @@ def otpgeneration(request):
             except otpModel.DoesNotExist:
                 return redirect('/accounts/forgotpassword/')
             timenow = datetime.now()
-            tz = otpObj.current_time
-            tz = tz.replace(tzinfo=None) 
-            time_delta = (timenow  - tz)
+            time_delta = (timenow - otpObj.current_time)
             total_seconds = time_delta.total_seconds()
-            minutes = total_seconds/3600
+            minutes = total_seconds/60
             if (minutes > 10):
                 try:
                     del request.session['otpid']
@@ -221,7 +217,7 @@ def phonenumberactivate(request):
                     user.save()
                     name = user.name
                     name = name.split()
-                    url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number=9501181321&message=Dear%20"+name[0]+"%20,%20Thank%20you%20for%20Registering%20to%20Rkeduv,%20start%20your%20learning%20here%20http://www.rkeduv.com%20abhinm&templateid=1707162694577975455"
+                    url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+phonenum+"&message=Dear%20"+name[0]+"%20,%20Thank%20you%20for%20Registering%20to%20Rkeduv,%20start%20your%20learning%20here%20http://www.rkeduv.com%20abhinm&templateid=1707162694577975455"
                     request_url = urllib.request.urlopen(url1)
                     print(request_url)  
                     try:

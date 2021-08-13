@@ -17,16 +17,16 @@
           <tr>
             <th scope="row">{{ request.session.sno }}</th>
             <td>{{object.title}}</td>
-            <td>{{object.exam_time}}</td>
+            <td>12:30 pm</td>
             <td>
               <a href="start_exam{{object.id}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
-              {% if time >= object.exam_time %}
+             <!-- {% if time >= object.exam_time %}
               
               {% else %}
               <p>Exam Not Started</p>
               {% endif %}
               
-              <!-- {% if object.end_time > time %}
+              {% if object.end_time > time %}
               <p>exam not started</p>
               {% endif%} -->
             </td>
