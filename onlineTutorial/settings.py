@@ -73,10 +73,8 @@ WSGI_APPLICATION = 'onlineTutorial.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rkeduv',
-	'USER':'ayush',
-	'PASSWORD':'dbrkeduv21'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
 }
 
