@@ -107,6 +107,24 @@ class phonenumber(forms.Form):
         'class': 'form-control',
         'placeholder':'Enter mobile number'
     })
+    # def clean_mobileNumber(self):
+    #     mobileNumber = self.cleaned_data.get("mobileNumber")
+    #     pattern = re.compile(r'[0-9]{10}', re.IGNORECASE)
+    #     matches = pattern.match(mobileNumber)
+    #     if(matches):
+    #         return mobileNumber
+
+class otp(forms.Form):
+    otp = forms.CharField(label='', max_length=5)
+
+    otp.widget.attrs.update({
+        'class': 'form-control',
+        'placeholder':'Enter OTP'
+    })
+
+    def clean_otp(self):
+        otp = self.cleaned_data.get("otp")
+        return otp
 
 class otp(forms.Form):
     otp = forms.IntegerField(label='', max_value=99999, min_value=10000)
@@ -145,3 +163,24 @@ class passwordchange(forms.Form):
         if(password1 != password2):
             raise forms.ValidationError("Password doesn't match")
         return password2
+
+class resetpassword(forms.Form):
+    password1 = forms.CharField(label='', widget=forms.PasswordInput(), min_length=6)
+    password2 = forms.CharField(label='', widget=forms.PasswordInput(), min_length=6)
+
+    password1.widget.attrs.update({
+        'class': 'form-control',
+        'placeholder':'Enter Password'
+    })
+    password2.widget.attrs.update({
+        'class': 'form-control',
+        'placeholder':'Re-Enter Password'
+    })
+
+    # def clean_password1(self):
+    #     password1 = self.cleaned_data.get("password1")
+    #     password2 = self.cleaned_data.get("password2")
+    #     print(password2)
+    #     if(password1 != password2):
+    #         raise forms.ValidationError("Password doesn't match")
+    #     return password2

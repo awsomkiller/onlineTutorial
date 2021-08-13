@@ -1,0 +1,120 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url(digital-7.ttf);
+  }
+
+
+  * {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  body {
+    background-color: #f1f1f1;
+  }
+  
+  .overlay {
+      height: 100vh;
+      width: 100%;
+      background: #111;
+      z-index: 1000000;
+      position: fixed;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+
+  #regForm {
+    background-color: #ffffff;
+    margin: 15px auto;
+    font-family: Raleway;
+    padding: 40px;
+    width: 70%;
+    min-width: 300px;
+  }
+  
+  h1 {
+    text-align: center;  
+  }
+  
+  .form-check-label{
+    font-weight: 600 !important;
+  }
+
+  .options{
+    margin-top: 3em !important;
+    margin-bottom: 3em !important;
+  }
+
+  input {
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #aaaaaa;
+  }
+  
+  /* Mark input boxes that gets an error on validation: */
+  input.invalid {
+    background-color: #ffdddd;
+  }
+  
+  /* Hide all steps by default: */
+  .tab {
+    display: none;
+  }
+  
+  button {
+    background-color: #04AA6D;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 17px;
+    font-family: Raleway;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  #prevBtn {
+    background-color: #bbbbbb;
+  }
+
+  .step.flag{
+    color: #fff;
+    background-color: #dbe95c !important;
+  }
+
+  .step.active {
+    color: #fff;
+    background-color: #4f6ae4 !important;
+  }
+
+  .step.finish {
+    color: #fff;
+    background-color: #41eb49 !important;
+  } 
+  
+ 
+  /* Mark the steps that are finished and valid: */
+  .step.invalid {
+    color: #fff;
+    background-color: #f04747;
+  } 
+ 
+
+
+.fit-image {
+    width: 100%;
+    object-fit: cover
+}
+
+time{
+    font-family: myFirstFont;
+    font-size: 2em;
+    font-weight: 200;    
+}

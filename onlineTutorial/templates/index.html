@@ -48,7 +48,12 @@
         <a class="nav-link " href="accounts/login/" aria-current="page" style="color: black;">Login</a>
         {% endif %}
         {% if user.is_admin %}
-        <a class="nav-link " href="accounts/circular/" aria-current="page" style="color: black;">Circular</a>
+        <a class="nav-link " href="admin/" aria-current="page" style="color: black;">Admin</a>
+        {% endif %}
+        {% if not user.fees %}
+        <a class="nav-link " href="finance/" aria-current="page" style="color: black;">Fees</a>
+	{% else %}
+	<a class="nav-link " href="examinations/" aria-current ="page" style="color:black;">Examinations</a>
         {% endif %}
       </nav>
     </div>

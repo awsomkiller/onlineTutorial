@@ -108,16 +108,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{data.title}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="playerpause()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="playerpause('{{data.contentId}}')"></button>
       </div>
       <div class="modal-body ">
         
         <div class="d-flex justify-content-between">
-<<<<<<< HEAD
           <iframe id="{{data.contentId}}" width="560" height="315" src="{{data.fileUrl}}" title="Rkeduv Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-=======
-          <iframe id="yt-player" width="560" height="315" src="{{data.fileUrl}}" title="Rkeduv Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
->>>>>>> 21c8644165689846011c4918f7994a043223ea1b
         </div>
       </div>
       <div class="modal-footer">
@@ -133,13 +129,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{data.title}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="playerpause('video-{{data.contentId}}')"></button>
       </div>
       <div class="modal-body " >
-        <iframe  src="{{data.fileUrl}}" width="100%" height="100%" allow="autoplay"></iframe>
+        <iframe  src="{{data.fileUrl}}?enablejsapi=1&html5=1" id="video-{{data.contentId}}"  width="100%" height="100%" allow="autoplay"></iframe>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="playerpause('video-{{data.contentId}}')" id="pause-button">back</button>
       </div>
     </div>
   </div>
@@ -150,18 +146,14 @@
 
 {% block js %}
 
-{% for data in contentData %}
-{% if data.dataType == "vid" %}
+
 <script type="text/javascript">
-  var player;  
+  var player;
   function playerpause(id){
-    player = new YT.Player(id);
-    console.log("working")
-    player.pauseVideo();
-  }
-  </script>
-{% endif %}
-{% endfor %}
+  player = new YT.Player(id);
+  player.pauseVideo();
+  // console.log("working")
+}
+</script>
 <script type="text/javascript" src="{% static 'js/sidebars.js' %}"></script> 
 {% endblock %}
-
