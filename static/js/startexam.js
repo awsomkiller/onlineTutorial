@@ -13,14 +13,14 @@
 //   }
 // }
 
-// var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-// if(isChrome){
-//  $('#overlay').css('display','none');
-//}
-//console.log(isChrome);
+var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+if(isChrome){
+  navigator.keyboard.lock();
+}
+// console.log(isChrome);
 
 
-navigator.keyboard.lock();
+
 
 function fullscreen() {
   var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||

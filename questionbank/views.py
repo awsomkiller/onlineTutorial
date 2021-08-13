@@ -36,6 +36,7 @@ def exam(request, cid=1):
             ques = obj.question.all()
             qa_ques = obj.qa_question.all()
             if request.method == 'POST':
+                qacount = 0
                 final_result = 0
                 questions_list = request.session.get('question_list', None)
                 index = 1
@@ -54,7 +55,9 @@ def exam(request, cid=1):
                         response = request.POST.get(temp, None)
                         tempres['response']= response
                         if response==ans:
-                            final_result = final_result + 4
+                            qacount += 1
+                            if qacount <= 5:
+                                final_result = final_result + 4
                             tempres['marks'] = 4
                         else:
                             tempres['marks'] = 'NA'
@@ -119,7 +122,7 @@ def exam(request, cid=1):
                 for asdf,value in questionResult.items():
                     print(asdf)
                     print(value)
-                return render(request, 'result.html', {'questions':questionResult})
+                return render(request, 'result.html', {'questions':questionResult , 'finalresult':final_result})
             else:
                 exam_details = {}
                 exam_details['title'] = obj.title
