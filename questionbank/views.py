@@ -11,3 +11,6 @@ def upload_image_view(request):
     file_ = fs.save(filename, files)
     fileurl = fs.url(file_)
     return JsonResponse({'success': 1, 'file': {'url': fileurl}})
+
+def examPortal(request):
+    return render(request, 'exam.html')

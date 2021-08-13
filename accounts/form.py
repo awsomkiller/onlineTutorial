@@ -108,6 +108,14 @@ class phonenumber(forms.Form):
         'placeholder':'Enter mobile number'
     })
 
+class otp(forms.Form):
+    otp = forms.IntegerField(label='', max_value=99999, min_value=10000)
+
+    otp.widget.attrs.update({
+        'class': 'form-control',
+        'placeholder':'Enter OTP'
+    })
+    
 class passwordchange(forms.Form):
     oldpassword = forms.CharField(label='', widget=forms.PasswordInput(), min_length=6)
     password1 = forms.CharField(label='', widget=forms.PasswordInput(), min_length=6)
