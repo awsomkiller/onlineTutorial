@@ -43,3 +43,4 @@ class result(models.Model):
     studentId = models.ForeignKey(User, on_delete=PROTECT)
     studentResponse = models.JSONField()
     result = models.CharField(max_length=50, null=True)
+    resultfile = models.FileField(upload_to='', max_length=254, null=True)

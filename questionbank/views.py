@@ -57,8 +57,8 @@ def exam(request, cid=1):
                         if response==ans:
                             qacount += 1
                             if qacount <= 5:
-                                final_result = final_result + 4
-                            tempres['marks'] = 4
+                                final_result = final_result + 3
+                            tempres['marks'] = 3
                         else:
                             tempres['marks'] = 'NA'
                     elif question['type'] == "normal_mcq":
@@ -70,8 +70,8 @@ def exam(request, cid=1):
                         response = request.POST.get(temp, None)
                         tempres['response']= response
                         if response==ans:
-                            final_result = final_result + 4
-                            tempres['marks'] = 4
+                            final_result = final_result + 3
+                            tempres['marks'] = 3
                         elif response == None:
                             tempres['marks'] = 'NA'
                         else :
@@ -83,35 +83,45 @@ def exam(request, cid=1):
                                 ans = q.answer
                                 tempres['answer']=ans
                         resultstring = ""
-                        strs = "question"+str(index)
+                        strs = "multiselect_question"+str(index)
+                        # response1 = request.POST.get(t, False)
+                        # print(response1)
+                        # t = strs+str(2)
+                        # response2 = request.POST.get(t, False)
+                        # print(response2)
+                        # t = strs+str(3)
+                        # response3 = request.POST.get(t, False)
+                        # print(response3)
+                        # t = strs+str(4) 
+                        # response4 = request.POST.get(t, False)
+                        # print(response4)
+                        # tempres['response1'] = response1
+                        # tempres['response2'] = response2
+                        # tempres['response3'] = response3
+                        # tempres['response4'] = response4
                         t = strs+str(1)
-                        response1 = request.POST.get(t)
+                        if t in request.POST:
+                            print("yes")
+                            resultstring+="Option1"
                         t = strs+str(2)
-                        response2 = request.POST.get(t)
+                        if t in request.POST:
+                            resultstring+="Option2"
                         t = strs+str(3)
-                        response3 = request.POST.get(t)
-                        t = strs+str(4) 
-                        response4 = request.POST.get(t)
-                        tempres['response1'] = response1
-                        tempres['response2'] = response2
-                        tempres['response3'] = response3
-                        tempres['response4'] = response4
-                        if response1:
-                            resultstring+="option1"
-                        if response2:
-                            resultstring+="option2"
-                        if response3:
-                            resultstring+="option3"
-                        if response4:
-                            resultstring+="option4"
+                        if t in request.POST:
+                            resultstring+="Option3"
+                        t = strs+str(4)
+                        if t in request.POST:
+                            resultstring+="Option"
+                        print(resultstring)
+                        print(ans)
                         if ans == resultstring:
-                            final_result = final_result + 4
-                            tempres['marks'] = 4
-                        elif response == None:
+                            final_result = final_result + 3
+                            tempres['marks'] = 3
+                        elif resultstring == "":
                             tempres['marks'] = "NA"
                         else :
-                            final_result = final_result - 1
-                            tempres['marks'] = -1
+                            tempres['marks'] = "NA"
+                        tempres['response'] = resultstring
                     questionResult[str(index)] = tempres
                     index = index+1
                 qr = json.dumps(questionResult)
