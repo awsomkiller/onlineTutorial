@@ -1,9 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
-from django.db.models.deletion import PROTECT
-from django.db.models.expressions import Value
 
 # Create your models here.
+class subscriptionplan(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=20)
+    normal_cost = models.CharField(max_length=5)
+    discounted_price = models.CharField(max_length=5)
+    def __str__(self):
+        return self.title
+
 class UserManager(BaseUserManager):
     def create_user(self, mobile, email, name, password=None, isActive=True, isStaff=False, isAdmin=False):
         if not mobile:
@@ -11,7 +17,7 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("EmailAddress is Required")
         if not name:
-            raise ValueError("name is Required")
+            raise ValueError("Name is Required")
         if not password:
             raise ValueError("Password is Required")
         
@@ -58,7 +64,9 @@ class User(AbstractBaseUser):
     emailConfirm = models.BooleanField(default=False)
     mobileConfirm = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
-    fees = models.BooleanField(default=False)
+    institute = models.BooleanField(default=False)
+    plan = models.ForeignKey(subscriptionplan, on_delete=models.CASCADE, null=True)
+    expiry = models.DateField(null=True)
 
     USERNAME_FIELD ="mobile"
     REQUIRED_FIELDS = ['email','name']
@@ -110,7 +118,7 @@ class contactus(models.Model):
     )
     id = models.AutoField(primary_key=True)
     reason = models.CharField(max_length=20,choices=CHOICES)
-    user = models.ForeignKey(User, on_delete=PROTECT, null=True)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
     message = models.TextField()
 
     def __str__(self):
@@ -124,4 +132,3 @@ class contactus(models.Model):
         else:
             strs = "Doubts"
         return strs
-

@@ -1,9 +1,17 @@
+import random
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from accounts.models import  User, contactus
+from physics.models import thought
 
 def home(request):
-    return render(request, 'index.html')
+    length = len(thought.objects.all())
+    if length>1:
+        n = random.randint(1, length)
+        obj = thought.objects.get(id=n)
+    else:
+        obj = thought.objects.get(id=1)
+    return render(request, 'index.html',{'obj':obj})
 
 def commingsoon(request):
     return render(request, 'underconstruction.html')

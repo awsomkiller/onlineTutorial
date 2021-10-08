@@ -3,4 +3,7 @@ __pycache__
 migrations
 hello
 upload
-settings.py
+media
+uploads
+mydatabase
+.env

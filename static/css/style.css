@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap');  
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    min-height: 100vh;
+    background-color: #fff;
+  }
+  
+  .side-navbar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    margin-left: -300px;
+    background-color: #dda700;
+    transition: 0.5s;
+  }
+  
+  .nav-link:active,
+  .nav-link:focus,
+  .nav-link:hover {
+    background-color: #02020226;
+  }
+
+  .nav-link a{
+      text-decoration: none;
+      color: #000000d3;
+      font-weight: bold;
+  }
+  
+  .card span{
+    font-weight: 400;
+  }
+
+  .my-container {
+    transition: 0.4s;
+  }
+  
+  .active-nav {
+    margin-left: 0;
+  }
+  
+  /* for main section */
+  .active-cont {
+    margin-left: 250px;
+  }
+  
+  #menu-btn {
+    background-color: #100901;
+    color: #fff;
+    margin-left: -62px;
+  }
+  
+  .my-container input {
+    border-radius: 2rem;
+    padding: 2px 20px;
+  }
+  
+.card-body {
+    flex: 1 1 auto;
+    padding: 0.3rem 1rem;
+}
+.card {
+    background-color: transparent !important;
+}
+
+.st-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-column-gap: 10px;
+    grid-row-gap:10px;
+    padding : 1rem 4rem;
+    font-weight: 500;
+
+  }
+.ch-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-column-gap: 10px;
+    grid-row-gap:30px;
+    padding : 1rem 4rem;
+    text-align: center;
+  }
+.ch-column{
+  text-decoration: none;
+  color: #111;
+  font-size: large;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  transition : 0.5s;
+}
+
+.ch-column:hover{
+  font-size: 1.2em;
+}
+.round{
+  height: 200px;
+  width: 200px;
+  background-color: #100901;
+  border-radius: 50%;
+  margin-left: 25%;
+  margin-bottom: 10px;
+  box-shadow: 3px 2px 8px 2px #111;
+  transition : 0.5s;
+}
+.round:hover{
+  box-shadow: 3px 2px 18px 2px #111;
+}
+
+.ST-column{
+    background: rgb(21 30 38 / 86%);
+    padding: 20px 20px 20px 20px;
+    /* border-radius: 0.5rem;   */
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    transition:font-size 0.2s;
+}
+
+.ST-column:hover{
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+}
+  
+.heading{
+  /* font-family: 'M PLUS Rounded 1c', sans-serif; */
+  font-family: cursive;
+}
+
+
+.swiper {
+  width: 100%;
+  height: 7em;
+}
+
+
+.dective{
+  display: none;
+}
+
+.active{
+  display: block;
+}
+
+.clickActive{
+  background-color: rgb(67 81 93 / 86%) !important;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: rgb(21 30 38 / 86%);
+  color :rgb(255, 255, 255);
+  height: 4.5em;
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tablecontainer{
+  padding: 2em;
+}
+
+@media only screen and (max-width: 576px){
+  .st-grid {
+    padding : 1rem 1rem;
+  }
+  .round{
+    margin-left: 20%;
+  }
+}

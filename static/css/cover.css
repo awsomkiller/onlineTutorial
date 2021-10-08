@@ -48,6 +48,6 @@ body {
 }
 
 .nav-masthead .active {
-  color: #fff;
-  border-bottom-color: #fff;
+  /* color: rgba(255, 255, 255, .25); */
+  border-bottom-color: rgba(255, 255, 255, .25);
 }

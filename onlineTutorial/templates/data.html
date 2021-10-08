@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bootstrap 5 Side Bar Navigation</title>
+  <!-- bootstrap 5 css -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+  <!-- BOX ICONS CSS-->
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+  <!-- custom css -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+
+<body>
+  <!-- Side-Nav -->
+  <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+    <ul class="nav flex-column text-white w-100">
+      <a href="#" class="nav-link h3 text-white my-2">
+        <img src="https://www.rkeduv.com/static/logos/logo.png"  alt="" style="height: 4em; width: auto">
+      </a>
+      {% for chapter in allChapters %} 
+       {% if chapter.chapterId == activeChapter.chapterId %}
+        <li  class="nav-link">  
+            <a  data-bs-toggle="collapse" href="#collapseExample{{chapter.chapterId}}" role="link" aria-expanded="true" aria-controls="collapseExample{{chapter.chapterId}}">
+                {{chapter.chapterName}}
+            </a>
+            <div class="collapse show" id="collapseExample{{chapter.chapterId}}">
+                <div class="card card-body">
+                    <a href="/physics/chapterId={{chapter.chapterId}}/">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">LECTURE</span>
+                    </a>
+                </div>
+                <div class="card card-body">
+                    <a href="/">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">NCERT</span>
+                    </a>
+                </div>
+                <div class="card card-body">
+                    <a href="#">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">HC Verma</span>
+                    </a>
+                </div>
+                <div class="card card-body">
+                    <a href="#">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">Practice Paper</span>
+                    </a>
+                </div>
+            </div>
+        </li>
+        {% else %}
+        <li class="nav-link">  
+            <a  data-bs-toggle="collapse" href="#collapseExample{{chapter.chapterId}}" role="link" aria-expanded="false" aria-controls="collapseExample{{chapter.chapterId}}">
+                {{chapter.chapterName}}
+            </a>
+            <div class="collapse" id="collapseExample{{chapter.chapterId}}">
+                <div class="card card-body">
+                    <a href="/physics/chapterId={{chapter.chapterId}}/">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">LECTURE</span>
+                    </a>
+                </div>
+                <div class="card card-body">
+                    <a href="/">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">NCERT</span>
+                    </a>
+                </div>
+                <div class="card card-body">
+                    <a href="#">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">H C Verma</span>
+                    </a>
+                </div>
+                <div class="card card-body">
+                    <a href="#">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">Practice Paper</span>
+                    </a>
+                </div>
+            </div>
+        </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    <span href="#" class="nav-link h4 w-100 mb-5">
+      <a href=""><i class="bx bxl-instagram-alt text-white"></i></a>
+      <a href=""><i class="bx bxl-twitter px-2 text-white"></i></a>
+      <a href=""><i class="bx bxl-facebook text-white"></i></a>
+    </span>
+  </div>
+
+  <!-- Main Wrapper -->
+  <div class="p-1 my-container active-cont">
+    <!-- Top Nav -->
+    <nav class="navbar top-navbar navbar-light bg-light px-5">
+      <a class="btn border-0" id="menu-btn"><i class="bx bx-menu"></i></a>
+      <ul class="nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link link-dark" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-dark" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-dark" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle link-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-fill"></i> Accounts
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/accounts/profile/">My Profile</a></li>
+              <li><a class="dropdown-item" href="/accounts/changepassword/">Change Password</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
+            </ul>
+          </li>
+      </li> 
+      </ul>
+    </nav>
+    <!--End Top Nav -->
+    <h2 class="heading text-center mt-3">SECOND</h2>
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            {% for content in allContent %}
+            <div class="swiper-slide" onclick="changeUrl('{{content.fileUrl}}')">1{{content.dataType}}1 {{content.orderBy}}</div>
+            {% endfor %}
+            <!-- <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1t7XSrv6JgIPiryq_WE6LD9-Im38D3c_j/preview')">PDF 2</div>
+            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/L1gkg-S-IDg')">VIDEO 1</div> -->
+            <!--<div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/pBvxsGq5-2k')">VIDEO 2</div>
+            <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1YGp1CXZYlply7PHrazRK15PMbAunhPbl/preview')">PDF 1</div>
+            <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1t7XSrv6JgIPiryq_WE6LD9-Im38D3c_j/preview')">PDF 2</div>
+            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/L1gkg-S-IDg')">VIDEO 1</div>
+            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/pBvxsGq5-2k')">VIDEO 2</div>
+            <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1YGp1CXZYlply7PHrazRK15PMbAunhPbl/preview')">PDF 1</div>
+            <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1t7XSrv6JgIPiryq_WE6LD9-Im38D3c_j/preview')">PDF 2</div>
+            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/L1gkg-S-IDg')">VIDEO 1</div>
+            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/pBvxsGq5-2k')">VIDEO 2</div> -->
+
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <iframe class="embeded active" style="width: 100%; height: 480px" id="embeded" src="{{allContent.0.fileUrl}}"  allow="autoplay" allowfullscreen></iframe>
+
+  </div>
+
+  <!-- bootstrap js -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <script src="{% static '/js/script.js' %}"></script>
+</body>
+
+</html>

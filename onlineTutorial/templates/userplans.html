@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <style>
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+        }
+  
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+      </style>
+
+    <title>RKeduv | UserPlans</title>
+    <link rel="stylesheet" href="{% static 'css/payment.css'%}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'logos/favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'logos/favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'logos/favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'logos/favicon_io/site.webmanifest' %}">
+  </head>
+<body>
+  <header class="shadow py-3 mb-4 border-bottom" >
+    <div class="container d-flex flex-wrap justify-content-center">
+      <a href="/" class="d-flex align-items-center mb-lg-0 me-lg-auto text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+         <img src="{% static 'logos/logo.png' %}" style="height:4em" >
+      </a>
+      <!-- < class="col-12 col-lg-auto mb-3 mb-lg-0"> -->
+      <ul class="nav mt-2">        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle link-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Accounts
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/accounts/profile/">My Profile</a></li>
+            <li><a class="dropdown-item" href="/accounts/changepassword/">Change Password</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>   
+          </ul>
+        </li>
+      </ul>
+        
+    </div>
+  </header>
+  <div class="container">
+    <div class="card mt-3">
+      <div class="card-body">
+          Your Current Plan : <span class="text-primary fw-bold"> Free Plan </span> 
+      </div>
+  </div>
+
+  <div class="row flex-items-xs-middle flex-items-xs-center mt-5">
+      
+          <!-- Table #1  -->
+    <div class="col-xs-12 col-lg-4">
+      <div class="card text-xs-center p-5">
+        <div class="card-header">
+          <h3 class="display-2"><span class="currency">₹</span>0<span class="period">/month</span></h3>
+        </div>
+        <div class="card-block">
+          <h4 class="card-title"> 
+            Basic Plan
+          </h4>
+                <ul class="list-group">
+                  <li class="list-group-item">Lectures Video/Notes</li>
+                  <li class="list-group-item">Ncert Solutions Videos</li>                  
+                </ul>
+                <br> 
+                <br>
+                <a href="#" class="btn btn-gradient mt-2">Continue</a>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Table #1  -->
+          <div class="col-xs-12 col-lg-4">
+            <div class="card text-xs-center p-5">
+              <div class="card-header">
+                <h6 class="display-2"><span class="currency">₹</span>500<span class="period">/month</span></h6>
+              </div>
+              <div class="card-block">
+                <h4 class="card-title"> 
+                  Regular Plan
+                </h4>
+                <ul class="list-group">
+                  <li class="list-group-item">Lectures Video/Notes</li>
+                  <li class="list-group-item">Ncert Solutions Videos</li>
+                  <li class="list-group-item">HC Verma Solutions Videos</li>
+                  <li class="list-group-item">Monthly 1 Mock Test</li>
+                </ul>
+                <a href="#" class="btn btn-gradient mt-2">Buy Now</a>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Table #1  -->
+          <div class="col-xs-12 col-lg-4">
+            <div class="card text-xs-center p-5">
+              <div class="card-header">
+                <h3 class="display-2"><span class="currency">₹</span>800<span class="period">/month</span></h3>
+              </div>
+              <div class="card-block">
+                <h4 class="card-title"> 
+                  Premium Plan
+                </h4>
+                <ul class="list-group">
+                  <li class="list-group-item">Lectures Video/Notes</li>
+                  <li class="list-group-item">Ncert Solutions Videos</li>
+                  <li class="list-group-item">HC Verma Solutions Videos</li>
+                  <li class="list-group-item">Weekly 1 Mock Test</li>
+                </ul>
+                <a href="#" class="btn btn-gradient mt-2">Buy Now</a>
+              </div>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+       <footer class="container border-top py-3" style="  width: 100%; height: 1vw;">
+      <p class="float-end"><a href="#">Back to top</a></p>
+      <p>&copy; 2021–2022 Rkeduv, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+    </footer>   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+  </body>
