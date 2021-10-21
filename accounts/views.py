@@ -85,8 +85,8 @@ def changepassword(request):
         if form.is_valid():
             n = random.randint(10000, 99999)
             phonenum = form.cleaned_data.get("mobileNumber")
-            user = User.objects.filter(mobile=phonenum)
-            usersname = user[0].name
+            user = User.objects.get(mobile=phonenum)
+            usersname = user.name
             usersname=usersname.split()
             if len(user)<1:
                 return redirect("/accounts/register/")
