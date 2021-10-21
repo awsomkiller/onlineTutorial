@@ -20,12 +20,35 @@
     background-color: #dda700;
     transition: 0.5s;
   }
-  
-  .nav-link:active,
+  .my-container .nav-link {
+    display: block;
+    padding: 0 0 !important;
+  }
+  .my-container .nav-item{
+    padding: 0.5rem 1rem;
+  }
+
+  .link-light:hover{
+    /* border-bottom: 1px solid #111; */
+    border-bottom: 1px solid white;
+  }
+  .active{
+    border-bottom: 1px solid whitesmoke;
+    font-weight: 700;
+  }
+  .nav-link:active {
+    /* background-color: #02020226; */
+    background-color: white !important;
+  }
+  .card:hover {
+    background-color: #02020226 !important;
+    /* background-color: white !important; */
+  }
+  /* .nav-link:active,
   .nav-link:focus,
   .nav-link:hover {
     background-color: #02020226;
-  }
+  } */
 
   .nav-link a{
       text-decoration: none;

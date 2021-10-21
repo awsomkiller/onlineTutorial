@@ -3,7 +3,7 @@
     <title>Buy cool new product</title>
   </head>
   <body>
-    <form action="/finance/create-checkout-session" method="POST">
+    <form action="/finance/create-checkout-session/" method="POST">
 	<p>Proceed here  to pay the fees.<p>
       {% csrf_token %}
       <button type="submit">Pay Now</button>

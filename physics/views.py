@@ -4,47 +4,44 @@ from . models import onlinecontent
 from . models import course
 from . models import chapter
 
-# Create your views here.
+
 def physicsChapterView(request):
-    if request.user.is_authenticated:
-        if request.user.plan is None:
-            #User have not opted for any plans, redirect to choose a plan
-            return redirect('/finance/user-plan/')
-        else:
-            #User have Opted for a Plan Display all chapters and Image
-            chapter_data = chapter.objects.all()
-            if len(chapter_data) == 0:
-                #There is No entry of Chapter Model in database
-                HttpResponse('No Data of Chapters')
-            else:
-                print(chapter_data)
-                return render(request, 'chapter.html', {'chapterDataSet':chapter_data})
-        #return render(request,'physics.html',{'sidebarData':sidebarData , 'activeCourse':activeCourse, 'contentData':contentData, 'courseName':courseName})
+    #DISPLAY ALL CHAPTERS
+    chapter_data = chapter.objects.all()
+    if len(chapter_data) == 0:
+        #NO CHAPTERS HAVE BEEN REGISTERED
+        return HttpResponse('No Data of Chapters')
     else:
-        return redirect("/accounts/login/")
+        arrangedChapter = []
+        numberOfChapter = len(chapter_data)
+        for i in range(numberOfChapter+1):
+            #ARRANGING CHAPTER BY ORDER NUMBER
+            for chap in chapter_data:
+                if i == chap.orderBy:
+                    arrangedChapter.append(chap)
+        return render(request, 'chapter.html', {'chapterDataSet':arrangedChapter})
 
 def physicsCourseView(request, cid=-1):
-    #If no chapter details passed
+    #IF NO CHAPTER ID HAVE BEEN PASSED
     if cid == -1:
         return redirect('/physics/')
 
-    #Getting all Topics in the chapter
+    #GETTING ALL TOPICS RELATED TO THE CHAPTER
     allCourses = course.objects.filter(chapterName=cid)
-
     numberOfTopics = len(allCourses)
 
-    #No Topics available
+    #IF NO TOPICS AVAILABLE
     if numberOfTopics==0:
         return HttpResponse("No Topics have been added")
 
-    #Arranging the topics by order
+    #ARRANGING TOPICS BY ORDER NUMBER
     arrangedTopics = []
     for i in range(numberOfTopics+1):
         for individualTopic in allCourses:
             if individualTopic.orderBy == i:
                 arrangedTopics.append(individualTopic)
 
-    #Arranging All Chapters
+    #ARRANGING CHAPTER BY ORDER NUMBER
     arrangedChapter = []
     allChapter = chapter.objects.all()
     numberOfChapter = len(allChapter)
@@ -55,7 +52,6 @@ def physicsCourseView(request, cid=-1):
 
     #Active Chapter
     currentChapter = chapter.objects.get(chapterId=cid)
-    
     return render(request, 'courses.html', {'allTopics':arrangedTopics, 'allChapters':arrangedChapter, 'activeChapter':currentChapter})
 
 def physicsContentView(request, cid=-1, coid=-1):
@@ -68,8 +64,11 @@ def physicsContentView(request, cid=-1, coid=-1):
 
     #If User is logged in
     if request.user.is_authenticated:
+        #If User is Not subscribed to any plan
         if request.user.plan is None:
             #User have not opted for any plans, redirect to choose a plan
+            #First Set return back url
+            request.session['redirectUrl'] = "/physics/chapterId="+ str(cid)+ "/courseId=" + str(coid) + "/" 
             return redirect('/finance/user-plan/')
         else:
             #Arranging Content
@@ -85,7 +84,6 @@ def physicsContentView(request, cid=-1, coid=-1):
             arrangedChapter = []
             allChapter = chapter.objects.all()
             numberOfChapter = len(allChapter)
-            print(numberOfChapter)
             for i in range(numberOfChapter+1):
                 for individualChapter in allChapter:
                     if individualChapter.orderBy == i:
@@ -93,7 +91,8 @@ def physicsContentView(request, cid=-1, coid=-1):
 
             #Active Chapter
             currentChapter = chapter.objects.get(chapterId=cid) 
-            return render(request, 'data.html',{'allContent':arrangedContent, 'allChapter':arrangedChapter, 'activeChapter':currentChapter})
+            return render(request, 'data.html',{'allContent':arrangedContent, 'allChapters':arrangedChapter, 'activeChapter':currentChapter})
     else:
-        #return to login, set login redirect
+        #SET REDIRECT CODE
+        request.session['redirectUrl'] = "/physics/chapterId="+ str(cid)+ "/courseId=" + str(coid) + "/"
         return redirect('/accounts/login/')

@@ -21,7 +21,6 @@ class course(models.Model):
     topicName = models.CharField(max_length=60)
     chapterName = models.ForeignKey(chapter, on_delete=models.CASCADE)
     orderBy = models.IntegerField(null=True)
-    
     def __str__(self):
         return self.topicName
 
@@ -56,10 +55,60 @@ class onlinecontent(models.Model):
 #     def __str__(self):
 #         return self.title
 
+class ncertProblem(models.Model):
+    id = models.AutoField(primary_key=True)
+    problemId = models.CharField(max_length=10)
+    chapter = models.ForeignKey(chapter, on_delete=models.PROTECT)
+    problemDesc = models.TextField()
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.problemId
+        
+class ncertSolution(models.Model):
+    id = models.AutoField(primary_key=True)
+    problem = models.ForeignKey(ncertProblem, on_delete=models.PROTECT)
+    fileUrl = models.URLField(max_length=200, default="")
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.problem
+
+class hcvermaProblem(models.Model):
+    id = models.AutoField(primary_key=True)
+    problemId = models.CharField(max_length=10)
+    chapter = models.ForeignKey(chapter, on_delete=models.PROTECT)
+    problemDesc = models.TextField()
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.problemId
+
+class hcvermaSolution(models.Model):
+    id = models.AutoField(primary_key=True)
+    problem = models.ForeignKey(hcvermaProblem, on_delete=models.PROTECT)
+    fileUrl = models.URLField(max_length=200, default="")
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.problem
+
+class Problem(models.Model):
+    id = models.AutoField(primary_key=True)
+    problemId = models.CharField(max_length=10)
+    chapter = models.ForeignKey(chapter, on_delete=models.PROTECT)
+    problemDesc = models.TextField()
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.problemId
+
+class Solution(models.Model):
+    id = models.AutoField(primary_key=True)
+    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
+    fileUrl = models.URLField(max_length=200, default="")
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.problem
+    
 class thought(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=20)
     message = models.TextField(max_length=300)
-
     def __str__(self):
         return self.title

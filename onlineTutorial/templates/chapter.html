@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bootstrap 5 Side Bar Navigation</title>
+  <title>RKeduv | Physics</title>
   <!-- bootstrap 5 css -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
   <!-- BOX ICONS CSS-->
@@ -12,75 +12,45 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <!-- custom css -->
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <style>
+
+    .nav-item{
+      padding: 0.5rem 0.5rem !important;
+    }
+    .nav-link {
+      padding: 0 !important;
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="my-container">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-            </ul>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 profile-menu"> 
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fas fa-user"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i> Account</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fas fa-cog fa-fw"></i> Settings</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw"></i> Log Out</a></li>
-                </ul>
-              </li>
-           </ul>
-          </div>
-        </div>
-      </nav> -->
       <nav class="py-2 bg-dark border-bottom" >
         <div class="container d-flex flex-wrap">
           <ul class="nav me-auto">
-            <li class="nav-item"><a href="/" class="nav-link link-light px-2 active" aria-current="page">Home</a></li>
-            <li class="nav-item"><a href="/physics/" class="nav-link link-light px-2">Physics</a></li>
-            <li class="nav-item"><a href="/chemistry/" class="nav-link link-light px-2">Chemistry</a></li>
-            <li class="nav-item"><a href="/Maths/" class="nav-link link-light px-2">Maths</a></li>
-            <li class="nav-item"><a href="/support/" class="nav-link link-light px-2">Support</a></li>
+            <li class="nav-item"><a href="/" class="nav-link link-light active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="/physics/" class="nav-link link-light">Physics</a></li>
+            <li class="nav-item"><a href="/chemistry/" class="nav-link link-light">Chemistry</a></li>
+            <li class="nav-item"><a href="/Maths/" class="nav-link link-light">Maths</a></li>
+            <li class="nav-item"><a href="/support/" class="nav-link link-light">Support</a></li>
           </ul>
           <ul class="nav">
-            
+            {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle link-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Accounts
                   </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="/accounts/profile/">My Profile</a></li>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">       
+                    <li><a class="dropdown-item" href="/finance/user-plan/">Change Plan</a></li>
                     <li><a class="dropdown-item" href="/accounts/changepassword/">Change Password</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
-                    
+                    <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>                    
                   </ul>
                 </li>
+                {% else %}
+                <li class="nav-item"><a href="/accounts/login/" class="nav-link link-light">Login</a></li>
+                <li class="nav-item"><a href="/accounts/register/" class="nav-link link-light">Register</a></li>
+                {% endif %}
             <!-- </li> -->
           </ul>
         </div>
@@ -98,35 +68,14 @@
       </header>
 
     <div class="container">
-        <h1 class="heading text-center mt-3">Start E-learning</h1>
-            <div class="ch-grid">
-              {% for chapter in chapterDataSet %}
-                <a href="/physics/chapterId={{chapter.chapterId}}/" class="ch-column">
-                    <div class="round" style="background-image: url('{{chapter.chapterImage}}'); background-position: center;"></div>
-                    <span>1.</span> {{chapter.chapterName}}
-                </a>
-                {% endfor %}
-                <!-- <a href="#" class="ch-column">
-                    <div class="round" style="background-image: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80'); background-position: center;"></div>
-                    <span>2.</span> Kinetic energy theorem
-                </a>
-                <a href="#" class="ch-column">
-                    <div class="round" style="background-image: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80'); background-position: center;"></div>
-                    <span>3.</span> Kinetic energy theorem
-                </a>
-                <a href="#" class="ch-column">
-                    <div class="round" style="background-image: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80'); background-position: center;"></div>
-                    <span>1.</span> Kinetic energy theorem
-                </a>
-                <a href="#" class="ch-column">
-                    <div class="round" style="background-image: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80'); background-position: center;"></div>
-                    <span>2.</span> Kinetic energy theorem
-                </a>
-                <a href="#" class="ch-column">
-                    <div class="round" style="background-image: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=751&q=80'); background-position: center;"></div>
-                    <span>3.</span> Kinetic energy theorem
-                </a> -->
-              </div>
+      <h1 class="heading text-center mt-3">Start E-learning</h1>
+      <div class="ch-grid">
+        {% for chapter in chapterDataSet %}
+        <a href="/physics/chapterId={{chapter.chapterId}}/" class="ch-column">
+        <div class="round" style="background-image: url('/media/{{chapter.chapterImage}}'); background-position: center;"></div>
+        <span>{{chapter.orderBy}}.</span> {{chapter.chapterName}}</a>
+        {% endfor %}
+      </div>
     </div>
 
   <!-- bootstrap js -->

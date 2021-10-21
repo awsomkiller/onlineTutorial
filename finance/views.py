@@ -4,11 +4,13 @@ from finance.models import payment, checkoutrecord
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 import stripe
 from accounts.models import User, subscriptionplan
 import environ
 import os
 import datetime
+import pytz
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(settings.BASE_DIR, '.env'))
@@ -28,16 +30,18 @@ def create_checkout_session(request):
         #CHECK SESSION TIME
         checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
         checkoutobj = checkoutobj[0]
-        timeNow = datetime.datetime.now()
-        timedifference =  timeNow - checkoutobj.time
+        timeNow = datetime.datetime.now(pytz.utc)
+        dt = checkoutobj.time
+        dt.replace(tzinfo=None)
+        timedifference =  timeNow - dt
         duration = timedifference.total_seconds()
         duration = duration / 60
         #IF DURATION IS LESS 10 MINS
-        if duration>10:
-            amount =  checkoutobj.amount
+        if duration<10:
+            amount =  int(checkoutobj.amount)
             amount = amount*100
-            title = checkoutobj.plan
-            title = title.title
+            plan = checkoutobj.plan
+            title = plan.title
             #STRIPE REQUEST MUST BE POST
             if request.method == 'POST':
                 session = stripe.checkout.Session.create(
@@ -62,30 +66,71 @@ def create_checkout_session(request):
         else:
             return HttpResponse("Session time is out, please try again.")
     else:
-        request.session['redirect'] = 11
+        request.session['redirectUrl'] = "/finance/create-checkout-session/"
         return redirect('/accounts/login/')
 
+@csrf_exempt
+def my_webhook_view(request):
+  payload = request.body
+
+  # For now, you only need to print out the webhook payload so you can see
+  # the structure.
+  print(payload)
+  return HttpResponse(status=200)
+
 def success_url(request):
-    user=User.objects.get(mobile=request.user.mobile)
-    user.fees = True
-    user.save()
-    obj = payment(user=user)
-    obj.save()
+    checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
+    checkoutobj = checkoutobj[0]
+    checkoutobj.status = "success"
+    checkoutobj.isActive = False
+    checkoutobj.save()
     return HttpResponse('Success')
 
 def cancel_url(request):
-    return HttpResponse('Cancel')
+    checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
+    checkoutobj = checkoutobj[0]
+    checkoutobj.status = "cancel"
+    checkoutobj.isActive = False
+    checkoutobj.save()
+    return redirect('/finance/user-plan/')
 
 def checkout(request):
     return render(request, 'checkout.html')
 
 #DISPLAYS AVAILABLE ACTIVE PLANS
 def userplans(request):
-    return render(request, 'userplans.html')
+    #CHECK USER IS AUTHENTICATED
+    if request.user.is_authenticated:
+        #CHECK USER IS SUBSCRIBED TO AN PLAN
+        currentPlan = request.user.plan
+        if request.user.plan is not None:
+            allPlans = subscriptionplan.objects.filter(active=True)
+            currentPlanPrice = currentPlan.normal_cost
+            planset = []
+            for plan in allPlans:
+                if plan.normal_cost > currentPlanPrice:
+                    #ADDING PLAN CHANGE CHARGES
+                    plan.normal_cost = str(int(plan.normal_cost) + 100)
+                    plan.discounted_price = str(int(plan.discounted_price) + 100)
+                    planset.append(plan)
+            #IF THERE IS NO HIGHER PLANS AVAILABLE
+            if len(planset) == 0:
+                return HttpResponse("You're already on the highest plan")
+            return render(request, 'userplans.html', {'allPlans':planset})
+        else:
+            #PASSING ALL THE PLANS
+            allPlans = subscriptionplan.objects.filter(active=True)
+            return render(request, 'userplans.html', {'allPlans':allPlans, 'currentPlan':currentPlan})
+    else:
+        #Set redirect code
+        request.session['redirectUrl'] = "/finance/user-plan/"
+        return redirect('/accounts/login/')
 
+
+#PLAN SELECTION AND ALLOCATION
 def selectplans(request, planid=-1):
     #CHECK USER IS AUTHENTICATED
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         #GET CURRENT TIME
         timenow = datetime.datetime.now()
         if planid == -1:
@@ -117,7 +162,7 @@ def selectplans(request, planid=-1):
                 else:
                     if request.user.institute:
                         #INSTITUTE STUDENT
-                        planprice = (new_plan.discounted_price)-int(current_plan.discounted_price)
+                        planprice = int(new_plan.discounted_price)-int(current_plan.discounted_price)
                     else:
                         #OUTSIDER
                         planprice = int(new_plan.normal_cost)-int(current_plan.discounted_price)
@@ -132,7 +177,7 @@ def selectplans(request, planid=-1):
                     checkOutObject.save()
             return redirect('/finance/checkout/')
     else:
-        request.session['redirect'] = 11
+        request.session['redirectUrl'] = "/finance/user-plan/select-plan=" + str(planid) + "/"
         return redirect('/accounts/login/')
             
             

@@ -27,7 +27,7 @@
       </a>
       {% for chapter in allChapters %} 
        {% if chapter.chapterId == activeChapter.chapterId %}
-        <li  class="nav-link">  
+        <li class="nav-link">
             <a  data-bs-toggle="collapse" href="#collapseExample{{chapter.chapterId}}" role="link" aria-expanded="true" aria-controls="collapseExample{{chapter.chapterId}}">
                 {{chapter.chapterName}}
             </a>
@@ -35,7 +35,7 @@
                 <div class="card card-body">
                     <a href="/physics/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
-                        <span class="mx-0">LECTURE</span>
+                        <span class="mx-0">Lectures</span>
                     </a>
                 </div>
                 <div class="card card-body">
@@ -59,7 +59,7 @@
             </div>
         </li>
         {% else %}
-        <li class="nav-link">  
+        <li  class="nav-link">  
             <a  data-bs-toggle="collapse" href="#collapseExample{{chapter.chapterId}}" role="link" aria-expanded="false" aria-controls="collapseExample{{chapter.chapterId}}">
                 {{chapter.chapterName}}
             </a>
@@ -67,7 +67,7 @@
                 <div class="card card-body">
                     <a href="/physics/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
-                        <span class="mx-0">LECTURE</span>
+                        <span class="mx-0">Lectures</span>
                     </a>
                 </div>
                 <div class="card card-body">
@@ -104,24 +104,18 @@
   <!-- Main Wrapper -->
   <div class="p-1 my-container active-cont">
     <!-- Top Nav -->
-    <nav class="navbar top-navbar navbar-light bg-light px-5">
+    <nav class="navbar top-navbar navbar-dark bg-dark px-5">
       <a class="btn border-0" id="menu-btn"><i class="bx bx-menu"></i></a>
       <ul class="nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link link-dark" href="#">Active</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-dark" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-dark" href="#">Link</a>
+          <a class="nav-link link-light" href="/">Home</a>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle link-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle link-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-person-fill"></i> Accounts
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="/accounts/profile/">My Profile</a></li>
+              <li><a class="dropdown-item" href="/finance/user-plan/">Change Plan</a></li>
               <li><a class="dropdown-item" href="/accounts/changepassword/">Change Password</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
@@ -135,20 +129,8 @@
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             {% for content in allContent %}
-            <div class="swiper-slide" onclick="changeUrl('{{content.fileUrl}}')">1{{content.dataType}}1 {{content.orderBy}}</div>
+            <div class="swiper-slide" onclick="changeUrl('{{content.fileUrl}}')">{{content.orderBy}}. {{content.title}}</div>
             {% endfor %}
-            <!-- <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1t7XSrv6JgIPiryq_WE6LD9-Im38D3c_j/preview')">PDF 2</div>
-            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/L1gkg-S-IDg')">VIDEO 1</div> -->
-            <!--<div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/pBvxsGq5-2k')">VIDEO 2</div>
-            <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1YGp1CXZYlply7PHrazRK15PMbAunhPbl/preview')">PDF 1</div>
-            <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1t7XSrv6JgIPiryq_WE6LD9-Im38D3c_j/preview')">PDF 2</div>
-            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/L1gkg-S-IDg')">VIDEO 1</div>
-            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/pBvxsGq5-2k')">VIDEO 2</div>
-            <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1YGp1CXZYlply7PHrazRK15PMbAunhPbl/preview')">PDF 1</div>
-            <div class="swiper-slide" onclick="changeUrl('https://drive.google.com/file/d/1t7XSrv6JgIPiryq_WE6LD9-Im38D3c_j/preview')">PDF 2</div>
-            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/L1gkg-S-IDg')">VIDEO 1</div>
-            <div class="swiper-slide" onclick="changeUrl('https://www.youtube.com/embed/pBvxsGq5-2k')">VIDEO 2</div> -->
-
         </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>

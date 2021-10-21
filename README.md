@@ -10,3 +10,4 @@ Dependencies :
 Return redirect code:
     10 home directory
     11 selectplan
+    12 PHYSICS

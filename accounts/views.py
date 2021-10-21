@@ -29,6 +29,7 @@ def logoutview(request):
     return redirect("/")
 
 def registerview(request):
+    #CHECK USER AUTHENTICATIONS
     if request.user.is_authenticated:
         return redirect('/')
     form = studentRegisteration(request.POST or None)
@@ -59,7 +60,6 @@ def registerview(request):
             url2 = name[0]+"%20OTP%20to%20login%20into%20Rkeduv(account)%20is%20"+un+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694588395444"
             url1 = url1 + url2
             request_url = urllib.request.urlopen(url1)
-            print(request_url)
             return redirect("/accounts/activate/")
         else :
             request.session['register_error']=1
@@ -217,8 +217,7 @@ def phonenumberactivate(request):
                     name = user.name
                     name = name.split()
                     url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+phonenum+"&message=Dear%20"+name[0]+"%20,%20Thank%20you%20for%20Registering%20to%20Rkeduv,%20start%20your%20learning%20here%20http://www.rkeduv.com%20abhinm&templateid=1707162694577975455"
-                    request_url = urllib.request.urlopen(url1)
-                    print(request_url)  
+                    request_url = urllib.request.urlopen(url1)  
                     try:
                         del request.session['otpid']
                     except KeyError:

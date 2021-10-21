@@ -6,6 +6,12 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 
+
+#Django Admin Customization
+admin.site.site_header = "RKeduV Administration Panel"
+admin.site.site_title = "Rkeduv Admin Panel"
+admin.site.index_title = "Data Administration Portal"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home, name='home'),

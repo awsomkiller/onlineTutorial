@@ -57,35 +57,51 @@
   <div class="container">
     <div class="card mt-3">
       <div class="card-body">
-          Your Current Plan : <span class="text-primary fw-bold"> Free Plan </span> 
+          Your Current Plan : <span class="text-primary fw-bold"> {{request.user.plan}} </span> 
       </div>
   </div>
 
   <div class="row flex-items-xs-middle flex-items-xs-center mt-5">
       
           <!-- Table #1  -->
+    {% for plan in allPlans %}
     <div class="col-xs-12 col-lg-4">
       <div class="card text-xs-center p-5">
         <div class="card-header">
-          <h3 class="display-2"><span class="currency">₹</span>0<span class="period">/month</span></h3>
+          {% if request.user.institute %}
+          <h3 class="display-2"><span class="currency">₹</span>{{plan.normal_cost}}<span class="period">/month</span></h3>
+          {% else %}
+          <h3 class="display-2"><span class="currency">₹</span>{{plan.discounted_price}}<span class="period">/month</span></h3>
+          {% endif %}
         </div>
         <div class="card-block">
           <h4 class="card-title"> 
-            Basic Plan
+            {{plan.title}}
           </h4>
                 <ul class="list-group">
                   <li class="list-group-item">Lectures Video/Notes</li>
-                  <li class="list-group-item">Ncert Solutions Videos</li>                  
+                  <li class="list-group-item">Ncert Solutions Videos</li>
+                  {% if plan.hcverma %} 
+                  <li class="list-group-item">HC Verma Solutions Videos</li>
+                  {% endif %}
+                  {% if plan.practiceproblems %} 
+                  <li class="list-group-item">Practice Problems</li>
+                  {% endif %}
+                  {% if plan.weekExam %} 
+                  <li class="list-group-item">Weekly 1 Mock Test</li>
+                  {% endif %}
+                  {% if plan.monthExam %} 
+                  <li class="list-group-item">Monthly 1 Mock Test</li>
+                  {% endif %}
                 </ul>
                 <br> 
-                <br>
-                <a href="#" class="btn btn-gradient mt-2">Continue</a>
+                <a href="/finance/user-plan/select-plan={{plan.id}}/" class="btn btn-gradient">Buy Now</a>
               </div>
             </div>
           </div>
-      
+      {% endfor %}
           <!-- Table #1  -->
-          <div class="col-xs-12 col-lg-4">
+          <!-- <div class="col-xs-12 col-lg-4">
             <div class="card text-xs-center p-5">
               <div class="card-header">
                 <h6 class="display-2"><span class="currency">₹</span>500<span class="period">/month</span></h6>
@@ -103,10 +119,10 @@
                 <a href="#" class="btn btn-gradient mt-2">Buy Now</a>
               </div>
             </div>
-          </div>
+          </div> -->
       
           <!-- Table #1  -->
-          <div class="col-xs-12 col-lg-4">
+          <!-- <div class="col-xs-12 col-lg-4">
             <div class="card text-xs-center p-5">
               <div class="card-header">
                 <h3 class="display-2"><span class="currency">₹</span>800<span class="period">/month</span></h3>
@@ -124,7 +140,7 @@
                 <a href="#" class="btn btn-gradient mt-2">Buy Now</a>
               </div>
             </div>
-          </div>
+          </div> -->
       
         </div>
       </div>

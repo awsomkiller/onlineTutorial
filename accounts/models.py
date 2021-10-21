@@ -7,8 +7,18 @@ class subscriptionplan(models.Model):
     title = models.CharField(max_length=20)
     normal_cost = models.CharField(max_length=5)
     discounted_price = models.CharField(max_length=5)
+    active = models.BooleanField(default=True)
+    features = models.TextField()
+    lectures = models.BooleanField(default=True)
+    ncert = models.BooleanField(default=False)
+    hcverma = models.BooleanField(default=False)
+    practiceproblems = models.BooleanField(default=False)
+    weekExam = models.BooleanField(default=False)
+    monthExam = models.BooleanField(default=False)
+
     def __str__(self):
         return self.title
+
 
 class UserManager(BaseUserManager):
     def create_user(self, mobile, email, name, password=None, isActive=True, isStaff=False, isAdmin=False):
@@ -100,6 +110,10 @@ class User(AbstractBaseUser):
     @property 
     def is_active(self):
         return self.active
+
+    # @property
+    # def plan(self):
+    #     return self.plan
 
 class otpModel(models.Model):
     id = models.AutoField(primary_key=True)
