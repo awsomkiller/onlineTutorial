@@ -170,10 +170,10 @@ if not DEBUG:
     STATIC_ROOT = '/var/www/static/'
 
 MEDIA_URL = '/media/'
-if DEBUG:
-    MEDIA_ROOT = BASE_DIR / 'media'
-else:
-    MEDIA_ROOT = '/var/www/media/'
+# if DEBUG:
+MEDIA_ROOT = BASE_DIR / 'media'
+# else:
+#     MEDIA_ROOT = '/var/www/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
