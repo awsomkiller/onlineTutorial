@@ -1,6 +1,6 @@
 # This example sets up an endpoint using the Flask framework.
 # Watch this video to get started: https://youtu.be/7Ul1vfmsDck.
-from finance.models import payment, checkoutrecord
+from finance.models import payment, checkoutrecord, trynowrecord
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.conf import settings
@@ -23,6 +23,7 @@ else:
     stripe.api_key = env('STRIPE_LIVE_KEY')
     success=env('SUCCESS')
     cancel=env('CANCEL')
+    endpoint_secret = env('ENDPOINT_SECRET')
 
 def create_checkout_session(request):
     #CHECK USER AUTHENTICATION
@@ -71,18 +72,40 @@ def create_checkout_session(request):
 
 @csrf_exempt
 def my_webhook_view(request):
-  payload = request.body
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
 
-  # For now, you only need to print out the webhook payload so you can see
-  # the structure.
-  print(payload)
-  return HttpResponse(status=200)
+    try:
+        event = stripe.Webhook.construct_event(
+        payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Handle the checkout.session.completed event Change it for prof appeal
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
+        checkoutobj.isactive=False 
+        checkoutobj.save()
+        paymentRecord = payment(user = request.user, plan = checkoutobj.plan, amount=checkoutobj.amount)
+        paymentRecord.save()
+        user = User.objects.get(mobile = request.user.mobile)
+        user.plan = checkoutobj.plan
+        user.save()
+
+    # Passed signature verification
+    return HttpResponse(status=200)
 
 def success_url(request):
     checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
     checkoutobj = checkoutobj[0]
     checkoutobj.status = "success"
-    checkoutobj.isActive = False
     checkoutobj.save()
     return HttpResponse('Success')
 
@@ -120,7 +143,8 @@ def userplans(request):
         else:
             #PASSING ALL THE PLANS
             allPlans = subscriptionplan.objects.filter(active=True)
-            return render(request, 'userplans.html', {'allPlans':allPlans, 'currentPlan':currentPlan})
+            tryPlatform = True
+            return render(request, 'userplans.html', {'allPlans':allPlans, 'currentPlan':currentPlan, 'tryPlatform':tryPlatform})
     else:
         #Set redirect code
         request.session['redirectUrl'] = "/finance/user-plan/"
@@ -179,5 +203,44 @@ def selectplans(request, planid=-1):
     else:
         request.session['redirectUrl'] = "/finance/user-plan/select-plan=" + str(planid) + "/"
         return redirect('/accounts/login/')
-            
-            
+           
+def try_now(request):
+    #CHECK USER IS AUTHENTICATED
+    if request.user.is_authenticated:
+        #CHECK USER HAS ALREADY ACTIVATED TO FREE TRIAL.
+        if trynowrecord.objects.filter(user=request.user, active=True).exists():
+            tryNow = trynowrecord.objects.filter(user=request.user, active=True)
+            timeNow = datetime.datetime.now(pytz.utc)
+            #CHECK TRIAL EXPIRY.
+            if(timeNow>tryNow.endtime):
+                tryNow.active = False
+                tryNow.save()
+            #REDIRECT TO OPT A NEW PLAN
+            return redirect('/finance/user-plans/')
+        else:
+            #ACTIVATE TRIAL PERIOD
+            #APPLY PLAN FOR THE USER
+            user = User.objects.get(mobile = request.user.mobile)
+            #GET FREE TRIAL PLAN
+            plan = subscriptionplan.objects.get(title="Free Trial")
+            #IF PLAN IS NOT CREATED
+            if plan is None:
+                return HttpResponse("Please Create Free Trial Plan")
+            else:
+                #ASSIGN USER WITH THE FREE PLAN
+                user.plan = plan
+                user.save()
+            #GET CURRENT DATETIME
+            timeNow = datetime.datetime.now(pytz.utc)
+            #GET EXPIRY TIME
+            timeThen = timeNow + datetime.timedelta(days=3)
+            #CREATE TRIAL RECORD
+            tryNow = trynowrecord(user=request.user, starttime=timeNow, endtime=timeThen)
+            tryNow.save()
+            redirectUrl = request.session['redirectUrl']
+            if redirectUrl is not None:
+                return redirect(redirectUrl)
+            return redirect('/physics/')
+    else:
+        request.session['redirectUrl'] = "/finance/trynow/"
+        return redirect('/accounts/login/')

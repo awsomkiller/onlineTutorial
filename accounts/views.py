@@ -19,7 +19,9 @@ def loginview(request):
         user = authenticate(mobile=mobile, password=pas)
         if user != None:
             login(request,user)
-            return redirect("/")
+            redirectUrl = request.session['redirectUrl']
+            del request.session['redirectUrl']
+            return redirect(redirectUrl)
         else:
             return render(request,'login.html',{'form':form, 'invalid_user':True})
     return render(request,'login.html',{'form':form, 'invalid_user':False})

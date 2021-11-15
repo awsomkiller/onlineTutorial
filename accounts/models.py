@@ -7,6 +7,7 @@ class subscriptionplan(models.Model):
     title = models.CharField(max_length=20)
     normal_cost = models.CharField(max_length=5)
     discounted_price = models.CharField(max_length=5)
+    number_of_days = models.IntegerField(null=True)
     active = models.BooleanField(default=True)
     features = models.TextField()
     lectures = models.BooleanField(default=True)

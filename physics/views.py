@@ -1,8 +1,11 @@
+from datetime import datetime
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
-from . models import onlinecontent
-from . models import course
-from . models import chapter
+import pytz
+
+from finance.models import trynowrecord
+from . models import onlinecontent, course, chapter
+
 
 
 def physicsChapterView(request):
@@ -72,6 +75,17 @@ def physicsContentView(request, cid=-1, coid=-1):
             return redirect('/finance/user-plan/')
         else:
             #Arranging Content
+            #Check if Plan is Trial.
+            plan = request.user.plan
+            if plan.title == "Free Trial":
+                planRecord = trynowrecord.objects.get(user = request.user, active=True)
+                if planRecord is None:
+                    return redirect('/finance/user-plan/')
+                timeNow = datetime.datetime.now(pytz.utc)
+                if timeNow> planRecord.endtime:
+                    planRecord.active = False
+                    planRecord.save()
+                    return HttpResponse("Your Trial Plan expired, Please Change Your Plan")
             arrangedContent = []
             allContent = onlinecontent.objects.filter(topic=coid)
             numberOfContent = len(allContent)
@@ -91,8 +105,12 @@ def physicsContentView(request, cid=-1, coid=-1):
 
             #Active Chapter
             currentChapter = chapter.objects.get(chapterId=cid) 
-            return render(request, 'data.html',{'allContent':arrangedContent, 'allChapters':arrangedChapter, 'activeChapter':currentChapter})
+            currentTopic = course.objects.get(courseId=coid)
+            return render(request, 'data.html',{'allContent':arrangedContent, 'allChapters':arrangedChapter, 'activeChapter':currentChapter, 'activeTopic':currentTopic})
     else:
         #SET REDIRECT CODE
         request.session['redirectUrl'] = "/physics/chapterId="+ str(cid)+ "/courseId=" + str(coid) + "/"
         return redirect('/accounts/login/')
+
+def commingsoon(request):
+    return render(request, 'underconstruction.html')
