@@ -112,5 +112,5 @@ def physicsContentView(request, cid=-1, coid=-1):
         request.session['redirectUrl'] = "/physics/chapterId="+ str(cid)+ "/courseId=" + str(coid) + "/"
         return redirect('/accounts/login/')
 
-def commingsoon(request):
+def commingSoon(request):
     return render(request, 'underconstruction.html')
