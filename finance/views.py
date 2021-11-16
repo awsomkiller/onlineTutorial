@@ -209,14 +209,14 @@ def try_now(request):
     if request.user.is_authenticated:
         #CHECK USER HAS ALREADY ACTIVATED TO FREE TRIAL.
         if trynowrecord.objects.filter(user=request.user, active=True).exists():
-            tryNow = trynowrecord.objects.filter(user=request.user, active=True)
+            tryNow = trynowrecord.objects.get(user=request.user, active=True)
             timeNow = datetime.datetime.now(pytz.utc)
             #CHECK TRIAL EXPIRY.
             if(timeNow>tryNow.endtime):
                 tryNow.active = False
                 tryNow.save()
             #REDIRECT TO OPT A NEW PLAN
-            return redirect('/finance/user-plans/')
+            return redirect('/finance/user-plan/')
         else:
             #ACTIVATE TRIAL PERIOD
             #APPLY PLAN FOR THE USER
@@ -237,8 +237,8 @@ def try_now(request):
             #CREATE TRIAL RECORD
             tryNow = trynowrecord(user=request.user, starttime=timeNow, endtime=timeThen)
             tryNow.save()
-            redirectUrl = request.session['redirectUrl']
-            if redirectUrl is not None:
+            if 'redirectUrl' in request.session:
+                redirectUrl = request.session['redirectUrl']
                 return redirect(redirectUrl)
             return redirect('/physics/')
     else:

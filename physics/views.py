@@ -81,7 +81,7 @@ def physicsContentView(request, cid=-1, coid=-1):
                 planRecord = trynowrecord.objects.get(user = request.user, active=True)
                 if planRecord is None:
                     return redirect('/finance/user-plan/')
-                timeNow = datetime.datetime.now(pytz.utc)
+                timeNow = datetime.now(pytz.utc)
                 if timeNow> planRecord.endtime:
                     planRecord.active = False
                     planRecord.save()

@@ -1,5 +1,6 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
+import pytz
 from .form import loginForm, resetpassword, studentRegisteration, phonenumber, passwordchange, otp
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
@@ -19,9 +20,13 @@ def loginview(request):
         user = authenticate(mobile=mobile, password=pas)
         if user != None:
             login(request,user)
-            redirectUrl = request.session['redirectUrl']
-            del request.session['redirectUrl']
+            if 'redirectUrl' in request.session:
+                redirectUrl = request.session['redirectUrl']
+                del request.session['redirectUrl']
+            else:
+                redirectUrl = '/'
             return redirect(redirectUrl)
+
         else:
             return render(request,'login.html',{'form':form, 'invalid_user':True})
     return render(request,'login.html',{'form':form, 'invalid_user':False})
@@ -90,7 +95,7 @@ def changepassword(request):
             user = User.objects.get(mobile=phonenum)
             usersname = user.name
             usersname=usersname.split()
-            if len(user)<1:
+            if user is None:
                 return redirect("/accounts/register/")
             try:
                 otpObj = otpModel.objects.get(phonenumber=phonenum)
@@ -100,7 +105,7 @@ def changepassword(request):
                 otpObj = otpModel(phonenumber=phonenum, otp=n)
             otpObj.save()
             url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+phonenum+"&message=Dear%20"
-            url2 = usersname[0]+"%20OTP%20to%20login%20into%20Rkeduv(account)%20is%"+n+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694588395444"
+            url2 = usersname[0]+"%20OTP%20to%20login%20into%20Rkeduv(account)%20is%20"+str(n)+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694588395444"
             url1 = url1 + url2
             request_url = urllib.request.urlopen(url1)
             request.session['otpid']=phonenum
@@ -118,8 +123,10 @@ def otpgeneration(request):
                 otpObj = otpModel.objects.get(phonenumber=phonenum)
             except otpModel.DoesNotExist:
                 return redirect('/accounts/forgotpassword/')
-            timenow = datetime.now()
-            time_delta = (timenow - otpObj.current_time)
+            timenow = datetime.now(pytz.utc)
+            otptime = otpObj.current_time
+            otptime.replace(tzinfo=None)
+            time_delta = (timenow - otptime)
             total_seconds = time_delta.total_seconds()
             minutes = total_seconds/60
             if (minutes > 10):
