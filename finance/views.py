@@ -133,8 +133,8 @@ def userplans(request):
             for plan in allPlans:
                 if plan.normal_cost > currentPlanPrice:
                     #ADDING PLAN CHANGE CHARGES
-                    plan.normal_cost = str(int(plan.normal_cost) + 100)
-                    plan.discounted_price = str(int(plan.discounted_price) + 100)
+                    plan.normal_cost = str(int(plan.normal_cost) )
+                    plan.discounted_price = str(int(plan.discounted_price))
                     planset.append(plan)
             #IF THERE IS NO HIGHER PLANS AVAILABLE
             if len(planset) == 0:
@@ -196,7 +196,7 @@ def selectplans(request, planid=-1):
                         HttpResponse('Invalid Response')
                     else:
                         #ADDING PLAN CHANGE CHARGERS OF 100
-                        planprice = planprice + 100
+                        planprice = planprice
                     checkOutObject = checkoutrecord(user=request.user, plan=new_plan, amount=planprice, time=timenow, status="attempting")
                     checkOutObject.save()
             return redirect('/finance/checkout/')
