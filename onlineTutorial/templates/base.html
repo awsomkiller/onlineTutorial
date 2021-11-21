@@ -26,15 +26,20 @@
     {% block css %}
 
     {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/payment.css'%}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'logos/favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'logos/favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'logos/favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'logos/favicon_io/site.webmanifest' %}">
   </head>
-  <body>
+  <body onload="myfun()">
       <div class="">
         <nav class="py-2 bg-dark border-bottom" >
             <div class="container d-flex flex-wrap">
               <ul class="nav me-auto">
-                <li class="nav-item"><a href="/" class="nav-link link-light px-2 active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="/" class="nav-link link-light px-2 " aria-current="page">Home</a></li>
                 <li class="nav-item"><a href="/physics/" class="nav-link link-light px-2">Physics</a></li>
-                <li class="nav-item"><a href="/examinations/" class="nav-link link-light px-2">Examinations</a></li>
+                <li class="nav-item"><a href="/examinations/" id="exam" class="nav-link link-light px-2">Examinations</a></li>
                 <li class="nav-item"><a href="/Maths/" class="nav-link link-light px-2">Maths</a></li>
                 <li class="nav-item"><a href="/support/" class="nav-link link-light px-2">Support</a></li>
               </ul>

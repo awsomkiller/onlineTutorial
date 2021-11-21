@@ -31,8 +31,8 @@ class exam_portal(models.Model):
     Durations = models.IntegerField()
     question = models.ManyToManyField(question, null=True)
     qa_question = models.ManyToManyField(qa_question, null=True)
-    active = models.BooleanField(default=True)
     plans = models.ManyToManyField(subscriptionplan)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title

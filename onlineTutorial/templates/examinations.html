@@ -7,6 +7,39 @@
     margin-bottom: 1rem;
     margin-left: 60px;
 }
+.cover-container {
+  max-width: 65em;
+}
+.nav-item{
+      padding: 0.5rem 0.5rem !important;
+    }
+    .nav-link {
+      padding: 0 !important;
+    }
+.active{
+    border-bottom: 1px solid whitesmoke;
+    font-weight: 700;
+  }
+  .nav-link:active {
+    /* background-color: #02020226; */
+    background-color: white !important;
+  }
+  .link-light:hover{
+    /* border-bottom: 1px solid #111; */
+    border-bottom: 1px solid white;
+  }
+  .my-container .nav-link {
+    display: block;
+    padding: 0 0 !important;
+  }
+  .my-container .nav-item{
+    padding: 0.5rem 1rem;
+  } 
+  .nav-link a{
+      text-decoration: none;
+      color: #000000d3;
+      font-weight: bold;
+  }
 </style>
 {% endblock %} 
 {% block content %}
@@ -31,9 +64,9 @@
             <td>{{object.examTime}}</td>
             <td> 
              {% if timeNow >= object.exam_time %}
-             <a href="start_exam{{object.id}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
+             <a href="start_exam{{object.examId}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
               {% else %}
-              <p>Exam Not Started</p>
+              Exam Not Started
               {% endif %}
             </td>
           </tr>
@@ -65,7 +98,7 @@
             <td>{{object.title}}</td>
             <td>{{object.examTime}}</td>
               <td>
-                <a href="demo_exam{{object.id}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
+                <a href="demo_exam{{object.examId}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
               </td>
             </tr>
             {% endfor %}
@@ -77,4 +110,13 @@
     {% endif %}
 </div>
 
+{% endblock %}
+
+{% block js %}
+<script>
+  function myfun(){
+    var obj = document.getElementById('exam');
+    obj.classList.add("active");
+  }
+</script>   
 {% endblock %}

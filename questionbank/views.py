@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, tzinfo
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.core.files.storage import FileSystemStorage
@@ -60,9 +60,11 @@ def exam(request, cid=-1):
         if examobj is None:
             return HttpResponse('Invalid Response')
         #CHECK WHETHER USER IS AUTHERIZED FOR EXAMINATION
-        if userplan in examobj.plans:
+        if userplan in examobj.plans.all():
             ques = examobj.question.all()
             qa_ques = examobj.qa_question.all()
+            indian = pytz.timezone('Asia/Kolkata')
+            utctz = pytz.timezone('UTC')
             #CHECK FOR PREVIOUS ATTEMPT.
             prevattempt = result.objects.filter(exam_details=examobj, studentId=user).exists()
             if prevattempt:
@@ -147,7 +149,7 @@ def exam(request, cid=-1):
                 return render(request, 'result.html', {'questions':questionResult , 'finalresult':final_result})
             else:
                 examEndTime = examobj.exam_time + timedelta(hours=examobj.Durations)
-                timenow = datetime.now(pytz.utc)
+                timenow = datetime.now(tz=None)
                 #CHECK TIME OF APPEAR.
                 if timenow<examobj.exam_time:
                     return HttpResponse("Exam Not Started Yet")
@@ -158,7 +160,7 @@ def exam(request, cid=-1):
                 exam_details['title'] = examobj.title
                 examTime = examobj.exam_time
                 #REMOVE EXAM TIME ZONE.
-                examTime.replace(tzinfo=None)
+                examTime=datetime.strftime(examTime, '%b. %d, %Y, %H:%M:%S')
                 #EXAM START TIME
                 exam_details['time'] = examTime
                 #EXAM DURATIONS
@@ -296,7 +298,7 @@ def demoexam(request, cid=-1):
                 exam_details = {}
                 exam_details['title'] = examobj.title
                 examTime = datetime.now()
-                examTime.replace(tzinfo=None)
+                examTime=datetime.strftime(examTime, '%b. %d, %Y, %H:%M:%S')
                 exam_details['time'] = examTime
                 exam_details['durations'] = examobj.Durations
                 questions_list = []
