@@ -19,6 +19,20 @@
     margin-left: -300px;
     background-color: #dda700;
     transition: 0.5s;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .sociallink{
+    display: flex;
+    justify-content: space-around;
+    background: #be9105;
+    position: fixed;
+    left: 0;
+    bottom: -7px;
+    width: 250px;
+  }
+  .hide-sociallink{
+    display: none;
   }
   .my-container .nav-link {
     display: block;

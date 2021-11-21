@@ -1,8 +1,18 @@
 {% extends 'base.html'%}
 {% load static %}
+{% block css %}
+<style>
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    margin-left: 60px;
+}
+</style>
+{% endblock %} 
 {% block content %}
 <div class="cover-container d-flex w-80 h-100 p-3 mx-auto flex-column">
   <h4>Upcoming Exams</h4>
+  <hr>
   {% if examsExists %}
     <table class="table">
         <thead>
@@ -36,7 +46,8 @@
       {% endif %}
     {% if request.user.is_admin %}
 
-      <h4>Demo Exam</h4>
+      <h4 class="mt-4">Demo Exam</h4>
+      <hr>
       {% if examsExists %}
       <table class="table">
           <thead>

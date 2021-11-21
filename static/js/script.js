@@ -2,14 +2,17 @@ var menu_btn = document.querySelector("#menu-btn");
 menu_btn.style.display = "none";
 var sidebar = document.querySelector("#sidebar");
 var container = document.querySelector(".my-container");
+var sociallink = document.querySelector(".sociallink");
 menu_btn.addEventListener("click", () => {
   sidebar.classList.toggle("active-nav");
   container.classList.toggle("active-cont");
+  sociallink.classList.toggle("hide-sociallink");
 });
 
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 if (isMobile) {
   menu_btn.style.display = "block";
+  sociallink.style.bottom = "34px";
 }
 
 var swiper = new Swiper(".mySwiper", {

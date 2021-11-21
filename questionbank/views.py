@@ -30,8 +30,8 @@ def ExaminationsHandel(request):
         #ORGANIZING OBJECTS BY SERIAL NUMBER.
         examOrderedObjects =[]
         index = 1
+        timeNow = datetime.now(pytz.utc)
         for individualExamObject in examObjects:
-            timeNow = datetime.now(pytz.utc)
             temp = {}
             temp['SNo'] = index
             temp['title'] = individualExamObject.title
@@ -129,7 +129,7 @@ def exam(request, cid=-1):
                             resultstring+="Option3"
                         t = strs+str(4)
                         if t in request.POST:
-                            resultstring+="Option"
+                            resultstring+="Option4"
                         if ans == resultstring:
                             final_result = final_result + 4
                             tempres['marks'] = 4
@@ -215,12 +215,84 @@ def demoexam(request, cid=-1):
     if request.user.is_authenticated:
         #CHECK USER ADMIN
         if request.user.is_admin:
+            examobj = exam_portal.objects.get(id=cid)
+            ques = examobj.question.all()
+            qa_ques = examobj.qa_question.all()
             if request.method == 'POST':
-                pass
+                 #ONLY 4 QA QUESTION MARKS IS CONSIDERED
+                qacount = 0
+                final_result = 0
+                questions_list = request.session.get('question_list', None)
+                index = 1
+                questionResult = {}
+                for question in questions_list:
+                    ans = ""
+                    tempres = {}
+                    tempres['questionId']=question['id']
+                    tempres['Type']=question['type'] 
+                    if question['type'] == "qa_question":
+                        for q in qa_ques:
+                            if q.id == question['id']: 
+                                ans = q.answer
+                                tempres['answer']=ans
+                        temp = "question"+str(index)
+                        response = request.POST.get(temp, None)
+                        tempres['response']= response
+                        if response==ans:
+                            qacount += 1
+                            if qacount <= 5:
+                                final_result = final_result + 4
+                            tempres['marks'] = 4
+                        else:
+                            tempres['marks'] = 'NA'
+                    elif question['type'] == "normal_mcq":
+                        for q in ques:
+                            if q.id == question['id']: 
+                                ans = q.answer  
+                                tempres['answer']=ans
+                        temp = "question"+str(index)
+                        response = request.POST.get(temp, None)
+                        tempres['response']= response
+                        if response==ans:
+                            final_result = final_result + 4
+                            tempres['marks'] = 4
+                        elif response == None:
+                            tempres['marks'] = 'NA'
+                        else :
+                            final_result = final_result - 1
+                            tempres['marks'] = -1
+                    else:
+                        for q in ques:
+                            if q.id == question['id']: 
+                                ans = q.answer
+                                tempres['answer']=ans
+                        resultstring = ""
+                        strs = "multiselect_question"+str(index)
+                        t = strs+str(1)
+                        if t in request.POST:
+                            resultstring+="Option1"
+                        t = strs+str(2)
+                        if t in request.POST:
+                            resultstring+="Option2"
+                        t = strs+str(3)
+                        if t in request.POST:
+                            resultstring+="Option3"
+                        t = strs+str(4)
+                        if t in request.POST:
+                            resultstring+="Option4"
+                        if ans == resultstring:
+                            final_result = final_result + 4
+                            tempres['marks'] = 4
+                        elif resultstring == "":
+                            tempres['marks'] = "NA"
+                        else :
+                            tempres['marks'] = "-1"
+                            final_result = final_result - 1
+                        tempres['response'] = resultstring
+                    questionResult[str(index)] = tempres
+                    index = index+1
+                return render(request, 'result.html', {'questions':questionResult , 'finalresult':final_result})
             else:
-                examobj = exam_portal.objects.get(id=cid)
-                ques = examobj.question.all()
-                qa_ques = examobj.qa_question.all()
                 exam_details = {}
                 exam_details['title'] = examobj.title
                 examTime = datetime.now()
