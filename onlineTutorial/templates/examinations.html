@@ -3,6 +3,7 @@
 {% block content %}
 <div class="cover-container d-flex w-80 h-100 p-3 mx-auto flex-column">
   <h4>Upcoming Exams</h4>
+  {% if examsExists %}
     <table class="table">
         <thead>
           <tr>
@@ -15,28 +16,54 @@
         <tbody>
             {% for object in objects %}
           <tr>
-            <th scope="row">{{ request.session.sno }}</th>
+            <th scope="row">{{ object.SNo }}</th>
             <td>{{object.title}}</td>
-            <td>12:30 pm</td>
-            <td>
-              <a href="start_exam{{object.id}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
-             <!-- {% if time >= object.exam_time %}
-              
+            <td>{{object.examTime}}</td>
+            <td> 
+             {% if timeNow >= object.exam_time %}
+             <a href="start_exam{{object.id}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
               {% else %}
               <p>Exam Not Started</p>
               {% endif %}
-              
-              {% if object.end_time > time %}
-              <p>exam not started</p>
-              {% endif%} -->
             </td>
           </tr>
            {% endfor %}
+           
         </tbody>
       </table>
+      {% else %}
+      <p>No Exam to Display</p>
+      {% endif %}
+    {% if request.user.is_admin %}
 
-      <h4 class="mt-2">Results</h4>
-      
+      <h4>Demo Exam</h4>
+      {% if examsExists %}
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Start time</th>
+              <th scope="col">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for object in objects %}
+            <tr>
+            <th scope="row">{{ object.SNo }}</th>
+            <td>{{object.title}}</td>
+            <td>{{object.examTime}}</td>
+              <td>
+                <a href="demo_exam{{object.id}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No Exams to Display</p>
+        {% endif %}
+    {% endif %}
 </div>
 
 {% endblock %}

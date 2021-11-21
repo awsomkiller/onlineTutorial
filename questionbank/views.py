@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.core.files.storage import FileSystemStorage
@@ -6,6 +7,8 @@ from django.views.decorators.csrf import csrf_protect
 from .models import exam_portal, result
 from accounts.models import User
 import json
+import pytz
+
 
 # Create your views here.
 @csrf_protect
@@ -20,22 +23,53 @@ def upload_image_view(request):
 def ExaminationsHandel(request):
     if request.user.is_authenticated:
         user = User.objects.get(mobile=request.user.mobile)
-        if user.fees:
-            objects = exam_portal.objects.filter(active=True)
-            request.session['sno']=1
-            return render(request, 'examinations.html', {'objects':objects})
+        #REQUEST CURRENT USER PLAN
+        userPlan = user.plan
+        #GETTING EXAM OBJECT
+        examObjects = exam_portal.objects.filter(active=True, plans=userPlan)
+        #ORGANIZING OBJECTS BY SERIAL NUMBER.
+        examOrderedObjects =[]
+        index = 1
+        for individualExamObject in examObjects:
+            timeNow = datetime.now(pytz.utc)
+            temp = {}
+            temp['SNo'] = index
+            temp['title'] = individualExamObject.title
+            temp['examId'] = individualExamObject.id
+            examTime = individualExamObject.exam_time
+            examTime.replace(tzinfo=None)
+            temp['examTime'] = examTime
+            index = index + 1
+            examOrderedObjects.append(temp)
+        if len(examObjects)>0:
+            examCount = True
         else:
-            return redirect('/finance/')
+            examCount = False
+        return render(request, 'examinations.html', {'objects':examOrderedObjects, 'examsExists':examCount, 'timeNow':timeNow})
     else:
         return redirect('/accounts/login/')
-def exam(request, cid=1):
+def exam(request, cid=-1):
     if request.user.is_authenticated:
+        #REQUEST CURRENT USER OBJECT
         user = User.objects.get(mobile=request.user.mobile)
-        if user.fees:
-            obj = exam_portal.objects.get(id=cid)
-            ques = obj.question.all()
-            qa_ques = obj.qa_question.all()
+        #REQUEST CURRENT USER PLAN
+        userplan = user.plan
+        #GETTING EXAM OBJECT
+        examobj = exam_portal.objects.get(id=cid)
+        #IF EXAM OBJECT DOESN'T EXISTS
+        if examobj is None:
+            return HttpResponse('Invalid Response')
+        #CHECK WHETHER USER IS AUTHERIZED FOR EXAMINATION
+        if userplan in examobj.plans:
+            ques = examobj.question.all()
+            qa_ques = examobj.qa_question.all()
+            #CHECK FOR PREVIOUS ATTEMPT.
+            prevattempt = result.objects.filter(exam_details=examobj, studentId=user).exists()
+            if prevattempt:
+                #SET RETURN REDIRECT TO RESULT PAGE
+                return redirect('/results/')
             if request.method == 'POST':
+                #ONLY 4 QA QUESTION MARKS IS CONSIDERED
                 qacount = 0
                 final_result = 0
                 questions_list = request.session.get('question_list', None)
@@ -57,8 +91,8 @@ def exam(request, cid=1):
                         if response==ans:
                             qacount += 1
                             if qacount <= 5:
-                                final_result = final_result + 3
-                            tempres['marks'] = 3
+                                final_result = final_result + 4
+                            tempres['marks'] = 4
                         else:
                             tempres['marks'] = 'NA'
                     elif question['type'] == "normal_mcq":
@@ -70,8 +104,8 @@ def exam(request, cid=1):
                         response = request.POST.get(temp, None)
                         tempres['response']= response
                         if response==ans:
-                            final_result = final_result + 3
-                            tempres['marks'] = 3
+                            final_result = final_result + 4
+                            tempres['marks'] = 4
                         elif response == None:
                             tempres['marks'] = 'NA'
                         else :
@@ -84,24 +118,8 @@ def exam(request, cid=1):
                                 tempres['answer']=ans
                         resultstring = ""
                         strs = "multiselect_question"+str(index)
-                        # response1 = request.POST.get(t, False)
-                        # print(response1)
-                        # t = strs+str(2)
-                        # response2 = request.POST.get(t, False)
-                        # print(response2)
-                        # t = strs+str(3)
-                        # response3 = request.POST.get(t, False)
-                        # print(response3)
-                        # t = strs+str(4) 
-                        # response4 = request.POST.get(t, False)
-                        # print(response4)
-                        # tempres['response1'] = response1
-                        # tempres['response2'] = response2
-                        # tempres['response3'] = response3
-                        # tempres['response4'] = response4
                         t = strs+str(1)
                         if t in request.POST:
-                            print("yes")
                             resultstring+="Option1"
                         t = strs+str(2)
                         if t in request.POST:
@@ -112,32 +130,103 @@ def exam(request, cid=1):
                         t = strs+str(4)
                         if t in request.POST:
                             resultstring+="Option"
-                        print(resultstring)
-                        print(ans)
                         if ans == resultstring:
-                            final_result = final_result + 3
-                            tempres['marks'] = 3
+                            final_result = final_result + 4
+                            tempres['marks'] = 4
                         elif resultstring == "":
                             tempres['marks'] = "NA"
                         else :
-                            tempres['marks'] = "NA"
+                            tempres['marks'] = "-1"
+                            final_result = final_result - 1
                         tempres['response'] = resultstring
                     questionResult[str(index)] = tempres
                     index = index+1
                 qr = json.dumps(questionResult)
-                user = User.objects.get(mobile=request.user.mobile)
-                ed = exam_portal.objects.get(id=cid)
-                res = result(exam_details = ed, studentId = user, studentResponse=qr, result=final_result)
+                res = result(exam_details = examobj, studentId = user, studentResponse=qr, result=final_result)
                 res.save()
-                for asdf,value in questionResult.items():
-                    print(asdf)
-                    print(value)
                 return render(request, 'result.html', {'questions':questionResult , 'finalresult':final_result})
             else:
+                examEndTime = examobj.exam_time + timedelta(hours=examobj.Durations)
+                timenow = datetime.now(pytz.utc)
+                #CHECK TIME OF APPEAR.
+                if timenow<examobj.exam_time:
+                    return HttpResponse("Exam Not Started Yet")
+                if timenow > examEndTime:
+                    return HttpResponse("Exam expired")
+                #EXAM DETAILS GROUPING
                 exam_details = {}
-                exam_details['title'] = obj.title
-                exam_details['time'] = obj.exam_time
-                exam_details['durations'] = obj.Durations
+                exam_details['title'] = examobj.title
+                examTime = examobj.exam_time
+                #REMOVE EXAM TIME ZONE.
+                examTime.replace(tzinfo=None)
+                #EXAM START TIME
+                exam_details['time'] = examTime
+                #EXAM DURATIONS
+                exam_details['durations'] = examobj.Durations
+                #LIST FOR ALL QUESTIONS
+                questions_list = []
+                #INDEXING ALL QUESTIONS
+                index = 1
+                #COLLECTING MULTICORRECT AND SINGLE CORRECT
+                for q in ques:
+                    #SINGLE QUESTION
+                    temp = {}
+                    #IMAGE BLOCK OF QUESTION OBTAING FROM EDITORJS JSON
+                    lst = q.questiondescription['blocks']
+                    img = lst[0]['data']
+                    img = img['file']
+                    img = img['url']
+                    temp['img_url']=img
+                    if(q.multiselect):
+                        temp['type'] = "multiselect"
+                    else:
+                        temp['type'] = "normal_mcq"
+                    temp['option1'] = q.option1
+                    temp['option2'] = q.option2
+                    temp['option3'] = q.option3
+                    temp['option4'] = q.option4
+                    temp['index'] = index
+                    temp['id']=q.id
+                    questions_list.append(temp)
+                    index = index + 1
+                #COLLECTING QA QUESTIONS
+                for q in qa_ques:
+                    temp = {}
+                    lst = q.questiondescription['blocks']
+                    img = lst[0]['data']
+                    img = img['file']
+                    img = img['url']
+                    temp['img_url']=img
+                    temp['type'] = "qa_question"
+                    temp['index'] = index
+                    temp['id']=q.id
+                    index = index+1
+                    questions_list.append(temp)
+                    request.session['question_list'] = questions_list
+                    request.session['examId'] = cid
+                return render(request, 'startexam.html', {'questions': questions_list, 'exam_details': exam_details, 'id':cid})
+        else:
+            return HttpResponse("Please Change plan to attempt the exam.")
+    else:
+        return redirect('accounts/login/')
+
+def demoexam(request, cid=-1):
+    #CHECK USER AUTHENTICATION
+    if request.user.is_authenticated:
+        #CHECK USER ADMIN
+        if request.user.is_admin:
+            if request.method == 'POST':
+                pass
+            else:
+                examobj = exam_portal.objects.get(id=cid)
+                ques = examobj.question.all()
+                qa_ques = examobj.qa_question.all()
+                exam_details = {}
+                exam_details['title'] = examobj.title
+                examTime = datetime.now()
+                examTime.replace(tzinfo=None)
+                exam_details['time'] = examTime
+                exam_details['durations'] = examobj.Durations
                 questions_list = []
                 index = 1
                 for q in ques:
@@ -174,8 +263,9 @@ def exam(request, cid=1):
                     request.session['question_list'] = questions_list
                 return render(request, 'startexam.html', {'questions': questions_list, 'exam_details': exam_details, 'id':cid})
         else:
-            return HttpResponse("Please Pay your fees to appear in exam")
+            #NOT AN ADMIN
+            return HttpResponse('Admin Access only')
     else:
-        return redirect('accounts/login')
-# def examsubmit(request):
-#     pass
+        return redirect('accounts/login/')
+
+

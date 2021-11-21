@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
 from django_editorjs_fields import EditorJsJSONField
-from accounts.models import User
+from accounts.models import User, subscriptionplan
 
 # Create your models here.
 class question(models.Model):
@@ -28,11 +28,11 @@ class exam_portal(models.Model):
     id = models.AutoField(primary_key=True, editable=True)
     title = models.CharField(max_length=125)
     exam_time = models.DateTimeField()
-    end_time = models.DateTimeField(auto_now_add=True)
     Durations = models.IntegerField()
-    question = models.ManyToManyField(question)
-    qa_question = models.ManyToManyField(qa_question)
+    question = models.ManyToManyField(question, null=True)
+    qa_question = models.ManyToManyField(qa_question, null=True)
     active = models.BooleanField(default=True)
+    plans = models.ManyToManyField(subscriptionplan)
 
     def __str__(self):
         return self.title
