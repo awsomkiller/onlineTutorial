@@ -6,8 +6,6 @@ import pytz
 from finance.models import trynowrecord
 from . models import onlinecontent, course, chapter
 
-
-
 def physicsChapterView(request):
     #DISPLAY ALL CHAPTERS
     chapter_data = chapter.objects.all()
@@ -81,7 +79,7 @@ def physicsContentView(request, cid=-1, coid=-1):
                 planRecord = trynowrecord.objects.get(user = request.user, active=True)
                 if planRecord is None:
                     return redirect('/finance/user-plan/')
-                timeNow = datetime.now(pytz.utc)
+                timeNow = datetime.now(tz=None)
                 if timeNow> planRecord.endtime:
                     planRecord.active = False
                     planRecord.save()
