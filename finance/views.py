@@ -31,7 +31,7 @@ def create_checkout_session(request):
         #CHECK SESSION TIME
         checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
         checkoutobj = checkoutobj[0]
-        timeNow = datetime.datetime.now(pytz.utc)
+        timeNow = datetime.datetime.now()
         dt = checkoutobj.time
         dt.replace(tzinfo=None)
         timedifference =  timeNow - dt

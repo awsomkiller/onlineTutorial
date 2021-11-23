@@ -11,7 +11,12 @@
     min-height: 100vh;
     background-color: #fff;
   }
-  
+  .side-navbar::-webkit-scrollbar { 
+  display: none; 
+  }
+  .side-navbar::-moz-scrollbar { 
+    display: none; 
+  }
   .side-navbar {
     width: 250px;
     height: 100%;
@@ -63,7 +68,9 @@
   .nav-link:hover {
     background-color: #02020226;
   } */
-
+  .mySwiper .swiper-wrapper .swiper-slide{
+    width: 172.4px !important;
+  }
   .nav-link a{
       text-decoration: none;
       color: #000000d3;
