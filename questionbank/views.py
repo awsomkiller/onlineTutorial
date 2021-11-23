@@ -39,6 +39,7 @@ def ExaminationsHandel(request):
             examTime = individualExamObject.exam_time
             examTime.replace(tzinfo=None)
             temp['examTime'] = examTime
+            temp['examTime24hr'] = datetime.strptime(examTime, "%d-%m-%Y %H:%M:%S")
             index = index + 1
             examOrderedObjects.append(temp)
         if len(examObjects)>0:
@@ -63,8 +64,6 @@ def exam(request, cid=-1):
         if userplan in examobj.plans.all():
             ques = examobj.question.all()
             qa_ques = examobj.qa_question.all()
-            indian = pytz.timezone('Asia/Kolkata')
-            utctz = pytz.timezone('UTC')
             #CHECK FOR PREVIOUS ATTEMPT.
             prevattempt = result.objects.filter(exam_details=examobj, studentId=user).exists()
             if prevattempt:
