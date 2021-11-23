@@ -59,16 +59,12 @@
         <tbody>
             {% for object in objects %}
           <tr>
+            <input type="hidden" class="examTime" value="{{object.examTime}}">
+            <input type="hidden" class="examUrl" value="start_exam{{object.examId}}">
             <th scope="row">{{ object.SNo }}</th>
             <td>{{object.title}}</td>
             <td>{{object.examTime}}</td>
-            <td> 
-             {% if timeNow >= object.exam_time %}
-             <a href="start_exam{{object.examId}}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>
-              {% else %}
-              Exam Not Started
-              {% endif %}
-            </td>
+            <td>Exam Not Started</td>
           </tr>
            {% endfor %}
            
@@ -94,7 +90,6 @@
           <tbody>
               {% for object in objects %}
             <tr>
-              <input type="hidden" class="examData" value="{{object.examTime}}">
             <th scope="row">{{ object.SNo1 }}</th>
             <td>{{object.title}}</td>
             <td>{{object.examTime}}</td>
