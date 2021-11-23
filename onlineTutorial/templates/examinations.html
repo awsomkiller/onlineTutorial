@@ -94,7 +94,8 @@
           <tbody>
               {% for object in objects %}
             <tr>
-            <th scope="row">{{ object.SNo }}</th>
+              <input type="hidden" class="examData" value="{{object.examTime}}">
+            <th scope="row">{{ object.SNo1 }}</th>
             <td>{{object.title}}</td>
             <td>{{object.examTime}}</td>
               <td>
