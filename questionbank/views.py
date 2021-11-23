@@ -39,7 +39,7 @@ def ExaminationsHandel(request):
             examTime = individualExamObject.exam_time
             examTime.replace(tzinfo=None)
             temp['examTime'] = examTime
-            temp['examTime24hr'] = datetime.strptime(examTime, "%d-%m-%Y %H:%M:%S")
+            temp['examTime24hr'] = datetime.strftime(examTime, "%d-%m-%Y %H:%M:%S")
             index = index + 1
             examOrderedObjects.append(temp)
         if len(examObjects)>0:
