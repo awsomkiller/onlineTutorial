@@ -59,12 +59,12 @@
         <tbody>
             {% for object in objects %}
           <tr>
-            <input type="hidden" class="examTime" value="{{object.examTime24hr}}">
-            <input type="hidden" class="examUrl" value="start_exam{{object.examId}}">
             <th scope="row">{{ object.SNo }}</th>
             <td>{{object.title}}</td>
             <td>{{object.examTime}}</td>
-            <td>Exam Not Started</td>
+            <input type="hidden" class="examTime" value="{{object.examTime24hr}}">
+            <td class="examlink"></td>
+            <input type="hidden" class="examUrl" value="start_exam{{object.examId}}">
           </tr>
            {% endfor %}
            
@@ -90,7 +90,7 @@
           <tbody>
               {% for object in objects %}
             <tr>
-            <th scope="row">{{ object.SNo1 }}</th>
+            <th scope="row">{{object.SNo}}</th>
             <td>{{object.title}}</td>
             <td>{{object.examTime}}</td>
               <td>
@@ -110,9 +110,22 @@
 
 {% block js %}
 <script>
-  function myfun(){
-    var obj = document.getElementById('exam');
-    obj.classList.add("active");
-  }
+var myVar = setInterval(myTimer, 1000);
+function myTimer(){
+    let examTime = document.querySelectorAll('.examTime');
+    let examUrl = document.querySelectorAll('.examUrl');
+    var currentdate = new Date(); 
+    var datetime =  currentdate.getDate() + "-" + (currentdate.getMonth()+1)  + "-" + currentdate.getFullYear() + " "  + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+    let num  = -1;
+    Array.prototype.forEach.call(examTime,function(date){
+        num++;
+        examlink = examUrl[num].value;
+        if(datetime >= date.value){
+        date.nextElementSibling.innerHTML = `<a href="${examlink}/" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">start exam</a>`;
+        }else{
+            date.nextElementSibling.innerHTML = "Exam not started";
+        }
+    });
+}
 </script>   
 {% endblock %}
