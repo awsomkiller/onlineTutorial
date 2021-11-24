@@ -19,6 +19,7 @@ if settings.DEBUG:
     success=env('TEST_SUCCESS')
     cancel=env('TEST_CANCEL')
     stripe.api_key = env('STRIPE_TEST_KEY')
+    endpoint_secret = env('ENDPOINTTEST_SECRET')
 else:
     stripe.api_key = env('STRIPE_LIVE_KEY')
     success=env('SUCCESS')
@@ -61,6 +62,8 @@ def create_checkout_session(request):
                 success_url=success,
                 cancel_url=cancel,
                 )
+                checkoutobj.stripe_payment_intent = session['payment_intent']
+                checkoutobj.save()
                 return redirect(session.url, code=303)
             else:
                 return HttpResponse("INVALID REQUEST")
@@ -72,45 +75,51 @@ def create_checkout_session(request):
 
 @csrf_exempt
 def my_webhook_view(request):
-    payload = request.body
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    event = None
+  payload = request.body
+  sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+  event = None
 
-    try:
-        event = stripe.Webhook.construct_event(
-        payload, sig_header, endpoint_secret
-        )
-    except ValueError as e:
-        # Invalid payload
-        return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
-        # Invalid signature
-        return HttpResponse(status=400)
+  try:
+    event = stripe.Webhook.construct_event(
+      payload, sig_header, endpoint_secret
+    )
+  except ValueError as e:
+    # Invalid payload
+    return HttpResponse(status=400)
+  except stripe.error.SignatureVerificationError as e:
+    # Invalid signature
+    return HttpResponse(status=400)
 
-    # Handle the checkout.session.completed event Change it for prof appeal
-    if event['type'] == 'checkout.session.completed':
-        session = event['data']['object']
-        checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
-        checkoutobj.isactive=False 
+  # Handle the event
+  if event.type == 'payment_intent.succeeded':
+    payment_intent = event.data.object # contains a stripe.PaymentIntent
+    print('PaymentIntent was successful!')
+    session = event['data']['object']
+    if(session['status']=="succeeded"):
+        checkoutobj = checkoutrecord.objects.get(stripe_payment_intent=session['id'])
+        user = checkoutobj.user
+        checkoutobj.isactive=False
+        checkoutobj.status = "success"
         checkoutobj.save()
-        paymentRecord = payment(user = request.user, plan = checkoutobj.plan, amount=checkoutobj.amount)
+        paymentRecord = payment(user = user, plan = checkoutobj.plan, amount=checkoutobj.amount)
         paymentRecord.save()
-        user = User.objects.get(mobile = request.user.mobile)
         user.plan = checkoutobj.plan
         user.save()
+  elif event.type == 'payment_method.attached':
+    payment_method = event.data.object # contains a stripe.PaymentMethod
+    print('PaymentMethod was attached to a Customer!')
+  # ... handle other event types
+  else:
+    print('Unhandled event type {}'.format(event.type))
 
-    # Passed signature verification
-    return HttpResponse(status=200)
+  return HttpResponse(status=200)
+
 
 def success_url(request):
-    checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
-    checkoutobj = checkoutobj[0]
-    checkoutobj.status = "success"
-    checkoutobj.save()
     return HttpResponse('Success')
 
 def cancel_url(request):
-    checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
+    checkoutobj = checkoutrecord.objects.filter(user=request.user, isActive=True)
     checkoutobj = checkoutobj[0]
     checkoutobj.status = "cancel"
     checkoutobj.isActive = False
