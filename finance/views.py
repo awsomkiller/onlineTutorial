@@ -1,6 +1,5 @@
-# This example sets up an endpoint using the Flask framework.
-# Watch this video to get started: https://youtu.be/7Ul1vfmsDck.
 from finance.models import payment, checkoutrecord, trynowrecord
+from accounts.models import otpModel
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.conf import settings
@@ -11,6 +10,8 @@ import environ
 import os
 import datetime
 import pytz
+import random
+import urllib.request
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(settings.BASE_DIR, '.env'))
@@ -216,40 +217,61 @@ def selectplans(request, planid=-1):
 def try_now(request):
     #CHECK USER IS AUTHENTICATED
     if request.user.is_authenticated:
-        #CHECK USER HAS ALREADY ACTIVATED TO FREE TRIAL.
-        if trynowrecord.objects.filter(user=request.user, active=True).exists():
-            tryNow = trynowrecord.objects.get(user=request.user, active=True)
-            timeNow = datetime.datetime.now(pytz.utc)
-            #CHECK TRIAL EXPIRY.
-            if(timeNow>tryNow.endtime):
-                tryNow.active = False
-                tryNow.save()
-            #REDIRECT TO OPT A NEW PLAN
-            return redirect('/finance/user-plan/')
-        else:
-            #ACTIVATE TRIAL PERIOD
-            #APPLY PLAN FOR THE USER
-            user = User.objects.get(mobile = request.user.mobile)
-            #GET FREE TRIAL PLAN
-            plan = subscriptionplan.objects.get(title="Free Trial")
-            #IF PLAN IS NOT CREATED
-            if plan is None:
-                return HttpResponse("Please Create Free Trial Plan")
+        if request.user.is_verified:
+            #CHECK USER HAS ALREADY ACTIVATED TO FREE TRIAL.
+            if trynowrecord.objects.filter(user=request.user, active=True).exists():
+                tryNow = trynowrecord.objects.get(user=request.user, active=True)
+                timeNow = datetime.datetime.now(pytz.utc)
+                #CHECK TRIAL EXPIRY.
+                if(timeNow>tryNow.endtime):
+                    tryNow.active = False
+                    tryNow.save()
+                #REDIRECT TO OPT A NEW PLAN
+                return redirect('/finance/user-plan/')
             else:
-                #ASSIGN USER WITH THE FREE PLAN
-                user.plan = plan
-                user.save()
-            #GET CURRENT DATETIME
-            timeNow = datetime.datetime.now(pytz.utc)
-            #GET EXPIRY TIME
-            timeThen = timeNow + datetime.timedelta(days=3)
-            #CREATE TRIAL RECORD
-            tryNow = trynowrecord(user=request.user, starttime=timeNow, endtime=timeThen)
-            tryNow.save()
-            if 'redirectUrl' in request.session:
-                redirectUrl = request.session['redirectUrl']
-                return redirect(redirectUrl)
-            return redirect('/physics/')
+                #ACTIVATE TRIAL PERIOD
+                #APPLY PLAN FOR THE USER
+                user = User.objects.get(mobile = request.user.mobile)
+                #GET FREE TRIAL PLAN
+                plan = subscriptionplan.objects.get(title="Free Trial")
+                #IF PLAN IS NOT CREATED
+                if plan is None:
+                    return HttpResponse("Please Create Free Trial Plan")
+                else:
+                    #ASSIGN USER WITH THE FREE PLAN
+                    user.plan = plan
+                    user.save()
+                #GET CURRENT DATETIME
+                timeNow = datetime.datetime.now(pytz.utc)
+                #GET EXPIRY TIME
+                timeThen = timeNow + datetime.timedelta(days=3)
+                #CREATE TRIAL RECORD
+                tryNow = trynowrecord(user=request.user, starttime=timeNow, endtime=timeThen)
+                tryNow.save()
+                if 'redirectUrl' in request.session:
+                    redirectUrl = request.session['redirectUrl']
+                    return redirect(redirectUrl)
+                return redirect('/physics/')
+        else:
+            mobileNumber = request.user.mobile
+            fullName = request.user.name
+            request.session['otpid']=mobileNumber
+            n = random.randint(10000, 99999)
+            name = fullName.split()
+            try:
+                otpObj = otpModel.objects.get(phonenumber=mobileNumber)
+                otpObj.otp = n
+                otpObj.current_time = datetime.datetime.now()
+            except otpModel.DoesNotExist:
+                otpObj = otpModel(phonenumber=mobileNumber, otp=n, current_time=datetime.utcnow() )
+            otpObj.save()
+            uphonenum = str(mobileNumber)
+            un = str(n)
+            url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+uphonenum+"&message=Dear%20"
+            url2 = name[0]+"%20OTP%20to%20login%20into%20Rkeduv(account)%20is%20"+un+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694588395444"
+            url1 = url1 + url2
+            request_url = urllib.request.urlopen(url1)
+            return redirect("/accounts/activate/")
     else:
         request.session['redirectUrl'] = "/finance/trynow/"
         return redirect('/accounts/login/')

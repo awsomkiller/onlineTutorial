@@ -44,11 +44,10 @@
             {% csrf_token %}
             <img class="mb-4" src="{% static 'logos/RK5.png' %}" alt="" width="72">
             <h4 class="h4 mb-3 fw-normal">Activate Account</h4>
+            <p>Enter the OTP sent on your Mobile</p>
             {{form.as_p}}
             <button class="w-100 btn btn-primary mb-3" type="submit">Submit</button>
-            <div class="d-flex justify-content-end">
-                 <!-- <p>Or</p><a class="mx-1" href="/accounts/login/">Login</a> -->
-            </div>
+            <!-- <a href="">Change Number</a> -->
             <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
     </main>

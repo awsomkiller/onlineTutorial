@@ -37,7 +37,7 @@ class UserManager(BaseUserManager):
             mobile = mobile,
             name = name,
         )
-        user_obj.mobileConfirm = True
+        user_obj.mobileConfirm = False
         user_obj.set_password(password)
         user_obj.staff = isStaff
         user_obj.active = isActive
@@ -112,9 +112,9 @@ class User(AbstractBaseUser):
     def is_active(self):
         return self.active
 
-    # @property
-    # def plan(self):
-    #     return self.plan
+    @property
+    def is_verified(self):
+        return self.mobileConfirm
 
 class otpModel(models.Model):
     id = models.AutoField(primary_key=True)

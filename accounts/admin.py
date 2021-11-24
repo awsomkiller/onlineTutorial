@@ -5,8 +5,8 @@ from . models import User, subscriptionplan
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    exclude = ('active', 'admin', 'staff', 'emailConfirm', 'timestamp', 'expiry', 'mobileConfirm')
-    list_display = ('name', 'mobile', 'mobileConfirm', 'institute')
+    exclude = ( 'admin', 'staff', 'emailConfirm', 'expiry' )
+    list_display = ('name', 'mobile', 'mobileConfirm', 'plan')
     list_filter = ('plan', 'institute', 'mobileConfirm', 'timestamp')
 
 admin.site.register(subscriptionplan)
