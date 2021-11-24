@@ -29,8 +29,8 @@ class exam_portal(models.Model):
     title = models.CharField(max_length=125)
     exam_time = models.DateTimeField()
     Durations = models.IntegerField()
-    question = models.ManyToManyField(question, null=True)
-    qa_question = models.ManyToManyField(qa_question, null=True)
+    question = models.ManyToManyField(question)
+    qa_question = models.ManyToManyField(qa_question)
     plans = models.ManyToManyField(subscriptionplan)
     active = models.BooleanField(default=True)
 
