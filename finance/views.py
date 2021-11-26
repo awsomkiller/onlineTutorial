@@ -92,7 +92,7 @@ def my_webhook_view(request):
     return HttpResponse(status=400)
 
   # Handle the event
-  if event.type == 'payment_intent.succeeded':
+  if event.type == 'checkout.session.completed':
     payment_intent = event.data.object # contains a stripe.PaymentIntent
     print('PaymentIntent was successful!')
     session = event['data']['object']
