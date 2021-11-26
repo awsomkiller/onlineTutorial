@@ -96,7 +96,7 @@ def my_webhook_view(request):
     payment_intent = event.data.object # contains a stripe.PaymentIntent
     print('PaymentIntent was successful!')
     session = event['data']['object']
-    if(session['status']=="succeeded"):
+    if(session['status']=="complete"):
         checkoutobj = checkoutrecord.objects.get(stripe_payment_intent=session['id'])
         user = checkoutobj.user
         checkoutobj.isactive=False
