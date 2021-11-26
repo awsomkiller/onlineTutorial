@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(checkoutrecord)
 class UserAdmin(admin.ModelAdmin):
     exclude = ('amount', 'status', 'isactive', 'stripe_payment_intent')
-    list_display = ('user', 'plan', 'amount', 'status')
+    list_display = ('user', 'plan', 'amount', 'status', 'stripe_payment_intent')
     list_filter = ('plan', 'status')
 
 @admin.register(trynowrecord)
