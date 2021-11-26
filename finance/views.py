@@ -106,7 +106,6 @@ def my_webhook_view(request):
         paymentRecord.save()
         user.plan = checkoutobj.plan
         user.save()
-    return HttpResponse(status=201)
   elif event.type == 'payment_method.attached':
     payment_method = event.data.object # contains a stripe.PaymentMethod
     print('PaymentMethod was attached to a Customer!')
