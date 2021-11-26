@@ -86,10 +86,10 @@ def my_webhook_view(request):
     )
   except ValueError as e:
     # Invalid payload
-    return HttpResponse(status=401)
+    return HttpResponse(status=400)
   except stripe.error.SignatureVerificationError as e:
     # Invalid signature
-    return HttpResponse(status=402)
+    return HttpResponse(status=400)
 
   # Handle the event
   if event.type == 'payment_intent.succeeded':

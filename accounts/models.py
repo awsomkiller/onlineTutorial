@@ -85,7 +85,7 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.name
     
-    def get_shortname(self):
+    def get_short_name(self):
         sname = self.name.split()
         return sname[0]
     
