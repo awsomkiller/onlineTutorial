@@ -341,9 +341,9 @@ def demoexam(request, cid=-1):
     else:
         return redirect('accounts/login/')
 
-def getResult(request,id=-1):
+def getResult(request,cid=-1):
     if request.user.is_authenticated:
-        if(id==-1):
+        if(cid==-1):
             if result.objects.filter( studentId=request.user).exists():
                 allResult = result.objects.filter( studentId=request.user)
                 data = []
@@ -359,8 +359,8 @@ def getResult(request,id=-1):
             else:
                 return HttpResponse("No result to display")
         else:
-            if result.objects.filter(id=id, studentId=request.user).exists():
-                res = result.objects.get(id=id, studentId=request.user)
+            if result.objects.filter(id=cid, studentId=request.user).exists():
+                res = result.objects.get(id=cid, studentId=request.user)
                 jsonData = res.studentResponse
                 questionResult = json.loads(jsonData)
                 final_result = res.result
