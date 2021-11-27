@@ -8,6 +8,6 @@ admin.site.register(exam_portal)
 
 @admin.register(result)
 class UserAdmin(admin.ModelAdmin):
-    exclude = ( 'id')
+    exclude = ( 'id',)
     list_display = ('studentId', 'result', 'exam_details')
     list_filter = ('studentId', 'exam_details')
