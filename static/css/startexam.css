@@ -83,6 +83,12 @@
   #prevBtn {
     background-color: #bbbbbb;
   }
+  #flatBtn{
+    background-color: #f7d249;
+  }
+  #nextBtn{
+    background-color: #1a73e8;
+  }
 
   .step.flag{
     color: #fff;
