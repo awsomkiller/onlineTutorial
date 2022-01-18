@@ -6,6 +6,6 @@ urlpatterns = [
     path('chapterId=<int:cid>/', views.physicsCourseView, name='physicsview'),
     path('chapterId=<int:cid>/courseId=<int:coid>/', views.physicsContentView, name='contentView'),
     path('practicepaper/', views.commingSoon),
-    path('hcverma/', views.commingSoon),
+    path('hcverma/chapterId=<int:cid>/', views.hcVermaContent),
     path('ncert/', views.commingSoon),
 ]
