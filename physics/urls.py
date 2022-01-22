@@ -7,5 +7,6 @@ urlpatterns = [
     path('chapterId=<int:cid>/courseId=<int:coid>/', views.physicsContentView, name='contentView'),
     path('practicepaper/', views.commingSoon),
     path('hcverma/chapterId=<int:cid>/', views.hcVermaContent),
+    path('advancearchieve/chapterId=<int:cid>/', views.advanceArchieve),
     path('ncert/', views.commingSoon),
 ]

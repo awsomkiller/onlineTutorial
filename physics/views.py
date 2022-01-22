@@ -3,7 +3,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 
 from finance.models import trynowrecord
-from . models import onlinecontent, course, chapter
+from . models import onlinecontent, course, chapter, advancearchieve, hcvermacontent
 
 def physicsChapterView(request):
     #DISPLAY ALL CHAPTERS
@@ -124,7 +124,7 @@ def hcVermaContent(request, cid=-1):
             plan = request.user.plan
             if plan.hcverma:
                 arrangedContent = []
-                allContent = hcVermaContent.objects.filter(chapter=cid)
+                allContent = hcvermacontent.objects.filter(chapter=cid)
                 numberOfContent = len(allContent)
                 #In case No content added
                 if numberOfContent<=0:
@@ -150,6 +150,49 @@ def hcVermaContent(request, cid=-1):
                 return HttpResponse('Your plan does not support this content')
     else:
         request.session['redirectUrl'] = "/physics/hcverma/chapterId="+ str(cid)+ "/"
+        return redirect('/accounts/login/')
+
+def advanceArchieve(request, cid=-1):
+    #If User is logged in
+    if request.user.is_authenticated:
+        #If User is Not subscribed to any plan
+        if request.user.plan is None:
+            #User have not opted for any plans, redirect to choose a plan
+            #First Set return back url
+            request.session['redirectUrl'] = "/physics/advancearchieve/chapterId="+ str(cid)+ "/" 
+            return redirect('/finance/user-plan/')
+        else:
+            #Arranging Content
+            #Check if Plan support hc_verma content.
+            plan = request.user.plan
+            if plan.hcverma:
+                arrangedContent = []
+                allContent = advancearchieve.objects.filter(chapter=cid)
+                numberOfContent = len(allContent)
+                #In case No content added
+                if numberOfContent<=0:
+                    return HttpResponse("No Content added")
+                for i in range(numberOfContent+1):
+                    for content in allContent:
+                        if content.orderBy == i:
+                            arrangedContent.append(content)
+                
+                #Arranging All Chapters
+                arrangedChapter = []
+                allChapter = chapter.objects.all()
+                numberOfChapter = len(allChapter)
+                for i in range(numberOfChapter+1):
+                    for individualChapter in allChapter:
+                        if individualChapter.orderBy == i:
+                            arrangedChapter.append(individualChapter)
+
+                #Active Chapter
+                currentChapter = chapter.objects.get(chapterId=cid) 
+                return render(request, 'data.html',{'allContent':arrangedContent, 'allChapters':arrangedChapter, 'activeChapter':currentChapter})
+            else:
+                return HttpResponse('Your plan does not support this content')
+    else:
+        request.session['redirectUrl'] = "/physics/advancearchieve/chapterId="+ str(cid)+ "/"
         return redirect('/accounts/login/')
 
 def commingSoon(request):

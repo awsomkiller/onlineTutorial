@@ -56,6 +56,22 @@ class hcvermacontent(models.Model):
     def __str__(self):
         return self.title
 
+class advancearchieve(models.Model):
+    CHOICES =(
+        ('Presentation','ppt'),
+        ('Document','docx'),
+        ('Video','vid'),
+        ('Pdf','pdf')
+    )
+    contentId = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=50, default="None")
+    chapter = models.ForeignKey(chapter, on_delete=models.CASCADE)
+    dataType = models.CharField(max_length=20,choices=CHOICES)
+    fileUrl = models.URLField(max_length=200, default="")
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.title
+
 # class content(models.Model):
 #     CHOICES =(
 #         ('Presentation','ppt'),
