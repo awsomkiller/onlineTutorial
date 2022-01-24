@@ -89,7 +89,7 @@ def exam(request, cid=-1):
                         temp = "question"+str(index)
                         response = request.POST.get(temp, None)
                         tempres['response']= response
-                        if response==ans:
+                        if ((ans-0.2)<=response) or (response<=(ans+0.2)):
                             qacount += 1
                             if qacount <= 5:
                                 final_result = final_result + 4
@@ -237,9 +237,9 @@ def demoexam(request, cid=-1):
                                 ans = q.answer
                                 tempres['answer']=ans
                         temp = "question"+str(index)
-                        response = request.POST.get(temp, None)
+                        response = float(request.POST.get(temp, None))
                         tempres['response']= response
-                        if response==ans:
+                        if ((ans-0.2)<=response) or (response<=(ans+0.2)):
                             qacount += 1
                             if qacount <= 5:
                                 final_result = final_result + 4
