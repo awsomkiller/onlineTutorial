@@ -84,12 +84,16 @@ def exam(request, cid=-1):
                     if question['type'] == "qa_question":
                         for q in qa_ques:
                             if q.id == question['id']: 
-                                ans = q.answer
+                                ans = float(q.answer)
                                 tempres['answer']=ans
                         temp = "question"+str(index)
                         response = request.POST.get(temp, None)
                         tempres['response']= response
-                        if ((ans-0.2)<=response) or (response<=(ans+0.2)):
+                        try:
+                            response = float(response)
+                        except ValueError as e:
+                            response = -99999.00
+                        if ((ans-0.2)<=response) and (response<=(ans+0.2)):
                             qacount += 1
                             if qacount <= 5:
                                 final_result = final_result + 4
@@ -234,12 +238,16 @@ def demoexam(request, cid=-1):
                     if question['type'] == "qa_question":
                         for q in qa_ques:
                             if q.id == question['id']: 
-                                ans = q.answer
+                                ans = float(q.answer)
                                 tempres['answer']=ans
                         temp = "question"+str(index)
-                        response = float(request.POST.get(temp, None))
+                        response = request.POST.get(temp, None)
                         tempres['response']= response
-                        if ((ans-0.2)<=response) or (response<=(ans+0.2)):
+                        try:
+                            response = float(response)
+                        except ValueError as e:
+                            response = -99999.00
+                        if ((ans-0.2)<=response) and (response<=(ans+0.2)):
                             qacount += 1
                             if qacount <= 5:
                                 final_result = final_result + 4
