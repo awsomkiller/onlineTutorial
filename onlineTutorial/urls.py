@@ -5,7 +5,7 @@ from . import views
 from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
-
+from filebrowser.sites import site
 
 #Django Admin Customization
 admin.site.site_header = "RKeduV Administration Panel"
@@ -13,6 +13,7 @@ admin.site.site_title = "Rkeduv Admin Panel"
 admin.site.index_title = "Data Administration Portal"
 
 urlpatterns = [
+    path('admin/filebrowser/', site.urls),
     path('admin/', admin.site.urls),
     path('',views.home, name='home'),
     path('physics/',include('physics.urls')),
@@ -24,6 +25,7 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('logos/favicon.ico'))),
     path('editorjs/', include('django_editorjs_fields.urls')),
     path('support/', views.contact, name="support"),
+    path('tinymce/', include('tinymce.urls')),
     # path("stripe/", include("djstripe.urls", namespace="djstripe")),
     # path('imageUpload/', include('questionbank.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

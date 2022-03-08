@@ -27,6 +27,8 @@ else:
 INSTALLED_APPS = [
     'django_editorjs_fields',
     'admin_interface',
+    # 'grappelli',
+    'filebrowser',
     'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,7 +39,9 @@ INSTALLED_APPS = [
     'physics',
     'accounts',
     'questionbank',
+    'jeeMain',
     'finance',
+    'tinymce',
 ]
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -178,3 +182,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TINYMCE_DEFAULT_CONFIG = {
+    "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,", #plugins  
+}
