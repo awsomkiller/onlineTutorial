@@ -16,7 +16,7 @@ class chapter(models.Model):
     def __str__(self):
         return self.chapterName
 
-class course(models.Model):
+class lecturecourse(models.Model):
     courseId = models.AutoField(primary_key=True)
     topicName = models.CharField(max_length=60)
     chapterName = models.ForeignKey(chapter, on_delete=models.CASCADE)
@@ -24,7 +24,7 @@ class course(models.Model):
     def __str__(self):
         return self.topicName
 
-class onlinecontent(models.Model):
+class lecturecontent(models.Model):
     CHOICES =(
         ('Presentation','ppt'),
         ('Document','docx'),
@@ -33,10 +33,38 @@ class onlinecontent(models.Model):
     )
     contentId = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, default="None")
-    topic = models.ForeignKey(course, on_delete=models.CASCADE)
+    topic = models.ForeignKey(lecturecourse, on_delete=models.CASCADE)
     dataType = models.CharField(max_length=20,choices=CHOICES)
     fileUrl = models.URLField(max_length=200, default="")
     orderBy = models.IntegerField(null=True)
+    jee = models.BooleanField(default=True)
+    neet = models.BooleanField(default=False)
+    def __str__(self):
+        return self.title
+
+class ncertcourse(models.Model):
+    courseId = models.AutoField(primary_key=True)
+    topicName = models.CharField(max_length=60)
+    chapterName = models.ForeignKey(chapter, on_delete=models.CASCADE)
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.topicName
+
+class ncertcontent(models.Model):
+    CHOICES =(
+        ('Presentation','ppt'),
+        ('Document','docx'),
+        ('Video','vid'),
+        ('Pdf','pdf')
+    )
+    contentId = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=50, default="None")
+    topic = models.ForeignKey(ncertcourse, on_delete=models.CASCADE)
+    dataType = models.CharField(max_length=20,choices=CHOICES)
+    fileUrl = models.URLField(max_length=200, default="")
+    orderBy = models.IntegerField(null=True)
+    jee = models.BooleanField(default=True)
+    neet = models.BooleanField(default=False)
     def __str__(self):
         return self.title
 
@@ -61,6 +89,8 @@ class hcvermacontent(models.Model):
     dataType = models.CharField(max_length=20,choices=CHOICES)
     fileUrl = models.URLField(max_length=200, default="")
     orderBy = models.IntegerField(null=True)
+    jee = models.BooleanField(default=True)
+    neet = models.BooleanField(default=False)
     def __str__(self):
         return self.title
 
@@ -72,7 +102,7 @@ class advancearchievecourse(models.Model):
     def __str__(self):
         return self.topicName
 
-class advancearchieve(models.Model):
+class advancearchievecontent(models.Model):
     CHOICES =(
         ('Presentation','ppt'),
         ('Document','docx'),
@@ -82,6 +112,30 @@ class advancearchieve(models.Model):
     contentId = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, default="None")
     topic = models.ForeignKey(advancearchievecourse, on_delete=models.CASCADE)
+    dataType = models.CharField(max_length=20,choices=CHOICES)
+    fileUrl = models.URLField(max_length=200, default="")
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.title
+
+class neetarchievecourse(models.Model):
+    courseId = models.AutoField(primary_key=True)
+    topicName = models.CharField(max_length=60)
+    chapterName = models.ForeignKey(chapter, on_delete=models.CASCADE)
+    orderBy = models.IntegerField(null=True)
+    def __str__(self):
+        return self.topicName
+
+class neetarchievecontent(models.Model):
+    CHOICES =(
+        ('Presentation','ppt'),
+        ('Document','docx'),
+        ('Video','vid'),
+        ('Pdf','pdf')
+    )
+    contentId = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=50, default="None")
+    topic = models.ForeignKey(neetarchievecourse, on_delete=models.CASCADE)
     dataType = models.CharField(max_length=20,choices=CHOICES)
     fileUrl = models.URLField(max_length=200, default="")
     orderBy = models.IntegerField(null=True)

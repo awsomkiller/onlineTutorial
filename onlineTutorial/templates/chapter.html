@@ -30,7 +30,13 @@
         <div class="container d-flex flex-wrap">
           <ul class="nav me-auto">
             <li class="nav-item"><a href="/" class="nav-link link-light" aria-current="page">Home</a></li>
-            <li class="nav-item"><a href="/physics/" class="nav-link link-light active">Physics</a></li>
+            {% if urlhead == "/physics/jee/" %}
+            <li class="nav-item"><a href="/physics/jee/" class="nav-link link-light active">JEE Physics</a></li>
+            <li class="nav-item"><a href="/physics/neet/" class="nav-link link-light">NEET Physics</a></li>
+            {% else %}
+            <li class="nav-item"><a href="/physics/jee/" class="nav-link link-light">JEE Physics</a></li>
+            <li class="nav-item"><a href="/physics/neet/" class="nav-link link-light active">NEET Physics</a></li>
+            {% endif %}
             <li class="nav-item"><a href="/finance/user-plan/" class="nav-link link-light">Plans</a></li>
             <li class="nav-item"><a href="/examinations/" class="nav-link link-light">Examinations</a></li>
             <!-- <li class="nav-item"><a href="/Maths/" class="nav-link link-light">Maths</a></li> -->
@@ -73,7 +79,7 @@
       <h1 class="heading text-center mt-3">Start E-learning</h1>
       <div class="ch-grid">
         {% for chapter in chapterDataSet %}
-        <a href="/physics/chapterId={{chapter.chapterId}}/" class="ch-column">
+        <a href="{{urlhead}}chapterId={{chapter.chapterId}}/" class="ch-column">
         <div class="round" style="background-image: url('/media/{{chapter.chapterImage}}'); background-position: center;"></div>
         <span>{{chapter.orderBy}}.</span> {{chapter.chapterName}}</a>
         {% endfor %}
