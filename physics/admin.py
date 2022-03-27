@@ -13,7 +13,7 @@ class courseAdmin(admin.ModelAdmin):
 
 class onlinecontentAdmin(admin.ModelAdmin):
     list_display = ('contentId','title','topic','dataType','orderBy', 'jee', 'neet')
-    list_filter = ('topic',)
+    list_filter = ('topic','jee', 'neet')
     list_display_links=('contentId','title')
 
 class hcvermacontentAdmin(admin.ModelAdmin):

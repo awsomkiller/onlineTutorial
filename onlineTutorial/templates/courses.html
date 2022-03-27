@@ -36,23 +36,32 @@
                     </a>
                 </div>
                 <div class="card card-body">
-                    <a href="/">
+                    <a href="{{urlhead}}ncert/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">NCERT</span>
                     </a>
                 </div>
                 <div class="card card-body">
-                    <a href="/physics/hcverma/chapterId={{chapter.chapterId}}/">
+                    <a href="{{urlhead}}hcverma/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">HC Verma</span>
                     </a>
-                </div>
+                  </div>
+                {% if urlhead == "/physics/jee/" %}
                 <div class="card card-body">
-                    <a href="/physics/advancearchieve/chapterId={{chapter.chapterId}}/">
+                    <a href="{{urlhead}}advancearchieve/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">Advance Archieve</span>
                     </a>
-                </div>
+                </div> 
+                {% else %}
+                <div class="card card-body">
+                  <a href="{{urlhead}}archieve/chapterId={{chapter.chapterId}}/">
+                      <i class="bx bxs-dashboard"></i>
+                      <span class="mx-0">NEET Archieve</span>
+                  </a>
+              </div> 
+                {% endif %}
             </div>
         </li>
         {% else %}
@@ -68,23 +77,32 @@
                     </a>
                 </div>
                 <div class="card card-body">
-                    <a href="{{urlhead}}ncert/">
+                    <a href="{{urlhead}}ncert/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">NCERT</span>
                     </a>
                 </div>
                 <div class="card card-body">
-                    <a href="{{urlhead}}hcverma/">
+                    <a href="{{urlhead}}hcverma/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">H C Verma</span>
                     </a>
                 </div>
+                {% if urlhead == "/physics/jee/" %}
                 <div class="card card-body">
-                    <a href="{{urlhead}}practicepaper/">
+                    <a href="{{urlhead}}advancearchieve/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
-                        <span class="mx-0">Practice Paper</span>
+                        <span class="mx-0">Advance archieve</span>
                     </a>
                 </div>
+                {% else %}
+                <div class="card card-body">
+                  <a href="{{urlhead}}archieve/">
+                      <i class="bx bxs-dashboard"></i>
+                      <span class="mx-0">NEET archieve</span>
+                  </a>
+              </div>
+                {% endif %}
             </div>
         </li>
         {% endif %}

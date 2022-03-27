@@ -22,7 +22,7 @@
   <!-- Side-Nav -->
   <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
     <ul class="nav flex-column text-white w-100">
-      <a href="#" class="nav-link h3 text-white my-2">
+      <a href="/" class="nav-link h3 text-white my-2">
         <img src="https://www.rkeduv.com/static/logos/logo.png"  alt="" style="height: 4em; width: auto">
       </a>
       {% for chapter in allChapters %} 
@@ -33,29 +33,38 @@
             </a>
             <div class="collapse show" id="collapseExample{{chapter.chapterId}}">
                 <div class="card card-body">
-                    <a href="/physics/chapterId={{chapter.chapterId}}/">
+                    <a href="{{urlhead}}chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">Lectures</span>
                     </a>
                 </div>
                 <div class="card card-body">
-                    <a href="/physics/ncert/">
+                    <a href="{{urlhead}}ncert/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">NCERT</span>
                     </a>
                 </div>
                 <div class="card card-body">
-                    <a href="/physics/hcverma/chapterId={{chapter.chapterId}}/">
+                    <a href="{{urlhead}}hcverma/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">HC Verma</span>
                     </a>
                 </div>
+                {% if urlhead == "/physics/jee/" %}
                 <div class="card card-body">
-                    <a href="/physics/advancearchieve/chapterId={{chapter.chapterId}}/">
+                    <a href="{{urlhead}}advancearchieve/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">Advance Archieve</span>
                     </a>
                 </div>
+                {% else %}
+                <div class="card card-body">
+                    <a href="{{urlhead}}archieve/chapterId={{chapter.chapterId}}/">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">NEET Archieve</span>
+                    </a>
+                </div> 
+                {% endif %}
             </div>
         </li>
         {% else %}
@@ -65,29 +74,38 @@
             </a>
             <div class="collapse" id="collapseExample{{chapter.chapterId}}">
                 <div class="card card-body">
-                    <a href="/physics/chapterId={{chapter.chapterId}}/">
+                    <a href="{{urlhead}}chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">Lectures</span>
                     </a>
                 </div>
                 <div class="card card-body">
-                    <a href="/">
+                    <a href="{{urlhead}}ncert/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
                         <span class="mx-0">NCERT</span>
                     </a>
                 </div>
                 <div class="card card-body">
-                    <a href="#">
+                    <a href="{{urlhead}}hcverma/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
-                        <span class="mx-0">H C Verma</span>
+                        <span class="mx-0">HC Verma</span>
                     </a>
                 </div>
+                {% if urlhead == "/physics/jee/" %}
                 <div class="card card-body">
-                    <a href="#">
+                    <a href="{{urlhead}}advancearchieve/chapterId={{chapter.chapterId}}/">
                         <i class="bx bxs-dashboard"></i>
-                        <span class="mx-0">Practice Paper</span>
+                        <span class="mx-0">Advance Archieve</span>
                     </a>
                 </div>
+                {% else %}
+                <div class="card card-body">
+                    <a href="{{urlhead}}archieve/chapterId={{chapter.chapterId}}/">
+                        <i class="bx bxs-dashboard"></i>
+                        <span class="mx-0">NEET Archieve</span>
+                    </a>
+                </div> 
+                {% endif %}
             </div>
         </li>
         {% endif %}
