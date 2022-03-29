@@ -164,7 +164,8 @@ def hcVermaJeeContent(request, cid=-1, coid=-1):
             plan = request.user.plan
             if plan.hcverma:
                 arrangedContent = []
-                allContent = hcvermacontent.objects.filter(contentId=coid, jee=True)
+                currentCourse = hcvermacourse.objects.get(courseId = coid)
+                allContent = hcvermacontent.objects.filter(topic=currentCourse, jee=True)
                 numberOfContent = len(allContent)
                 #In case No content added
                 if numberOfContent<=0:
