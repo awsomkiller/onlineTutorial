@@ -26,7 +26,7 @@ class advancearchieveAdmin(admin.ModelAdmin):
     list_filter = ('topic',)
     list_display_links=('contentId','title')
 
-class hcvermacoursesAdmin(admin.ModelAdmin):
+class hcVermaCoursesAdmin(admin.ModelAdmin):
     list_display = ('courseId','topicName','chapterName','orderBy')
     list_filter = ('chapterName',)
     list_display_links=('courseId','topicName')
@@ -39,4 +39,4 @@ admin.site.register(lecturecontent, onlinecontentAdmin)
 admin.site.register(advancearchievecontent, advancearchieveAdmin)
 admin.site.register(thought)
 admin.site.register(advancearchievecourse)
-admin.site.register(hcvermacourse)
+admin.site.register(hcvermacourse, hcVermaCoursesAdmin)
