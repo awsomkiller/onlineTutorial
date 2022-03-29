@@ -40,9 +40,9 @@
     <div class="card text-xs-center p-5">
       <div class="card-header">
         {% if request.user.institute %}
-        <h3 class="display-2"><span class="currency">₹</span>{{plan.normal_cost}}<span class="period">/month</span></h3>
+        <h3 class="display-2"><span class="currency">₹</span>{{plan.normal_cost}}<span class="period">/year</span></h3>
         {% else %}
-        <h3 class="display-2"><span class="currency">₹</span>{{plan.discounted_price}}<span class="period">/month</span></h3>
+        <h3 class="display-2"><span class="currency">₹</span>{{plan.discounted_price}}<span class="period">/year</span></h3>
         {% endif %}
       </div>
       <div class="card-block">
