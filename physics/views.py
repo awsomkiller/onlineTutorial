@@ -2,10 +2,9 @@ from datetime import datetime
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from finance.models import trynowrecord
-from . models import  chapter, hcvermacontent, neetarchievecourse, hcvermacourse, advancearchievecourse
+from . models import  chapter, hcvermacontent, neetarchievecourse, hcvermacourse, advancearchievecourse, advancearchievecontent
 from . models import lecturecontent as onlinecontent
 from . models import lecturecourse as course
-from . models import advancearchievecontent as advancearchieve
 
 def jeeChapterView(request):
     #DISPLAY ALL CHAPTERS
@@ -244,7 +243,7 @@ def advanceArchieve(request, cid=-1, coid=-1):
             if plan.practiceproblems:
                 arrangedContent = []
                 currentCourse = advancearchievecourse.objects.get(courseId = coid)
-                allContent = advanceArchieve.objects.filter(topic=currentCourse, jee=True)
+                allContent = advancearchievecontent.objects.filter(topic=currentCourse)
                 numberOfContent = len(allContent)
                 #In case No content added
                 if numberOfContent<=0:
