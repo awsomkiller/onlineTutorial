@@ -14,18 +14,18 @@ urlpatterns = [
     path('jee/hcverma/chapterId=<int:cid>/', views.hcVermaJeeCourseView, name='physicsview'),
     path('jee/hcverma/chapterId=<int:cid>/courseId=<int:coid>/', views.hcVermaJeeContent),
 
-    # path('neet/hcverma/chapterId=<int:cid>/', views.hcVermaNeetCourseView, name='physicsview'),
-    path('neet/hcverma/chapterId=<int:cid>/courseId=<int:coid>/', views.hcVermaNeetContent),
+    path('neet/hcverma/chapterId=<int:cid>/', views.hcvermaNeetCourseView, name='physicsview'),
+    path('neet/hcverma/chapterId=<int:cid>/courseId=<int:coid>/', views.hcvermaNeetContent),
     
     path('jee/advancearchieve/chapterId=<int:cid>/', views.advancearchiveCourseView, name='physicsview'),
     path('jee/advancearchieve/chapterId=<int:cid>/courseId=<int:coid>/', views.advanceArchieve),
 
-    # path('neet/archieve/chapterId=<int:cid>/', views.archiveCourseView, name='physicsview'),
+    path('neet/archieve/chapterId=<int:cid>/', views.neetarchiveCourseView, name='physicsview'),
     path('neet/archieve/chapterId=<int:cid>/courseId=<int:coid>/', views.advanceArchieve),
 
     path('jee/ncert/chapterId=<int:cid>/', views.ncertJeeCourseView, name='physicsview'),
     path('jee/ncert/chapterId=<int:cid>/courseId=<int:coid>/', views.ncertJeeContent),
 
-    # path('neet/ncert/chapterId=<int:cid>/', views.ncertNeetCourseView, name='physicsview'),
-    # path('neet/ncert/chapterId=<int:cid>/courseId=<int:coid>/', views.ncertNeetContent),
+    path('neet/ncert/chapterId=<int:cid>/', views.ncertNeetCourseView, name='physicsview'),
+    path('neet/ncert/chapterId=<int:cid>/courseId=<int:coid>/', views.ncertNeetContent),
 ]
