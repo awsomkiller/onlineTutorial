@@ -2,7 +2,7 @@ from datetime import datetime
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from finance.models import trynowrecord
-from . models import  chapter, hcvermacontent, neetarchievecourse, hcvermacourse, advancearchievecourse, advancearchievecontent
+from . models import  chapter, hcvermacontent, ncertcontent, ncertcourse, neetarchievecourse, hcvermacourse, advancearchievecourse, advancearchievecontent
 from . models import lecturecontent as onlinecontent
 from . models import lecturecourse as course
 
@@ -227,7 +227,7 @@ def advancearchiveCourseView(request, cid=-1):
     urlhead = "/physics/jee/"
     return render(request, 'courses.html', {'allTopics':arrangedTopics, 'allChapters':arrangedChapter, 'activeChapter':currentChapter, 'urlhead':urlhead})
 
-def advanceArchieve(request, cid=-1, coid=-1):
+def advanceArchieve(request, cid=-1, coid=-1):  #advance archieve content
     #If User is logged in
     if request.user.is_authenticated:
         #If User is Not subscribed to any plan
@@ -270,6 +270,86 @@ def advanceArchieve(request, cid=-1, coid=-1):
                 return HttpResponse('Your plan does not support this content')
     else:
         request.session['redirectUrl'] = "/physics/jee/advancearchieve/chapterId="+ str(cid)+ "/"
+        return redirect('/accounts/login/')
+
+def ncertJeeCourseView(request, cid=-1): # HC VERMA COURSE VIEW
+    #IF NO CHAPTER ID HAVE BEEN PASSED
+    if cid == -1:
+        return redirect('/physics/jee/')
+
+    #GETTING ALL TOPICS RELATED TO THE CHAPTER
+    allCourses = ncertcourse.objects.filter(chapterName=cid)
+    numberOfTopics = len(allCourses)
+
+    #IF NO TOPICS AVAILABLE
+    if numberOfTopics==0:
+        return HttpResponse("No Topics have been added")
+
+    #ARRANGING TOPICS BY ORDER NUMBER
+    arrangedTopics = []
+    for i in range(numberOfTopics+1):
+        for individualTopic in allCourses:
+            if individualTopic.orderBy == i:
+                arrangedTopics.append(individualTopic)
+
+    #ARRANGING CHAPTER BY ORDER NUMBER
+    arrangedChapter = []
+    allChapter = chapter.objects.all()
+    numberOfChapter = len(allChapter)
+    for i in range(numberOfChapter+1):
+        for individualChapter in allChapter:
+            if individualChapter.orderBy == i:
+                arrangedChapter.append(individualChapter)
+
+    #Active Chapter
+    currentChapter = chapter.objects.get(chapterId=cid)
+    urlhead = "/physics/jee/"
+    return render(request, 'courses.html', {'allTopics':arrangedTopics, 'allChapters':arrangedChapter, 'activeChapter':currentChapter, 'urlhead':urlhead})
+
+
+def ncertJeeContent(request, cid=-1, coid=-1):
+    #If User is logged in
+    if request.user.is_authenticated:
+        #If User is Not subscribed to any plan
+        if request.user.plan is None:
+            #User have not opted for any plans, redirect to choose a plan
+            #First Set return back url
+            request.session['redirectUrl'] = "/physics/jee/ncert/chapterId="+ str(cid)+ "/" 
+            return redirect('/finance/user-plan/')
+        else:
+            #Arranging Content
+            #Check if Plan support hc_verma content.
+            plan = request.user.plan
+            if plan.hcverma:
+                arrangedContent = []
+                currentCourse = ncertcourse.objects.get(courseId = coid)
+                allContent = ncertcontent.objects.filter(topic=currentCourse, jee=True)
+                numberOfContent = len(allContent)
+                #In case No content added
+                if numberOfContent<=0:
+                    return HttpResponse("No Content added")
+                for i in range(numberOfContent+1):
+                    for content in allContent:
+                        if content.orderBy == i:
+                            arrangedContent.append(content)
+                
+                #Arranging All Chapters
+                arrangedChapter = []
+                allChapter = chapter.objects.all()
+                numberOfChapter = len(allChapter)
+                for i in range(numberOfChapter+1):
+                    for individualChapter in allChapter:
+                        if individualChapter.orderBy == i:
+                            arrangedChapter.append(individualChapter)
+
+                #Active Chapter
+                currentChapter = chapter.objects.get(chapterId=cid) 
+                urlhead = "/physics/jee/"
+                return render(request, 'data.html',{'allContent':arrangedContent, 'allChapters':arrangedChapter, 'activeChapter':currentChapter, 'urlhead' : urlhead})
+            else:
+                return HttpResponse('Your plan does not support this content')
+    else:
+        request.session['redirectUrl'] = "/physics/jee/ncert/chapterId="+ str(cid)+ "/"
         return redirect('/accounts/login/')
 
 def neetChapterView(request):

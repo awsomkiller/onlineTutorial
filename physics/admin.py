@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import chapter, lecturecourse, thought, hcvermacontent, advancearchievecourse, hcvermacourse, lecturecontent, advancearchievecontent
+from .models import chapter, lecturecourse, thought, hcvermacontent, advancearchievecourse, hcvermacourse, lecturecontent, advancearchievecontent, ncertcourse, ncertcontent
 # Register your models here.
 
 class chapterAdmin(admin.ModelAdmin):
@@ -31,6 +31,15 @@ class hcVermaCoursesAdmin(admin.ModelAdmin):
     list_filter = ('chapterName',)
     list_display_links=('courseId','topicName')
 
+class ncertcontentAdmin(admin.ModelAdmin):
+    list_display = ('contentId','title','topic','dataType','orderBy')
+    list_filter = ('topic', 'jee', 'neet')
+    list_display_links=('contentId','title')
+
+class ncertCoursesAdmin(admin.ModelAdmin):
+    list_display = ('courseId','topicName','chapterName','orderBy')
+    list_filter = ('chapterName',)
+    list_display_links=('courseId','topicName')
 
 admin.site.register(chapter, chapterAdmin)
 admin.site.register(hcvermacontent, hcvermacontentAdmin)
@@ -40,3 +49,5 @@ admin.site.register(advancearchievecontent, advancearchieveAdmin)
 admin.site.register(thought)
 admin.site.register(advancearchievecourse)
 admin.site.register(hcvermacourse, hcVermaCoursesAdmin)
+admin.site.register(ncertcontent, ncertcontentAdmin)
+admin.site.register(ncertcourse, ncertCoursesAdmin)

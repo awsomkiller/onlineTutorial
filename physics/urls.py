@@ -23,8 +23,8 @@ urlpatterns = [
     # path('neet/archieve/chapterId=<int:cid>/', views.archiveCourseView, name='physicsview'),
     path('neet/archieve/chapterId=<int:cid>/courseId=<int:coid>/', views.advanceArchieve),
 
-    # path('jee/ncert/chapterId=<int:cid>/', views.ncertJeeCourseView, name='physicsview'),
-    # path('jee/ncert/chapterId=<int:cid>/courseId=<int:coid>/', views.ncertJeeContent),
+    path('jee/ncert/chapterId=<int:cid>/', views.ncertJeeCourseView, name='physicsview'),
+    path('jee/ncert/chapterId=<int:cid>/courseId=<int:coid>/', views.ncertJeeContent),
 
     # path('neet/ncert/chapterId=<int:cid>/', views.ncertNeetCourseView, name='physicsview'),
     # path('neet/ncert/chapterId=<int:cid>/courseId=<int:coid>/', views.ncertNeetContent),
