@@ -241,9 +241,10 @@ def advanceArchieve(request, cid=-1, coid=-1):
             #Arranging Content
             #Check if Plan support hc_verma content.
             plan = request.user.plan
-            if plan.Practiceproblems:
+            if plan.practiceproblems:
                 arrangedContent = []
-                allContent = advanceArchieve.objects.filter(contentId=coid, jee=True)
+                currentCourse = hcvermacourse.objects.get(courseId = coid)
+                allContent = hcvermacontent.objects.filter(topic=currentCourse, jee=True)
                 numberOfContent = len(allContent)
                 #In case No content added
                 if numberOfContent<=0:
