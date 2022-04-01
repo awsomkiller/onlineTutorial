@@ -90,7 +90,7 @@ class hcvermacontent(models.Model):
     fileUrl = models.URLField(max_length=200, default="")
     orderBy = models.IntegerField(null=True)
     jee = models.BooleanField(default=True)
-    neet = models.BooleanField(default=False)
+    neet = models.BooleanField(default=True)
     def __str__(self):
         return self.title
 
