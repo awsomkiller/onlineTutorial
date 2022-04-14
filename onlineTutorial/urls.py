@@ -26,8 +26,9 @@ urlpatterns = [
     path('editorjs/', include('django_editorjs_fields.urls')),
     path('support/', views.contact, name="support"),
     path('tinymce/', include('tinymce.urls')),
-    # path("stripe/", include("djstripe.urls", namespace="djstripe")),
-    # path('imageUpload/', include('questionbank.urls')),
+    path('privacy/', views.privacy, name="privacy"),
+    path('disclaimer/', views.disclaimer, name="disclaimer"),
+    path('cookies/', views.cookies, name="cookies"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

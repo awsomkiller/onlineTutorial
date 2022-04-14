@@ -29,3 +29,12 @@ def contact(request):
             return render(request, 'contactus.html')
     else:
         return redirect('/')
+
+def privacy(request):
+    return render(request, 'privacy.html')
+
+def disclaimer(request):
+    return render(request, 'disclaimer.html')
+    
+def cookies(request):
+    return render(request, 'cookies.html')
