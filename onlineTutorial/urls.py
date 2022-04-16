@@ -29,6 +29,7 @@ urlpatterns = [
     path('privacy/', views.privacy, name="privacy"),
     path('disclaimer/', views.disclaimer, name="disclaimer"),
     path('cookies/', views.cookies, name="cookies"),
+    path('termsandcondition/', views.terms, name="terms"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

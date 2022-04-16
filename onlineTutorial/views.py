@@ -38,3 +38,7 @@ def disclaimer(request):
     
 def cookies(request):
     return render(request, 'cookies.html')
+
+def terms(request):
+    return render(request, 'termsandcondition.html')
+
