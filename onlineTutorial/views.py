@@ -28,4 +28,5 @@ def contact(request):
         else:
             return render(request, 'contactus.html')
     else:
-        return redirect('/')
+        request.session['redirectUrl'] = "/support/"
+        return redirect('/accounts/login/')

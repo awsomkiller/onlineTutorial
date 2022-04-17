@@ -2,28 +2,28 @@ body {
     color: #ffffff
 }
 
-.box {
+/* .box {
     margin: auto
-}
+} */
 
-.card {
+/* .card {
     padding: 8%;
     padding-top: 35px;
     margin-top: 60px;
     margin-bottom: 80px
-}
+} */
 
 textarea[name="message"] {
     resize: none
 }
 
-#e-mail {
+/* #e-mail {
     height: 45px
-}
+} */
 
-#message {
+/* #message {
     height: 120px
-}
+} */
 
 input.input-box,
 textarea.input-box {
