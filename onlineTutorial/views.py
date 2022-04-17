@@ -30,3 +30,16 @@ def contact(request):
     else:
         request.session['redirectUrl'] = "/support/"
         return redirect('/accounts/login/')
+
+def privacy(request):
+    return render(request, 'privacy.html')
+
+def disclaimer(request):
+    return render(request, 'disclaimer.html')
+    
+def cookies(request):
+    return render(request, 'cookies.html')
+
+def terms(request):
+    return render(request, 'termsandcondition.html')
+
