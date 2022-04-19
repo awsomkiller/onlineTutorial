@@ -1,12 +1,26 @@
 <html>
   <head>
-    <title>Buy cool new product</title>
+    <title>User plan checkout</title>
   </head>
   <body>
-    <form action="/finance/create-checkout-session/" method="POST">
-	<p>Proceed here  to pay the fees.<p>
+    <p>Proceed here  to pay the fees.</p>
+    <form action="/finance/success/" method="POST">
       {% csrf_token %}
-      <button type="submit">Pay Now</button>
+      <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="{{apiid}}"
+        data-amount="{{amount}}" 
+        data-currency="INR"
+        data-buttontext="Pay with Razorpay"
+        data-name="{{plan}}"
+        data-description="User plan"
+        data-image="https://www.rkeduv.com/static/logos/logo.png"
+        data-prefill.name="{{name}}"
+        data-prefill.email="{{email}}"
+        data-prefill.contact="{{contact}}"
+        data-theme.color="#0BA101">
+      </script>
+      <input type="hidden" custom="Hidden Element" name="hidden">
     </form>
   </body>
 </html>
