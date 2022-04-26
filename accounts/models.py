@@ -130,7 +130,7 @@ class contactus(models.Model):
         ('1','Technical/Website Related Issues'),
         ('2','Payment Issues'),
         ('3','Content Issues'),
-        ('4','Doubts')
+        ('4','Others')
     )
     id = models.AutoField(primary_key=True)
     reason = models.CharField(max_length=20,choices=CHOICES)
@@ -146,5 +146,5 @@ class contactus(models.Model):
         elif strs == '3':
             strs = "Content Issues"
         else:
-            strs = "Doubts"
+            strs = "Others"
         return strs

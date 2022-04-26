@@ -49,17 +49,17 @@ class studentRegisteration(forms.Form):
         else:
             # raise forms.ValidationError("Invalid Phone Number")
             messages.info(request, 'Invalid Mobile number')
-    def clean_password(self):
+    def clean_password1(self):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
 
-        if password1 and password2 and password1 != password2:
+        if  password1 != password2:
             raise forms.ValidationError("Password don't match")
         return password2
 
-    def clean_email(self):
-        emailAddress = self.cleaned_data.get("emailAddress")
-        qs = User.objects.filter(emailAddress__iexact=emailAddress)
+    def clean_emailAddress(self):
+        emailAddress = self.cleaned_data.get("emailAddress").lower()
+        qs = User.objects.filter(email=emailAddress)
         if qs.exists():
             raise forms.ValidationError("This emailAddress is already in use")
         return emailAddress
