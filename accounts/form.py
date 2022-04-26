@@ -58,7 +58,8 @@ class studentRegisteration(forms.Form):
         return password2
 
     def clean_emailAddress(self):
-        emailAddress = self.cleaned_data.get("emailAddress").lower()
+        emailAddress = self.cleaned_data.get("emailAddress")
+        emailAddress = emailAddress.lower()
         qs = User.objects.filter(email=emailAddress)
         if qs.exists():
             raise forms.ValidationError("This emailAddress is already in use")
