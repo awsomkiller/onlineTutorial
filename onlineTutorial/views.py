@@ -43,3 +43,6 @@ def cookies(request):
 def terms(request):
     return render(request, 'termsandcondition.html')
 
+def aboutus(request):
+    return render(request, 'aboutus.html')
+

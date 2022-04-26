@@ -16,6 +16,5 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(trynowrecord)
 class UserAdmin(admin.ModelAdmin):
-    exclude = ( 'endtime', 'active')
-    list_display = ('user', 'starttime', 'endtime')
+    list_display = ('user', 'starttime', 'endtime', 'active')
     list_filter = ('active',)

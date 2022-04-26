@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import User, subscriptionplan
+from . models import User, subscriptionplan, contactus
 
 # Register your models here.
 
@@ -10,3 +10,4 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ('plan', 'institute', 'mobileConfirm', 'timestamp')
 
 admin.site.register(subscriptionplan)
+admin.site.register(contactus)

@@ -25,6 +25,7 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('logos/favicon.ico'))),
     path('editorjs/', include('django_editorjs_fields.urls')),
     path('support/', views.contact, name="support"),
+    path('aboutus/', views.aboutus, name="aboutus"),
     path('tinymce/', include('tinymce.urls')),
     path('privacy/', views.privacy, name="privacy"),
     path('disclaimer/', views.disclaimer, name="disclaimer"),
