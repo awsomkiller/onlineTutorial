@@ -51,10 +51,10 @@ class studentRegisteration(forms.Form):
             messages.info(request, 'Invalid Mobile number')
     def clean_password1(self):
         password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
+        return password1
 
-        if  password1 != password2:
-            raise forms.ValidationError("Password don't match")
+    def clean_password2(self):
+        password2 = self.cleaned_data.get("password2")
         return password2
 
     def clean_emailAddress(self):

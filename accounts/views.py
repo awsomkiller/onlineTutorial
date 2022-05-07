@@ -42,7 +42,12 @@ def registerview(request):
     form = studentRegisteration(request.POST or None)
     if form.is_valid():
         mobileNumber = form.cleaned_data.get("mobileNumber")
-        password = form.cleaned_data.get("password1")
+        password1 = form.cleaned_data.get("password1")
+        password2 = form.cleaned_data.get("password2")
+        if password1 != password2:
+            return render(request, 'register.html', {'form':form, 'error':"Password doesn't match"})
+        else:
+            password = password1
         fullName = form.cleaned_data.get("fullName")
         emailAddress = form.cleaned_data.get("emailAddress")
         try:
