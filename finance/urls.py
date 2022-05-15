@@ -10,4 +10,5 @@ path('success/', views.success_url, name="Payment Success"),
 path('cancel/', views.cancel_url, name="payment failed"),
 path('paymentconfirm/', views.my_webhook_view, name="stripe confirmation"),
 path('trynow/', views.try_now, name="activate trial"),
+# path('razorpaywebhook/', views.razorwebhook),
 ]

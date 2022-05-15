@@ -12,6 +12,7 @@ import datetime
 import pytz
 import random
 import urllib.request
+import razorpay
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(settings.BASE_DIR, '.env'))
@@ -21,11 +22,17 @@ if settings.DEBUG:
     cancel=env('TEST_CANCEL')
     stripe.api_key = env('STRIPE_TEST_KEY')
     endpoint_secret = env('ENDPOINTTEST_SECRET')
+    #razorpay settings
+    YOUR_ID = env('YOUR_TESTID')
+    YOUR_SECRET = env('YOUR_TESTSECRET')
 else:
     stripe.api_key = env('STRIPE_LIVE_KEY')
     success=env('SUCCESS')
     cancel=env('CANCEL')
     endpoint_secret = env('ENDPOINT_SECRET')
+    #razorpay settings
+    YOUR_ID = env('YOUR_LIVEID')
+    YOUR_SECRET = env('YOUR_LIVESECRET')
 
 def create_checkout_session(request):
     #CHECK USER AUTHENTICATION
@@ -74,6 +81,11 @@ def create_checkout_session(request):
         request.session['redirectUrl'] = "/finance/create-checkout-session/"
         return redirect('/accounts/login/')
 
+# @csrf_exempt
+# def razorwebhook(request):
+#     print("got request")
+#     return redirect('/')
+
 @csrf_exempt
 def my_webhook_view(request):
   payload = request.body
@@ -115,9 +127,26 @@ def my_webhook_view(request):
 
   return HttpResponse(status=200)
 
-
 def success_url(request):
-    return HttpResponse('Success')
+    if request.method=="POST":
+        print(request.POST)
+        if 'razorpay_order_id' in request.POST:
+            orderId = request.POST['razorpay_order_id']
+            orderId.replace("orderId_", '')
+            checkoutobj = checkoutrecord.objects.get(id=orderId)
+            user = checkoutobj.user
+            checkoutobj.isactive=False
+            checkoutobj.status = "success"
+            checkoutobj.save()
+            paymentRecord = payment(user = user, plan = checkoutobj.plan, amount=checkoutobj.amount)
+            paymentRecord.save()
+            user.plan = checkoutobj.plan
+            user.save()
+        # if 'razorpay_signature' in request.POST:
+        #     print(type(request.POST['razorpay_signature']))
+        return render(request, 'successPayment.html', {'name':user.name, 'plan':user.plan, 'amount':checkoutobj.amount })
+    else:
+        return redirect('/')
 
 def cancel_url(request):
     checkoutobj = checkoutrecord.objects.filter(user=request.user, isActive=True)
@@ -128,7 +157,35 @@ def cancel_url(request):
     return redirect('/finance/user-plan/')
 
 def checkout(request):
-    return render(request, 'checkout.html')
+    #CHECK USER AUTHENTICATION
+    if request.user.is_authenticated:
+        #CHECK SESSION TIME
+        checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True)
+        checkoutobj = checkoutobj[0]
+        timeNow = datetime.datetime.now()
+        dt = checkoutobj.time
+        dt.replace(tzinfo=None)
+        timedifference =  timeNow - dt
+        duration = timedifference.total_seconds()
+        duration = duration / 60
+        #IF DURATION IS LESS 10 MINS
+        amount =  int(checkoutobj.amount)
+        amount = amount*100
+        Data = {
+                'amount': amount,
+                'currency':"INR"
+        }
+        client = razorpay.Client(auth=(YOUR_ID,YOUR_SECRET))
+        payment = client.order.create(data=Data)
+        name = request.user.name
+        email = request.user.email
+        plan = checkoutobj.plan
+        plan = plan.title
+        contact = request.user.mobile
+        orderid = "orderId_" + str(checkoutobj.id)
+        return render(request, 'checkout.html',{'name': name, 'amount':amount, 'email': email, 'plan': plan, "checkout": checkoutobj, "apiid":YOUR_ID, 'contact':contact, 'orderid':orderid })
+    request.session['redirectUrl'] = "/finance/user-plan/"
+    return redirect('/accounts/login/')
 
 #DISPLAYS AVAILABLE ACTIVE PLANS
 def userplans(request):
@@ -176,7 +233,8 @@ def selectplans(request, planid=-1):
 
             #CHECKING FOR AN REATTEMPT
             if checkoutrecord.objects.filter(user=request.user, isactive=True).exists():
-                existingcheckout = checkoutrecord.objects.get(user=request.user)
+                existingcheckout = checkoutrecord.objects.filter(user=request.user)
+                existingcheckout = existingcheckout[0]
                 existingcheckout.plan = new_plan
                 existingcheckout.time = timenow
                 existingcheckout.status = "attempting"
