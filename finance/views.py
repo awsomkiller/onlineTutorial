@@ -50,6 +50,7 @@ def create_checkout_session(request):
         if duration<10:
             amount =  int(checkoutobj.amount)
             amount = amount*100
+            print(amount)
             plan = checkoutobj.plan
             title = plan.title
             #STRIPE REQUEST MUST BE POST
@@ -171,6 +172,7 @@ def checkout(request):
         #IF DURATION IS LESS 10 MINS
         amount =  int(checkoutobj.amount)
         amount = amount*100
+        print(amount)
         Data = {
                 'amount': amount,
                 'currency':"INR",
@@ -247,9 +249,10 @@ def selectplans(request, planid=-1):
 
             #CHECKING FOR AN REATTEMPT
             if checkoutrecord.objects.filter(user=request.user, isactive=True).exists():
-                existingcheckout = checkoutrecord.objects.filter(user=request.user)
+                existingcheckout = checkoutrecord.objects.filter(user=request.user, isactive=True)
                 existingcheckout = existingcheckout[0]
                 existingcheckout.plan = new_plan
+                existingcheckout.amount = new_plan.normal_cost
                 existingcheckout.time = timenow
                 existingcheckout.status = "attempting"
                 existingcheckout.save()
