@@ -129,11 +129,12 @@ def my_webhook_view(request):
 
 def success_url(request):
     if request.method=="POST":
-        print(request.POST)
         if 'razorpay_order_id' in request.POST:
             orderId = request.POST['razorpay_order_id']
-            orderId.replace("orderId_", '')
-            checkoutobj = checkoutrecord.objects.get(id=orderId)
+            checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True, stripe_payment_intent=orderId)
+            if checkoutobj is None:
+                return HttpResponse("Error occured during payment, Contact: Site admin error code :104")
+            checkoutobj = checkoutobj[0]
             user = checkoutobj.user
             checkoutobj.isactive=False
             checkoutobj.status = "success"
@@ -142,9 +143,8 @@ def success_url(request):
             paymentRecord.save()
             user.plan = checkoutobj.plan
             user.save()
-        # if 'razorpay_signature' in request.POST:
-        #     print(type(request.POST['razorpay_signature']))
-        return render(request, 'successPayment.html', {'name':user.name, 'plan':user.plan, 'amount':checkoutobj.amount })
+            return render(request, 'successPayment.html', {'name':user.name, 'plan':user.plan, 'amount':checkoutobj.amount })
+        return HttpResponse('Error occured, If payment deducted contact site admin')
     else:
         return redirect('/')
 
@@ -173,16 +173,30 @@ def checkout(request):
         amount = amount*100
         Data = {
                 'amount': amount,
-                'currency':"INR"
+                'currency':"INR",
+                'notes':{
+                    "id":checkoutobj.id,
+                }
         }
         client = razorpay.Client(auth=(YOUR_ID,YOUR_SECRET))
-        payment = client.order.create(data=Data)
+        client.order.create(data=Data)
+        dataobj = client.order.all('authorized')
+        orderobj = None
+        for items in dataobj['items']:
+            temp = items['notes']
+            if temp['id'] == checkoutobj.id:
+                orderobj= items
+                break
+        if orderobj == None:
+            return HttpResponse("Error occured inform to site admin. error :101")
+        checkoutobj.stripe_payment_intent=orderobj['id']
+        checkoutobj.save()
         name = request.user.name
         email = request.user.email
         plan = checkoutobj.plan
         plan = plan.title
         contact = request.user.mobile
-        orderid = "orderId_" + str(checkoutobj.id)
+        orderid = orderobj['id']
         return render(request, 'checkout.html',{'name': name, 'amount':amount, 'email': email, 'plan': plan, "checkout": checkoutobj, "apiid":YOUR_ID, 'contact':contact, 'orderid':orderid })
     request.session['redirectUrl'] = "/finance/user-plan/"
     return redirect('/accounts/login/')
