@@ -268,10 +268,10 @@ def selectplans(request, planid=-1):
                 else:
                     if request.user.institute:
                         #INSTITUTE STUDENT
-                        planprice = int(new_plan.discounted_price)-int(current_plan.discounted_price)
+                        planprice = int(new_plan.discounted_price)
                     else:
                         #OUTSIDER
-                        planprice = int(new_plan.normal_cost)-int(current_plan.discounted_price)
+                        planprice = int(new_plan.normal_cost)
 
                     #CHECK NEW PLAN IS GREATER THEN ACTIVE PLAN
                     if planprice < 0:
