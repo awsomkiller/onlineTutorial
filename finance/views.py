@@ -133,7 +133,7 @@ def success_url(request):
             orderId = request.POST['razorpay_order_id']
             checkoutobj = checkoutrecord.objects.filter(user=request.user, isactive=True, stripe_payment_intent=orderId)
             if checkoutobj is None:
-                return HttpResponse("Error occured during payment, Contact: Site admin error code :104")
+                return HttpResponse("Error occured during payment, Contact: Site admin error code :103")
             checkoutobj = checkoutobj[0]
             user = checkoutobj.user
             checkoutobj.isactive=False
