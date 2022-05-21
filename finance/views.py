@@ -326,7 +326,7 @@ def try_now(request):
                 if 'redirectUrl' in request.session:
                     redirectUrl = request.session['redirectUrl']
                     return redirect(redirectUrl)
-                return redirect('/physics/')
+                return redirect('/physics/jee/')
         else:
             mobileNumber = request.user.mobile
             fullName = request.user.name
