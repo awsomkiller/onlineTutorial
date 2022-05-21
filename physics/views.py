@@ -78,9 +78,10 @@ def jeeContentView(request, cid=-1, coid=-1):  #Lectures View
             #Check if Plan is Trial.
             plan = request.user.plan
             if plan.title == "Free Trial":
-                planRecord = trynowrecord.objects.get(user = request.user, active=True)
-                if planRecord is None:
-                    return redirect('/finance/user-plan/')
+                if trynowrecord.objects.get(user = request.user, active=True).exists():
+                    planRecord = trynowrecord.objects.get(user = request.user, active=True)
+                else:
+                    return HttpResponse("Your Trial Plan expired, Please Change Your Plan")
                 timeNow = datetime.now(tz=None)
                 if timeNow> planRecord.endtime:
                     planRecord.active = False
