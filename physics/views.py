@@ -78,7 +78,7 @@ def jeeContentView(request, cid=-1, coid=-1):  #Lectures View
             #Check if Plan is Trial.
             plan = request.user.plan
             if plan.title == "Free Trial":
-                if trynowrecord.objects.get(user = request.user, active=True).exists():
+                if trynowrecord.objects.filter(user = request.user, active=True).exists():
                     planRecord = trynowrecord.objects.get(user = request.user, active=True)
                 else:
                     return HttpResponse("Your Trial Plan expired, Please Change Your Plan")
