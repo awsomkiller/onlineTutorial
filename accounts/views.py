@@ -110,7 +110,7 @@ def changepassword(request):
                 otpObj = otpModel(phonenumber=phonenum, otp=n)
             otpObj.save()
             url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+phonenum+"&message=Dear%20"
-            url2 = usersname[0]+"%20OTP%20to%20Reset%20your%20password%20of%20Rkeduv(account)%20is%20"+str(n)+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694552115457"
+            url2 = usersname[0]+",%20OTP%20to%20Reset%20your%20password%20of%20Rkeduv(account)%20is%20"+str(n)+".%20Do%20not%20Share%20with%20anyone.%20-Rkeduv%20abhinm&templateid=1707162694552115457"
             url1 = url1 + url2
             request_url = urllib.request.urlopen(url1)
             request.session['otpid']=phonenum
