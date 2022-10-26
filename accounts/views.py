@@ -69,7 +69,7 @@ def registerview(request):
             uphonenum = str(mobileNumber)
             un = str(n)
             url1 = "http://smsshoot.in/http-tokenkeyapi.php?authentic-key=3739726b656475763934321627812964&senderid=ABHINM&route=2&number="+uphonenum+"&message=Dear%20"
-            url2 = name[0]+",%20OTP%20to%20Register%20into%20Rkeduv(account)%20is%20"+un+".%20Do%20not%20Share%20with%20anyone.%20Abhinm&templateid=1707166618093235089"
+            url2 = name[0]+",%20OTP%20to%20Register%20into%20Rkeduv(account)%20is%20"+un+".%20Do%20not%20Share%20with%20anyone.%20-Abhinm&templateid=1707166618093235089"
             url1 = url1 + url2
             request_url = urllib.request.urlopen(url1)
             return redirect("/accounts/activate/")
